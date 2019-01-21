@@ -1,0 +1,16 @@
+{
+    "extends": "standard",
+    "rules": {
+        "brace-style": ["error", "allman"],
+        "indent": ["error", 4],
+        "semi": ["error", "always"],
+        "generator-star-spacing": ["error", {
+            "before": false,
+            "after": true
+        }],
+        "yield-star-spacing": ["error", {
+            "before": false,
+            "after": true
+        }]
+    }
+}
