@@ -40,7 +40,8 @@ module.exports = {
 
     module: {
         rules: [
-            ...(config.dev.useEslint ? [buildEslintModule()] : [])
+            ...(config.dev.useEslint ? [buildEslintModule()] : []),
+            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
         ]
     },
 
