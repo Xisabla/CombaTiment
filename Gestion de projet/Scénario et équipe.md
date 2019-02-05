@@ -49,9 +49,3 @@ Le joueur peut rejouer les secteurs à l’envi avec les améliorations obtenues
 
 C’est aussi une façon de présenter un jeu testable en boucle sans obligation de lancer une nouvelle partie une fois tous les piliers améliorés.
 
-
-### Alternative - Combat de boss
-
-Le joueur voit apparaitre un nouveau secteur, où il devra affronter simultanément les boss de chaque secteur. Il doit donc survivre à plusieurs ennemis beaucoup plus robustes que ce dont il a l'habitude, et avec des attaques spéciales. 
-
-**Message :** Réel défi de fin, soulignant la difficulté à transformer / convertir l'ensemble de son bâtiment d'un seul coup. Mieux vaut l'améliorer progressivement et prendre le temps de s'habituer aux nouveaux éléments que de s'imposer des changements radicaux

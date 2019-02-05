@@ -48,10 +48,3 @@ The player can replay the sectors at will with the improvements obtained. This a
 **Message:** The pillars, although independent, are complementary and reveal all their interest / power when combined.
 
 It is also a way to present a testable game in loop without obligation to launch a new game once all the pillars improved.
-
-
-### Alternative - Boss Fight
-
-The player sees a new sector, where he will face simultaneously the bosses of each sector. He must survive several enemies much more robust than he is used to, and with special attacks.
-
-**Message:** Real end challenge, highlighting the difficulty to transform / convert all of his building at once. It is better to improve it gradually and take the time to get used to the new elements than to impose radical changes.
