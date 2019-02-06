@@ -49,3 +49,13 @@ Domaine numérique
 > Pilier : Cybersécurité (& bien être numérique)
 >> Ajout dans la vitrine : Processeur ((dé)cryptage des données et des flux)...
 >> Ennemis possibles (virus à combattre) : cheval de troie, vers, virus (araignée), pirate informatique, espion gouvernemental, bot...
+
+# Type d'ennemis
+
+- Soit éléments anti bâtiment intelligent à recycler (détruire) donc qui chercheraient à attaquer le joueur
+- Soit éléments pro bâtiment intelligent à capturer (étourdir) donc qui chercheraient à fuir le joueur
+
+# Bonus
+
+- Jeu multilangue (choix des textes : français - anglais)
+- Partie audio : utilise nos voix
