@@ -1,12 +1,5 @@
 :octocat: *Lister ici des idées relatives au scénario à valider en groupe*
 
-# Fin alternative - Combat de boss
-
-Le joueur voit apparaitre un nouveau secteur, où il devra affronter simultanément les boss de chaque secteur. Il doit donc survivre à plusieurs ennemis beaucoup plus robustes que ce dont il a l'habitude, et avec des attaques spéciales. 
-
-**Message :** Réel défi de fin, soulignant la difficulté à transformer / convertir l'ensemble de son bâtiment d'un seul coup. Mieux vaut l'améliorer progressivement et prendre le temps de s'habituer aux nouveaux éléments que de s'imposer des changements radicaux
-
-
 # Modes de jeu
 
 **Premier mode : Arcade**  
@@ -28,4 +21,8 @@ Ensemble partie centrale :
 - Préparation : Classique, ce qui est prévu actuellement  (ne chosit pas les piliers)  
 - Combat : Classique, ce qui est prévu actuellement  
 - Conclusion : Gagne l'amélioration du secteur  
-Ensemble conclusion : Fin alternative proposée au dessus
+Ensemble conclusion : Combat de boss :
+
+Le joueur voit apparaitre un nouveau secteur, où il devra affronter simultanément les boss de chaque secteur. Il doit donc survivre à plusieurs ennemis beaucoup plus robustes que ce dont il a l'habitude, et avec des attaques spéciales. 
+
+**Message :** Réel défi de fin, soulignant la difficulté à transformer / convertir l'ensemble de son bâtiment d'un seul coup. Mieux vaut l'améliorer progressivement et prendre le temps de s'habituer aux nouveaux éléments que de s'imposer des changements radicaux
