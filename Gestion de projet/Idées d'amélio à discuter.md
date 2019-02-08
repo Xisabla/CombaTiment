@@ -30,25 +30,29 @@ Ensemble partie centrale :
 - Conclusion : Gagne l'amélioration du secteur  
 Ensemble conclusion : Fin alternative proposée au dessus
 
-# Piliers
+# Piliers (proposition / piste de réflexion)
 
 Domaine écologique
 > Pilier : Energies renouvelables
 >> Ajout dans la vitrine : éolien, géothermie, solaire, batterie
->> Ennemis possibles (objets à remplacer) : centrales, piles
+>> Ennemis possibles type 1 (faire disparaitre) : centrales, piles
+>> Ennemis possibles type 2 (faire apparaitre) : éoliennes, pompes à chaleur, panneaux solaires, batteries... boss => centrale à fusion
 
 > Pilier : Environnement (eau / alimentation)
->> Ajout dans la vitrine : serre, réervoir d'eau
->> Ennemis possibles (objets à remplacer) : réseaux de distribution
+>> Ajout dans la vitrine : serre, réservoir d'eau, mur végétal
+>> Ennemis possibles type 1 (faire disparaitre) : réseaux de distribution
+>> Ennemis possibles type 2 (faire apparaitre) : végétaux (mur / serre), collecteur d'eau...
 
 Domaine numérique
 > Pilier : Internet of Things
->> Ajout dans la vitrine : Serveur (analyse d'un grand nombre de données), robots (aspirateur, drone, véhicule autonome...), caméras
->> Ennemis possibles (objets à remplacer) : portes, radiateurs, frigo (électroménager), ampoules, "vieilles" voitures...
+>> Ajout dans la vitrine : Serveur (analyse d'un grand nombre de données), robots (aspirateur, drone, véhicule autonome...)
+>> Ennemis possibles type 1 (faire disparaitre) : portes, radiateurs, frigo (électroménager), ampoules, "vieilles" voitures...
+>> Ennemis possibles type 2 (faire apparaitre) : éléments hardware, robots, capteurs & détécteurs...
 
 > Pilier : Cybersécurité (& bien être numérique)
->> Ajout dans la vitrine : Processeur ((dé)cryptage des données et des flux)...
->> Ennemis possibles (virus à combattre) : cheval de troie, vers, virus (araignée), pirate informatique, espion gouvernemental, bot...
+>> Ajout dans la vitrine : Processeur ((dé)cryptage des données et des flux), caméras...
+>> Ennemis possibles type 1 (faire disparaitre) : cheval de troie, vers, virus (araignée), pirate informatique, espion gouvernemental, bot...
+>> Ennemis possibles type 2 (faire apparaitre) : ...?
 
 # Type d'ennemis
 
