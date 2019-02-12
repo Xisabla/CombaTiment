@@ -8,15 +8,36 @@ export default class LoadingBar
      */
     constructor (scene, settings)
     {
+        // Phaser Scene
         this.scene = scene;
+
+        // LoadingBar position (centered)
         this.x = settings['x'] || scene.cameras.main.width / 2;
         this.y = settings['y'] || scene.cameras.main.height / 2;
 
+        // Graphical sizes & offsets
+        this.width = settings['width'] || 300;
+        this.height = settings['height'] || 50;
+        this.offsetBox = settings['offsetBox'] || 10;
+        this.offsetTop = settings['offsetTop'] || 25;
+        this.offsetBottom = settings['offsetBottom'] || 30;
+
+        // Box Colors Settings
+        this.boxColor = settings['boxColor'] || 0x222222;
+        this.boxAlpha = settings['boxAlpha'] || 0.8;
+        this.barColor = settings['barColor'] || 0xffffff;
+        this.barAlpha = settings['barAlpha'] || 1;
+
+        // Texts Settings
         this.showPercent = settings['percent'] || true;
         this.showLoadingText = settings['loadingText'] || true;
         this.showMessageText = settings['messageText'] || true;
         this.messagePrefix = settings['messagePrefix'] || false;
+        this.percentColor = settings['percentColor'] || 'white';
+        this.loadingColor = settings['loadingColor'] || 'white';
+        this.messageColor = settings['messageColor'] || 'white';
 
+        // Loader Binding
         if (settings['bind']) this.bindSceneLoader(scene.load);
     }
 
@@ -58,12 +79,12 @@ export default class LoadingBar
     {
         this.bar = this.scene.add.graphics();
         this.box = this.scene.add.graphics();
-        this.box.fillStyle(0x222222, 0.8);
-        this.box.fillRect(240, 270, 320, 50);
+        this.box.fillStyle(this.boxColor, this.boxAlpha);
+        this.box.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
 
-        if (this.showLoadingText) this.loadingText = this.scene.add.text(this.x, this.y - 50, 'Loading...').setOrigin(0.5, 0.5);
-        if (this.showPercent) this.percentText = this.scene.add.text(this.x, this.y - 5).setOrigin(0.5, 0.5);
-        if (this.showMessageText) this.messageText = this.scene.add.text(this.x, this.y + 50).setOrigin(0.5, 0.5);
+        if (this.showLoadingText) this.loadingText = this.scene.add.text(this.x, this.y - this.height / 2 - this.offsetTop, 'Loading...').setColor(this.loadingColor).setOrigin(0.5, 0.5);
+        if (this.showPercent) this.percentText = this.scene.add.text(this.x, this.y).setColor(this.percentColor).setOrigin(0.5, 0.5);
+        if (this.showMessageText) this.messageText = this.scene.add.text(this.x, this.y + this.height / 2 + this.offsetBottom).setColor(this.messageColor).setOrigin(0.5, 0.5);
 
         return this;
     }
@@ -78,8 +99,8 @@ export default class LoadingBar
     update (value)
     {
         this.bar.clear();
-        this.bar.fillStyle(0xffffff, 1);
-        this.bar.fillRect(250, 280, 300 * value, 30);
+        this.bar.fillStyle(this.barColor, this.barAlpha);
+        this.bar.fillRect(this.x - this.width / 2 + this.offsetBox, this.y - this.height / 2 + this.offsetBox, (this.width - this.offsetBox * 2) * value, this.height - this.offsetBox * 2);
 
         if (this.showPercent) this.percentText.setText(parseInt(value * 100) + '%');
 
