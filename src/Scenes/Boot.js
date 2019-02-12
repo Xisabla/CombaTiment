@@ -1,23 +1,34 @@
 import Phaser from 'phaser';
 import WebFont from 'webfontloader';
 
+import LoadingBar from '../UI/LoadingBar';
+
 export default class extends Phaser.Scene
 {
     constructor ()
     {
         super({ key: 'BootScene' });
 
-        this.loaded = false;
+        this.assetsLoaded = false;
+        this.fontsLoaded = false;
     }
 
     preload ()
     {
-        this.add.text(100, 100, 'loading assets...');
+        this.loadingBar = new LoadingBar(this, {
+            bind: true,
+            messagePrefix: 'Loading asset:'
+        });
 
-        this.load.setBaseURL('http://labs.phaser.io');
-        this.load.image('apple', 'assets/sprites/apple.png');
+        this.load.on('complete', () =>
+        {
+            this.assetsLoaded = true;
+        });
 
-        this.add.text(100, 130, 'loading fonts...');
+        for (let i = 0; i < 999; i++)
+        {
+            this.load.image('apple' + i, 'assets/sprites/apple.png');
+        }
 
         WebFont.load({
             google: {
@@ -25,13 +36,13 @@ export default class extends Phaser.Scene
             },
             active: () =>
             {
-                this.loaded = true;
+                this.fontsLoaded = true;
             }
         });
     }
 
     update ()
     {
-        if (this.loaded) this.scene.start('SplashScene');
+        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('SplashScene');
     }
 }
