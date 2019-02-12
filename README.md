@@ -2,35 +2,61 @@
 
 Cirious game project about smart buildings using Phaser
 
-MarkDown language sheet : https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
+## Technologies
+
+This project is using:
+
+- [**phaser**](https://www.npmjs.com/package/phaser): v3.15.1
+- [**babel**](https://www.npmjs.com/package/@babel/core): v7.2.2
+- [**webpack**](https://www.npmjs.com/package/webpack): v4.29.0
 
 ## Getting Started
 
-[...] @Gautier
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-[...] @Gautier
-What things you need to install the software and how to install them
+- `node >= 10.15.0`
+- `npm >= 6.7.0`
 
-### Installing
+### Installation
 
-[...] @Gautier
-A step by step series of examples that tell you how to get a development env running
+```bash
+git clone https://github.com/Xisabla/CombaTiment
+cd CombaTiment
+npm ci
+```
 
-## Deployment
+## Usage
 
-[...] @Gautier
-Add additional notes about how to deploy this on a live system
+### Building
 
-## Built With
+```bash
+npm run build
+```
 
-* [Phaser](https://phaser.io/) - The web framework used
+### Running
 
-[...] @Gautier
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+Using webpack's dev server
+
+```bash
+npm run serve
+```
+
+Or any kind of server
+
+```bash
+http-server ./
+```
+
+## Contributing
+
+Read up our guidelines for [contributing](https://github.com/Xisabla/CombaTiment/blob/master/CONTRIBUTING.md).
+
+## Authors
+
+- **ARBACHE Rémi** - *Game Designer/Designer*
+- **BUCAMP Paul** - *Game Developper*
+- **JUZEAU Thibaut** - *Project Manager*
+- **MIQUET Gautier** - *Game Developper*
 
 ## License
 
