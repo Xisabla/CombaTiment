@@ -8,18 +8,21 @@ export default class extends Phaser.Scene
     constructor ()
     {
         super({ key: 'BootScene' });
-
-        this.assetsLoaded = false;
-        this.fontsLoaded = false;
     }
 
-    preload ()
+    init ()
     {
+        this.assetsLoaded = false;
+        this.fontsLoaded = false;
+
         this.loadingBar = new LoadingBar(this, {
             bind: true,
             messagePrefix: 'Loading asset:'
         });
+    }
 
+    preload ()
+    {
         this.load.on('complete', () =>
         {
             this.assetsLoaded = true;
