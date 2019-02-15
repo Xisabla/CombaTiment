@@ -4,9 +4,9 @@ export default class LoadingBar
      * Create a LoadingBar
      *
      * @param {Phaser.Scene} scene Scene in which the loading bar will be created
-     * @param {Object} settings Settings of the LoadingBar
+     * @param {Object} [settings={}] Settings of the LoadingBar
      */
-    constructor (scene, settings)
+    constructor (scene, settings = {})
     {
         // Phaser Scene
         this.scene = scene;
