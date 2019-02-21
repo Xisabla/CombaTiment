@@ -102,6 +102,7 @@ The following conventions aims to have **more readable messages** that are easy 
 
 #### Type <!-- omit in toc -->
 
+- **assets**: Chandes that affect assets or the assets folder
 - **build**: Changes that affect the build system or external dependencies (webpack, npm)
 - **docs**: Documentation changes
 - **feat**: A new feature
