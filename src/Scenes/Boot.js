@@ -28,14 +28,14 @@ export default class extends Phaser.Scene
             this.assetsLoaded = true;
         });
 
-        for (let i = 0; i < 999; i++)
-        {
-            this.load.image('apple' + i, 'assets/sprites/apple.png');
-        }
+        this.load.image('background', 'assets/menu/background.png');
+        this.load.image('title', 'assets/menu/title.png');
+        this.load.image('divider', 'assets/menu/divider.png');
+        this.load.image('selector', 'assets/menu/selector.png');
 
         WebFont.load({
             google: {
-                families: ['Raleway']
+                families: ['Raleway', 'Cairo']
             },
             active: () =>
             {
