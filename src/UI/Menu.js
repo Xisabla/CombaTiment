@@ -383,156 +383,23 @@ export class MenuSeperator
     }
 };
 
-export function parseOffset (offset, values = { top: 0, bottom: 0 })
-{
-    if (typeof offset === 'number') return { top: offset, bottom: offset };
-    if (offset['top']) values.top = offset['top'];
-    if (offset['bottom']) values.bottom = offset['bottom'];
-
-    return values;
-}
-
 /**
-export class Menu
+ * Parse an offset:
+ *   Take the offset object, parse it and fill it with defaultValues if needed
+ *
+ * @param {object} [offset] Offset to parse
+ * @param {object} [defaultValues] Default values
+ *
+ * @return {object} Parsed offset
+ */
+export function parseOffset (offset, defaultValues = { top: 0, bottom: 0, left: 0, right: 0 })
 {
-    constructor (scene, settings)
-    {
-        this.scene = scene;
+    if (typeof offset === 'number') return { top: offset, bottom: offset, left: offset, right: offset };
 
-        this.title = settings['title'] || null;
-        this.titleX = settings['titleX'] || scene.cameras.main.width / 2;
-        this.titleY = settings['titleY'] || 50;
-        this.titleColor = settings['titleColor'] || 'white';
-        this.titleFont = settings['titleFont'] || 'Courier';
-        this.titleSize = settings['titleSize'] || 24;
+    if (offset['top']) defaultValues.top = offset['top'];
+    if (offset['bottom']) defaultValues.bottom = offset['bottom'];
+    if (offset['left']) defaultValues.left = offset['left'];
+    if (offset['right']) defaultValues.right = offset['right'];
 
-        this.elements = settings['elements'] || [];
-
-        this.optionOffset = settings['optionOffset'] || settings['offset'] || 50;
-        this.seperatorOffset = settings['seperatorOffset'] || settings['offset'] || 30;
-
-        this.actions = settings.actions || {};
-        this.keys = { up: ['ArrowUp'], down: ['ArrowDown'] };
-
-        // check for collection, array, object (utils/keymap)
-        if (settings['keymap']['up']) this.keys.up = Array.isArray(settings['keymap']['up']) ? settings['keymap']['up'] : [settings['keymap']['up']];
-        if (settings['keymap']['down']) this.keys.down = Array.isArray(settings['keymap']['down']) ? settings['keymap']['down'] : [settings['keymap']['down']];
-    }
-
-    add (element)
-    {
-        this.elements.push(element);
-
-        return this;
-    }
-
-    show ()
-    {
-        if (typeof title === 'string')
-        {
-            let title = this.scene.add.text(this.titleX, this.titleY, this.title);
-            title.setColor(this.titleColor);
-            title.setFontFamily(this.titleFont);
-            title.setFontSize(this.titleSize);
-            title.setOrigin(0.5);
-        }
-        else
-        {
-            let title = this.scene.add.image(this.titleX, this.titleY, this.title.image);
-            if (this.title.scale) title.setScale(this.title.scale);
-        }
-
-        let x = this.titleX;
-        let y = this.titleY + 100;
-
-        this.selectedIndex = 0;
-
-        while (this.elements[this.selectedIndex] instanceof MenuSeperator) this.selectedIndex++;
-
-        this.elements.forEach((element, index) =>
-        {
-            element.show(this.scene, x, y);
-
-            if (element instanceof MenuOption && this.elements[++index])
-            {
-                if (this.elements[index] instanceof MenuOption) y += this.optionOffset;
-                if (this.elements[index] instanceof MenuSeperator) y += this.seperatorOffset;
-            }
-
-            if (element instanceof MenuSeperator) y += this.seperatorOffset;
-        });
-
-        this.cursor = this.scene.add.text(x - 100, this.elements[this.selectedIndex].y, '>').setOrigin(0.5);
-
-        this.scene.input.keyboard.on('keydown', (event) =>
-        {
-            if (this.keys.up.includes(event.key))
-            {
-                this.selectedIndex--;
-                while (this.elements[this.selectedIndex] instanceof MenuSeperator)
-                {
-                    this.selectedIndex--;
-                    if (this.selectedIndex < 0) this.selectedIndex += this.elements.length;
-                }
-                if (this.actions.onup) this.actions.onup();
-            }
-
-            if (this.keys.down.includes(event.key))
-            {
-                this.selectedIndex++;
-                while (this.elements[this.selectedIndex] instanceof MenuSeperator)
-                {
-                    this.selectedIndex++;
-                    if (this.selectedIndex >= this.elements.length) this.selectedIndex = 0;
-                }
-                if (this.actions.ondown) this.actions.ondown();
-            }
-
-            this.cursor.setY(this.elements[this.selectedIndex].y);
-        });
-    }
-};
-
-export class MenuOption
-{
-    constructor (text, settings = {})
-    {
-        this.text = text;
-
-        this.disabeld = settings['disabled'] || false;
-    }
-
-    show (scene, x, y)
-    {
-        scene.add.text(x, y, this.text).setOrigin(0.5);
-
-        this.x = x;
-        this.y = y;
-    }
-};
-
-export class MenuSeperator
-{
-    constructor (settings = {})
-    {
-        this.image = settings['image'] || null;
-        this.text = settings['text'] || '----------------';
-    }
-
-    show (scene, x, y)
-    {
-        if (this.image !== null)
-        {
-            scene.add.image(x, y, this.image).setScale(0.1);
-        }
-        else
-        {
-            scene.add.text(x, y, this.text).setOrigin(0.5);
-        }
-
-        this.x = x;
-        this.y = y;
-    }
+    return defaultValues;
 }
-
-*/
