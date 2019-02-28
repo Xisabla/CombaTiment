@@ -142,14 +142,9 @@ export class Menu
      */
     countOptions ()
     {
-        let n = 0;
+        let options = this.elements.filter(elem => elem instanceof MenuOption);
 
-        this.elements.forEach(element =>
-        {
-            if (element instanceof MenuOption) n++;
-        });
-
-        return n;
+        return options.length;
     }
 
     /**
