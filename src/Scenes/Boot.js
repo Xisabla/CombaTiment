@@ -28,10 +28,10 @@ export default class extends Phaser.Scene
             this.assetsLoaded = true;
         });
 
-        this.load.image('background', 'assets/menu/background.png');
-        this.load.image('title', 'assets/menu/title.png');
-        this.load.image('divider', 'assets/menu/divider.png');
-        this.load.image('selector', 'assets/menu/selector.png');
+        // Splash
+        this.load.image('menu/background', 'assets/menu/background.png');
+        this.load.image('menu/title', 'assets/menu/title.png');
+        this.load.image('menu/selector', 'assets/menu/selector.png');
 
         WebFont.load({
             google: {

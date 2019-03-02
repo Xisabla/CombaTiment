@@ -10,18 +10,17 @@ export default class extends Phaser.Scene
 
     create ()
     {
-        this.add.image(800, 450, 'background');
+        this.add.image(800, 450, 'menu/background');
 
         this.menu = new Menu(this, {
-            title: { image: 'title',
+            title: { image: 'menu/title',
+                y: 100,
                 offsetBottom: -60 },
 
-            choices: { color: 'black',
-                fontFamily: 'Arial',
+            choices: { color: '#2c3e50',
+                fontFamily: 'Raleway',
                 fontSize: 32,
-                offset: 40,
-                enter: (elem) => console.log('Enter: ', elem.name)
-            },
+                offset: 40 },
 
             seperators: { type: 'bar',
                 width: 150,
@@ -29,8 +28,7 @@ export default class extends Phaser.Scene
                 alpha: 0.5,
                 offset: 40 },
 
-            // cursor: { fontSize: 32, fontFamily: 'Arial' },
-            cursor: { image: 'selector', scale: 1.2 },
+            cursor: { image: 'menu/selector', scale: 1.2 },
             cursorOffsetX: 0
         });
 
