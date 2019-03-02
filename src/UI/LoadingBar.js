@@ -168,11 +168,6 @@ export default class LoadingBar
             this.updateMessage(file.key);
         });
 
-        loader.on('complete', () =>
-        {
-            this.destroy();
-        });
-
         return this;
     }
 
