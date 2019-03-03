@@ -392,6 +392,9 @@ export class Menu
      */
     bindGamepad (gamepad, buttons = { down: [13], up: [12], enter: [0] })
     {
+        if (!buttons['enter'] && buttons['select']) buttons.enter = buttons['select'];
+        if (!buttons['enter'] && buttons['attack1']) buttons.enter = buttons['attack1'];
+
         gamepad.on('down', (pad, button) =>
         {
             let index = button.index;
