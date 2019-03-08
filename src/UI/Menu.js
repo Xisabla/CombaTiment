@@ -282,6 +282,7 @@ export class Menu
                 this.titleText = this.scene.add.text(this.title.x, this.title.y, this.title.text);
             }
             this.titleText.setOrigin(0.5);
+            this.titleText.setAlign('center');
             this.titleText.setColor(this.title.color);
             this.titleText.setFontFamily(this.title.fontFamily);
             this.titleText.setFontSize(this.title.fontSize);
@@ -358,7 +359,9 @@ export class Menu
     {
         this._showTitle();
 
-        let y = (this.title.type === 'text') ? (this.titleText.height / 2) : (this.titleImage.height * this.title.scale / 2) + this.title.y + this.title.offsetBottom;
+        let titleHeigth = (this.title.type === 'text') ? (this.titleText.height) : (this.titleImage.height * this.title.scale);
+
+        let y = titleHeigth / 2 + this.title.y + this.title.offsetBottom;
 
         this._showElements(this.title.x, y);
         this._showCursor();
