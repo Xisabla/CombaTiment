@@ -1,0 +1,44 @@
+{
+	"feilong" :
+		{
+			"active" :"still",
+			"punch" : [
+				{
+					"label" : "body",
+					"x" : 10,
+					"y" : 15,
+					"width" : 90,
+					"height" : 160,
+					"type" : "hitbox"
+				},
+				{
+					"label" : "punch",
+					"x" : 100,
+					"y" : 35,
+					"width" : 30,
+					"height" : 30,
+					"type" : "hurtbox"
+				} 
+			],
+			"still" : [
+				{
+					"label" : "body",
+					"x" : 10,
+					"y" : 15,
+					"width" : 90,
+					"height" : 160,
+					"type" : "hitbox"
+				} 
+			],
+			"walking" : [
+				{
+					"label" : "body",
+					"x" : 10,
+					"y" : 15,
+					"width" : 90,
+					"height" : 160,
+					"type" : "hitbox"
+				} 
+			] 
+	} 
+}

@@ -53,10 +53,16 @@ export default class extends Phaser.Scene
         // LevelSelect
         this.load.image('levelselect/background', 'assets/levelselect/background.png');
         this.load.image('levelselect/ground', 'assets/levelselect/ground.png');
+        this.load.image('levelselect/grass', 'assets/levelselect/grass.png');
 
         // Gameplay
         this.load.image('ennemy/apple', 'assets/sprites/apple.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
+
+        // Feilong
+        this.load.spritesheet('feilong/idle', 'assets/feilong/idlefeilong.png', { frameWidth: 111.17, frameHeight: 185 });
+        this.load.spritesheet('feilong/walking', 'assets/feilong/walkingfeilong.png', { frameWidth: 90, frameHeight: 182 });
+        this.load.json('feilong/hitbox', 'assets/feilong/hitboxes.json');
 
         WebFont.load({
             google: {
