@@ -10,6 +10,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
         super(scene, x, y);
 
         this.width = settings.width || 300;
+        this.height = settings.height || 550;
         this.baseX = x;
         this.baseY = y;
 
@@ -19,27 +20,32 @@ export default class LevelPanel extends Phaser.GameObjects.Container
         this.power = settings.power || '';
         this.ennemies = settings.ennemies || [];
 
-        this._showBase();
-        this._showPower();
-        this._showEnnemies();
+        this.selected = false;
 
         scene.add.existing(this);
     }
 
-    _showBase ()
+    isCharacterIn (character)
+    {
+        let x = character.x + character.width / 2;
+
+        return (x >= this.x && x <= this.x + this.width);
+    }
+
+    showBase ()
     {
         this.add(new Phaser.GameObjects.Graphics(this.scene)
             .fillStyle(this.color, 0.8)
-            .fillRoundedRect(0, 0, 300, 550));
+            .fillRoundedRect(0, 0, this.width, this.height));
 
-        this.add(new Phaser.GameObjects.Text(this.scene, 150, 50, this.name, {
+        this.add(new Phaser.GameObjects.Text(this.scene, this.width / 2, 50, this.name, {
             align: 'center',
             fontFamily: 'Raleway',
             fontSize: 36 })
             .setOrigin(0.5));
     }
 
-    _showPower ()
+    showPower ()
     {
         this.add(new Phaser.GameObjects.Text(this.scene, 20, 120, 'Power: ', {
             fontFamily: 'Raleway',
@@ -54,7 +60,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
             .setOrigin(0));
     }
 
-    _showEnnemies ()
+    showEnnemies ()
     {
         this.add(new Phaser.GameObjects.Text(this.scene, 20, 230, 'Ennemies: ', {
             fontFamily: 'Raleway',
@@ -87,6 +93,13 @@ export default class LevelPanel extends Phaser.GameObjects.Container
         });
     }
 
+    show ()
+    {
+        this.showBase();
+        this.showPower();
+        this.showEnnemies();
+    }
+
     bounce (pixels = 5, time = 200, tick = 10)
     {
         let timerUp = setInterval(() =>
@@ -109,5 +122,25 @@ export default class LevelPanel extends Phaser.GameObjects.Container
                 this.setY(this.baseY);
             }, time / 2);
         }, time / 2);
+    }
+
+    select ()
+    {
+        this.list[0].clear()
+            .lineStyle(5, 0xffffff, 0.7)
+            .fillStyle(this.color, 0.7)
+            .fillRoundedRect(0, 0, this.width, this.height)
+            .strokeRoundedRect(-2.5, -2.5, this.width + 5, this.height + 5, 32);
+
+        this.selected = true;
+    }
+
+    unselect ()
+    {
+        this.list[0].clear()
+            .fillStyle(this.color, 0.8)
+            .fillRoundedRect(0, 0, this.width, this.height);
+
+        this.selected = false;
     }
 };
