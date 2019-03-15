@@ -36,8 +36,12 @@ export default class extends Phaser.Scene
             cursorOffsetX: 0
         });
 
-        this.menu.add(new MenuOption('New Game'));
-        this.menu.add(new MenuSeperator({ }));
+        this.menu.add(new MenuOption('New Game', { enter: () =>
+        {
+            this.scene.start('LevelSelect');
+        } }));
+
+        this.menu.add(new MenuSeperator());
         this.menu.add(new MenuOption('Load Game'));
         this.menu.add(new MenuSeperator());
         this.menu.add(new MenuOption('Credits'));

@@ -33,6 +33,14 @@ export default class extends Phaser.Scene
         this.load.image('menu/title', 'assets/menu/title.png');
         this.load.image('menu/selector', 'assets/menu/selector.png');
 
+        // LevelSelect
+        this.load.image('levelselect/background', 'assets/levelselect/background.png');
+        this.load.image('levelselect/ground', 'assets/levelselect/ground.png');
+
+        // Gameplay
+        this.load.image('ennemy/apple', 'assets/sprites/apple.png');
+        this.load.image('power/thunder', 'assets/power/thunder.png');
+
         WebFont.load({
             google: {
                 families: ['Raleway', 'Cairo']
