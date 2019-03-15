@@ -12,12 +12,29 @@ export default class extends Phaser.Scene
 
     init ()
     {
+        // ---------- Loader
         this.assetsLoaded = false;
         this.fontsLoaded = false;
 
         this.loadingBar = new LoadingBar(this, {
             bind: true,
             messagePrefix: 'Loading asset:'
+        });
+
+        // ---------- Fullscreen
+        let canvas = this.sys.game.canvas;
+        let fullscreen = this.sys.game.device.fullscreen;
+
+        if (!fullscreen.available)
+        {
+            return;
+        }
+
+        document.getElementById('fullscreen').addEventListener('click', function ()
+        {
+            if (document.fullscreenElement) return;
+
+            canvas[fullscreen.request]();
         });
     }
 
@@ -32,7 +49,6 @@ export default class extends Phaser.Scene
         this.load.image('menu/background', 'assets/menu/background.png');
         this.load.image('menu/title', 'assets/menu/title.png');
         this.load.image('menu/selector', 'assets/menu/selector.png');
-        this.load.json('assets/hitboxes', 'assets/hitboxes.json');
 
         // LevelSelect
         this.load.image('levelselect/background', 'assets/levelselect/background.png');
