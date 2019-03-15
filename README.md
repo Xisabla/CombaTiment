@@ -35,16 +35,16 @@ npm run build
 
 ### Running
 
-Using webpack's dev server
+Start a static server
+
+```bash
+npm run start
+```
+
+Or use webpack's dev server
 
 ```bash
 npm run serve
-```
-
-Or any kind of server
-
-```bash
-http-server ./
 ```
 
 ## Contributing
