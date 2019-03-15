@@ -13,6 +13,7 @@ export default class extends Phaser.Scene
     create ()
     {
         this.add.image(800, 450, 'menu/background');
+        this.graphics = this.add.graphics();
 
         this.menu = new Menu(this, {
             title: { text: 'Todo\nWill be done soon (maybe...)',

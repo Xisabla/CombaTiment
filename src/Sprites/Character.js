@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
+import { getHitboxes } from '../Engine/Hitbox';
 
 export default class Character extends Phaser.GameObjects.Sprite
 {
-    constructor (scene, x, y, spritesheet, platform)
+    constructor (scene, x, y, spritesheet, platform, hitboxes, hitboxName)
     {
         super(scene, x, y, spritesheet);
         scene.physics.world.enable(this);
@@ -12,6 +13,7 @@ export default class Character extends Phaser.GameObjects.Sprite
         this.setOrigin(0);
         this.body.setBounce(0);
         this.body.setCollideWorldBounds(true);
+        this.hitboxes = getHitboxes(scene.cache.json.get(hitboxes), hitboxName);
     }
 
     createAnim (scene, key, frames, framerate, repeat)

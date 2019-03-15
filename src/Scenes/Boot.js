@@ -32,6 +32,7 @@ export default class extends Phaser.Scene
         this.load.image('menu/background', 'assets/menu/background.png');
         this.load.image('menu/title', 'assets/menu/title.png');
         this.load.image('menu/selector', 'assets/menu/selector.png');
+        this.load.json('assets/hitboxes', 'assets/hitboxes.json');
 
         WebFont.load({
             google: {
