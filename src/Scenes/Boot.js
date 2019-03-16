@@ -62,6 +62,7 @@ export default class extends Phaser.Scene
         // Feilong
         this.load.spritesheet('feilong/idle', 'assets/feilong/idlefeilong.png', { frameWidth: 111.17, frameHeight: 185 });
         this.load.spritesheet('feilong/walking', 'assets/feilong/walkingfeilong.png', { frameWidth: 90, frameHeight: 182 });
+        this.load.spritesheet('feilong/punch', 'assets/feilong/lpunchfeilong.png', {frameWidth: 118.6, frameHeight: 177});
         this.load.json('feilong/hitbox', 'assets/feilong/hitboxes.json');
 
         WebFont.load({

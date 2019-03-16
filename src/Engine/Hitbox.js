@@ -6,6 +6,8 @@ export class Hitbox
     {
         this.label = settings['label'] || 'none';
         this.type = settings['type'] || 'hurtbox';
+        this.start = settings['start'] || 0;
+        this.end = settings['end'];
         this.x = settings['x'] || 0;
         this.y = settings['y'] || 0;
         this.anchor = settings['anchor'] || { x: 0, y: 0 };
@@ -64,7 +66,9 @@ export function getHitboxes (jsonFile, name)
                     'y': jsonFile[name][i][j].y,
                     'width': jsonFile[name][i][j].width,
                     'height': jsonFile[name][i][j].height,
-                    'type': jsonFile[name][i][j].type
+                    'type': jsonFile[name][i][j].type,
+                    'start': jsonFile[name][i][j].start,
+                    'end': jsonFile[name][i][j].end
                 }));
             }
             else
@@ -126,28 +130,32 @@ export function doesTouch (player1, zone1, player2, zone2)
     return false;
 }
 
-export function renderHitboxes (graphics, hitboxes)
+export function renderHitboxes (graphics, players)
 {
     graphics.clear();
     graphics.fillStyle(Phaser.Display.Color.GetColor32(255, 255, 0, 0.5), 0.3);
 
-    for (let i = 0; i < hitboxes.length; i++)
+    for (let i = 0; i < players.length; i++)
     {
-        for (let hitbox in hitboxes[i])
+        let hitboxes = players[i].hitboxes[players[i].hitboxes.active];
+        for (let hitbox in hitboxes)
         {
-            if (hitboxes[i][hitbox].type === 'hitbox')
+            if(players[i].anims.currentFrame !== undefined && hitboxes[hitbox].start <= players[i].anims.currentFrame.index && hitboxes[hitbox].end >= players[i].anims.currentFrame.index)
             {
-                graphics.fillStyle(Phaser.Display.Color.GetColor32(0, 0, 255, 0.5), 0.3);
+                if (hitboxes[hitbox].type === 'hitbox')
+                {
+                    graphics.fillStyle(Phaser.Display.Color.GetColor32(0, 0, 255, 0.5), 0.3);
+                }
+                else
+                {
+                    graphics.fillStyle(Phaser.Display.Color.GetColor32(255, 0, 0, 0.5), 0.3);
+                }
+                graphics.fillRect(hitboxes[hitbox].anchor.x + hitboxes[hitbox].x,
+                    hitboxes[hitbox].anchor.y + hitboxes[hitbox].y,
+                    hitboxes[hitbox].width,
+                    hitboxes[hitbox].height
+                );
             }
-            else
-            {
-                graphics.fillStyle(Phaser.Display.Color.GetColor32(255, 0, 0, 0.5), 0.3);
-            }
-            graphics.fillRect(hitboxes[i][hitbox].anchor.x + hitboxes[i][hitbox].x,
-                hitboxes[i][hitbox].anchor.y + hitboxes[i][hitbox].y,
-                hitboxes[i][hitbox].width,
-                hitboxes[i][hitbox].height
-            );
         }
     }
 }
