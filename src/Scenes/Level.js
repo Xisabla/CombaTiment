@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 import Character from '../Sprites/Character';
-import { updateHitboxes, renderHitboxes} from '../Engine/Hitbox'
+import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 
 export default class extends Phaser.Scene
 {
@@ -27,7 +27,7 @@ export default class extends Phaser.Scene
         this.player = new Character(this, 40, 500, 'feilong/idle', this.ground, 'feilong/hitbox', 'feilong');
         this.player.createAnim(this, 'idle', this.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10, -1);
         this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
-        this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3}), 10, -1);        
+        this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.keys = {
@@ -38,27 +38,27 @@ export default class extends Phaser.Scene
         this.hitboxGraphics = this.add.graphics();
 
         this.cameras.main.setBounds(0, 0, 5000, 900);
-        this.cameras.main.startFollow(this.player.body);   
+        this.cameras.main.startFollow(this.player.body);
     }
 
     update ()
     {
-        if(this.player.anims.currentAnim !== null && this.player.anims.currentAnim.key === 'punch')
+        if (this.player.anims.currentAnim !== null && this.player.anims.currentAnim.key === 'punch')
         {
-            //if the punch animation has been triggered
+            // if the punch animation has been triggered
             this.player.anims.play('punch', true);
             this.player.hitboxes.active = 'punch';
-            if(this.player.anims.currentAnim.frames.length === this.player.anims.currentFrame.index)
-            {			
-                //finish the punch animation
+            if (this.player.anims.currentAnim.frames.length === this.player.anims.currentFrame.index)
+            {
+                // finish the punch animation
                 this.player.anims.play('idle', true);
                 this.player.hitboxes.active = 'still';
             }
             this.player.body.setVelocityX(0);
         }
-        else if(this.keys.select.isDown)
+        else if (this.keys.select.isDown)
         {
-            //trigger the punch animation
+            // trigger the punch animation
             this.player.body.setVelocityX(0);
             this.player.anims.play('punch', true);
         }
@@ -83,7 +83,7 @@ export default class extends Phaser.Scene
             this.player.body.setVelocityX(0);
         }
 
-        updateHitboxes(this.player); //update player's hitbox's position
-        renderHitboxes(this.hitboxGraphics, [this.player]); //render hitboxes (debug)
+        updateHitboxes(this.player); // update player's hitbox's position
+        renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
     }
 };
