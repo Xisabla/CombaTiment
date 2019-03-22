@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { Menu, MenuOption } from '../UI/Menu';
-
-import { xbox } from '../config/gamepad';
+import { gamesirController } from '../config/gamepad/controllers';
+import { menuButtons } from '../config/gamepad/buttons';
 
 export default class extends Phaser.Scene
 {
@@ -45,7 +45,7 @@ export default class extends Phaser.Scene
         this.menu.create();
 
         this.menu.bindKeyboard(this.input.keyboard);
-        this.menu.bindGamepad(this.input.gamepad, xbox);
+        this.menu.bindGamepad(this.input.gamepad, menuButtons(gamesirController));
     }
 
     update ()
