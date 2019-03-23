@@ -59,6 +59,9 @@ export default class extends Phaser.Scene
         this.load.image('ennemy/apple', 'assets/sprites/apple.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
 
+        // Level
+        this.load.json('scenes/data', 'assets/scenes/level.json');
+
         // Feilong
         this.load.spritesheet('feilong/idle', 'assets/feilong/idlefeilong.png', { frameWidth: 111.17, frameHeight: 185 });
         this.load.spritesheet('feilong/walking', 'assets/feilong/walkingfeilong.png', { frameWidth: 90, frameHeight: 182 });
