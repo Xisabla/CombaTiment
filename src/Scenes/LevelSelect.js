@@ -2,7 +2,8 @@ import Phaser from 'phaser';
 
 import Character from '../Sprites/Character';
 import LevelPanelCollection from '../UI/LevelPanelCollection';
-import { updateHitboxes, renderHitboxes} from '../Engine/Hitbox'
+import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
+import { actions } from '../config/gamepad/buttons';
 
 export default class extends Phaser.Scene
 {
@@ -34,7 +35,7 @@ export default class extends Phaser.Scene
         this.player = new Character(this, 40, 500, 'feilong/idle', this.ground, 'feilong/hitbox', 'feilong');
         this.player.createAnim(this, 'idle', this.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10, -1);
         this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
-        this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3}), 10, -1);        
+        this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.keys = {
@@ -50,58 +51,31 @@ export default class extends Phaser.Scene
 
     update (time)
     {
+        let pad = null;
+
+        if (this.input.gamepad.total > 0)
+        {
+            let padIndex = 0;
+
+            while (this.input.gamepad.getPad(padIndex).vibration === null) padIndex++;
+
+            pad = this.input.gamepad.getPad(padIndex);
+        }
+
         // Avoid crash: wait until the show animation is done
         if (time >= this.panels.panels.length * 200 * 2 * 1.5)
         {
-            this.panels.checkActions(this.player, this.keys);
+            this.panels.checkActions(this.player, { keys: this.keys, pad });
         }
 
-        if (this.keys.enter.isDown && this.panels.selected !== -1)
+        if ((this.keys.enter.isDown || (pad && actions(pad).attacks[1])) && this.panels.selected !== -1)
         {
             console.log('Go to level: ' + this.panels.selected);
         }
 
-        if(this.player.anims.currentAnim !== null && this.player.anims.currentAnim.key === 'punch')
-        {
-            //if the punch animation has been triggered
-            this.player.anims.play('punch', true);
-            this.player.hitboxes.active = 'punch';
-            if(this.player.anims.currentAnim.frames.length === this.player.anims.currentFrame.index)
-            {			
-                //finish the punch animation
-                this.player.anims.play('idle', true);
-                this.player.hitboxes.active = 'still';
-            }
-            this.player.body.setVelocityX(0);
-        }
-        else if(this.keys.select.isDown)
-        {
-            //trigger the punch animation
-            this.player.body.setVelocityX(0);
-            this.player.anims.play('punch', true);
-        }
-        else if (this.cursors.right.isDown)
-        {
-            this.player.hitboxes.active = 'walking';
-            this.player.setFlipX(false);
-            this.player.anims.play('walk', true);
-            this.player.body.setVelocityX(500);
-        }
-        else if (this.cursors.left.isDown)
-        {
-            this.player.hitboxes.active = 'walking';
-            this.player.setFlipX(true);
-            this.player.anims.play('walk', true);
-            this.player.body.setVelocityX(-500);
-        }
-        else
-        {
-            this.player.hitboxes.active = 'still';
-            this.player.anims.play('idle', true);
-            this.player.body.setVelocityX(0);
-        }
+        this.player.checkActions(this.cursors, { keys: this.keys, pad });
 
-        updateHitboxes(this.player); //update player's hitbox's position
-        renderHitboxes(this.hitboxGraphics, [this.player]); //render hitboxes (debug)
+        updateHitboxes(this.player); // update player's hitbox's position
+        renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
     }
 };
