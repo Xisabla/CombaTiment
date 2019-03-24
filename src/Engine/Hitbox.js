@@ -140,7 +140,7 @@ export function renderHitboxes (graphics, players)
         let hitboxes = players[i].hitboxes[players[i].hitboxes.active];
         for (let hitbox in hitboxes)
         {
-            if(players[i].anims.currentFrame !== undefined && hitboxes[hitbox].start <= players[i].anims.currentFrame.index && hitboxes[hitbox].end >= players[i].anims.currentFrame.index)
+            if (players[i].anims.currentFrame !== undefined && hitboxes[hitbox].start <= players[i].anims.currentFrame.index && hitboxes[hitbox].end >= players[i].anims.currentFrame.index)
             {
                 if (hitboxes[hitbox].type === 'hitbox')
                 {
