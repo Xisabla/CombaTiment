@@ -1,4 +1,5 @@
 import LevelPanel from './LevelPanel';
+import { actions } from '../config/gamepad/buttons';
 
 export default class LevelPanelCollection
 {
@@ -48,7 +49,7 @@ export default class LevelPanelCollection
         this.selected = id;
     }
 
-    checkActions (character, keys)
+    checkActions (character, { keys, pad })
     {
         this.panels.forEach((panel, id) =>
         {
@@ -58,7 +59,7 @@ export default class LevelPanelCollection
                 this.lastBounced = id;
             }
 
-            if (keys.select.isDown)
+            if (keys.select.isDown || actions(pad).attacks[0])
             {
                 if (panel.isCharacterIn(character))
                 {

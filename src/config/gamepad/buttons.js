@@ -7,14 +7,13 @@ export function menuButtons (controller)
     };
 };
 
-export function characterActions (pad)
+export function actions (pad)
 {
     return {
         attacks: [
-            pad.A,
-            pad.B,
             pad.X,
-            pad.Y ],
-        axis: [ pad.axis[0], pad.axis[1] ]
+            pad.Y,
+            pad.B ],
+        axes: [ pad.axes[0].getValue(), pad.axes[1].getValue() ]
     };
 }
