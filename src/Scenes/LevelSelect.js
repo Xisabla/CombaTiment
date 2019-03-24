@@ -19,6 +19,12 @@ export default class extends Phaser.Scene
     {
         this.add.image(800, 450, 'levelselect/background');
 
+        this.sounds = {};
+        this.sounds.music = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
+        this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
+        this.sounds.menuSelection = this.sound.add('music/menu_selection');
+        this.sounds.music.play();
+
         this.ground = this.physics.add.staticGroup();
         this.ground.create(800, 810, 'levelselect/ground');
         this.add.image(800, 710, 'levelselect/grass');
@@ -71,10 +77,12 @@ export default class extends Phaser.Scene
         if ((this.keys.enter.isDown || (pad && actions(pad).attacks[1])) && this.panels.selected !== -1)
         {
             console.log('Go to level: ' + this.panels.selected);
+            this.sounds.menuSelection.play();
+            this.sounds.music.stop();
             this.scene.start('Level');
         }
 
-        this.player.checkActions(this.cursors, { keys: this.keys, pad });
+        this.player.checkActions(this.cursors, { keys: this.keys, pad }, this.sounds);
 
         updateHitboxes(this.player); // update player's hitbox's position
         renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)

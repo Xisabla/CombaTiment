@@ -14,6 +14,11 @@ export default class extends Phaser.Scene
     {
         this.add.image(800, 450, 'menu/background');
 
+        this.sounds = {};
+        this.sounds.music = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
+        this.sounds.menuSelection = this.sound.add('music/menu_selection');
+        this.sounds.music.play();
+
         this.menu = new Menu(this, {
             title: { image: 'menu/title',
                 y: 100,
@@ -23,7 +28,11 @@ export default class extends Phaser.Scene
                 fontFamily: 'Raleway',
                 fontSize: 32,
                 offset: 40,
-                enter: () => this.scene.start('TodoScene')
+                enter: () =>
+                {
+                    this.sounds.music.stop();
+                    this.scene.start('TodoScene');
+                }
             },
 
             seperators: { type: 'bar',
@@ -38,6 +47,7 @@ export default class extends Phaser.Scene
 
         this.menu.add(new MenuOption('New Game', { enter: () =>
         {
+            this.sounds.music.stop();
             this.scene.start('LevelSelect');
         } }));
 
@@ -48,7 +58,7 @@ export default class extends Phaser.Scene
 
         this.menu.create();
 
-        this.menu.bindKeyboard(this.input.keyboard);
+        this.menu.bindKeyboard(this.input.keyboard, this.sounds.menuSelection);
         this.menu.bindGamepad(this.input.gamepad, menuButtons(gamesirController));
     }
 

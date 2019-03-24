@@ -15,6 +15,11 @@ export default class extends Phaser.Scene
 
     create ()
     {
+        this.sounds = {};
+        this.sounds.music = this.sound.add('music/tem', { loop: true, volume: 0.3 });
+        this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
+        this.sounds.music.play();
+
         this.data = this.cache.json.get('scenes/data');
         this.data.lastWaveScreen = 0;
         this.data.currentWave = 0;
@@ -107,14 +112,16 @@ export default class extends Phaser.Scene
     finishWave ()
     {
         // fluid transition
-        if (this.player.x - this.cameras.main.scrollX >= this.cameras.main.width / 2 + 50)
+        if (this.player.x - this.cameras.main.scrollX >= this.cameras.main.width / 2 + 21)
         {
             this.moveCamera++;
+            if (this.moveCamera > 20) this.moveCamera = 20;
             this.cameras.main.setScroll(this.cameras.main.scrollX + this.moveCamera, 0);
         }
-        else if (this.player.x - this.cameras.main.scrollX <= this.cameras.main.width / 2 - 50)
+        else if (this.player.x - this.cameras.main.scrollX <= this.cameras.main.width / 2 - 21)
         {
             this.moveCamera++;
+            if (this.moveCamera > 20) this.moveCamera = 20;
             this.cameras.main.setScroll(this.cameras.main.scrollX - this.moveCamera, 0);
         }
         else
@@ -137,6 +144,7 @@ export default class extends Phaser.Scene
                 // fluid transition
                 this.cameras.main.stopFollow();
                 this.moveCamera++;
+                if (this.moveCamera > 20) this.moveCamera = 20;
                 this.cameras.main.setScroll(this.cameras.main.scrollX + this.moveCamera, 0);
                 if (this.cameras.main.scrollX >= 750 + 1600 * this.data.lastWaveScreen)
                 {
@@ -162,24 +170,19 @@ export default class extends Phaser.Scene
 
     update ()
     {
-        if (this.player.anims.currentAnim !== null && this.player.anims.currentAnim.key === 'punch')
+        let pad = null;
+
+        if (this.input.gamepad.total > 0)
         {
-            // if the punch animation has been triggered
-            this.player.anims.play('punch', true);
-            this.player.hitboxes.active = 'punch';
-            if (this.player.anims.currentAnim.frames.length === this.player.anims.currentFrame.index)
-            {
-                // finish the punch animation
-                this.player.anims.play('idle', true);
-                this.player.hitboxes.active = 'still';
-            }
-            this.player.body.setVelocityX(0);
+            let padIndex = 0;
+
+            while (this.input.gamepad.getPad(padIndex).vibration === null) padIndex++;
+
+            pad = this.input.gamepad.getPad(padIndex);
         }
-        else if (this.keys.select.isDown)
+
+        if (this.keys.select.isDown)
         {
-            // trigger the punch animation
-            this.player.body.setVelocityX(0);
-            this.player.anims.play('punch', true);
             this.data.ennemiesOnScreen--; // kill an ennemy
             if (this.data.ennemiesOnScreen < 0)
             {
@@ -187,26 +190,8 @@ export default class extends Phaser.Scene
             }
             console.log(this.data.ennemiesOnScreen);
         }
-        else if (this.cursors.right.isDown)
-        {
-            this.player.hitboxes.active = 'walking';
-            this.player.setFlipX(false);
-            this.player.anims.play('walk', true);
-            this.player.body.setVelocityX(500);
-        }
-        else if (this.cursors.left.isDown)
-        {
-            this.player.hitboxes.active = 'walking';
-            this.player.setFlipX(true);
-            this.player.anims.play('walk', true);
-            this.player.body.setVelocityX(-500);
-        }
-        else
-        {
-            this.player.hitboxes.active = 'still';
-            this.player.anims.play('idle', true);
-            this.player.body.setVelocityX(0);
-        }
+
+        this.player.checkActions(this.cursors, { keys: this.keys, pad }, this.sounds);
 
         this.handleCamera(); // handle camera and waveScreens if needed
         updateHitboxes(this.player); // update player's hitbox's position

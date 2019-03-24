@@ -375,12 +375,12 @@ export class Menu
      * @param {Phaser.Input.Keyboard} keyboard Keyboard to listen
      * @param {object} keys Keymap (maps actions  with the keyboard's key)
      */
-    bindKeyboard (keyboard, keys = { down: ['ArrowDown'], up: ['ArrowUp'], enter: ['Enter'] })
+    bindKeyboard (keyboard, sound, keys = { down: ['ArrowDown'], up: ['ArrowUp'], enter: ['Enter'] })
     {
         keyboard.on('keydown', (event) =>
         {
             let key = event.key;
-
+            if (sound && (keys.down.includes(key) || keys.up.includes(key) || keys.enter.includes(key))) sound.play();
             if (keys.down.includes(key)) this.selectDown();
             if (keys.up.includes(key)) this.selectUp();
             if (keys.enter.includes(key)) this.enter();

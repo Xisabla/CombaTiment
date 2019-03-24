@@ -48,7 +48,7 @@ export default class Character extends Phaser.GameObjects.Sprite
         this.anims.play('punch', true);
     }
 
-    checkActions (cursors, { keys, pad })
+    checkActions (cursors, { keys, pad }, sounds)
     {
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch')
         {
@@ -66,6 +66,7 @@ export default class Character extends Phaser.GameObjects.Sprite
         else if ((keys && keys.select.isDown) || (pad && actions(pad).attacks[0]))
         {
             this.punch();
+            if (sounds && sounds.punch) sounds.punch.play();
         }
         else if (cursors.right.isDown || (pad && actions(pad).axes[0] > 0))
         {

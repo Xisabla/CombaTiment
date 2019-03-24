@@ -12,6 +12,10 @@
             "nextWave": {"ennemiesNumber": 1}
         },
         {
+            "waves": [0, 0],
+            "nextWave": {"ennemiesNumber": 2}
+        },
+        {
             "waves": [0, 0, 0],
             "nextWave": {"ennemiesNumber": 1}
         }

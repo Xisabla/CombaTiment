@@ -45,6 +45,12 @@ export default class extends Phaser.Scene
             this.assetsLoaded = true;
         });
 
+        // Audio
+        this.load.audio('music/mettaton', ['assets/music/mus_mettaton_ex.ogg']);
+        this.load.audio('music/punch', ['assets/music/punch.ogg']);
+        this.load.audio('music/menu_selection', ['assets/music/menu_selection.ogg']);
+        this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
+
         // Splash
         this.load.image('menu/background', 'assets/menu/background.png');
         this.load.image('menu/title', 'assets/menu/title.png');
