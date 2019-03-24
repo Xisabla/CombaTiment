@@ -7,8 +7,15 @@ export function menuButtons (controller)
     };
 };
 
+export const actionsDefault = {
+    attacks: [ false, false, false ],
+    axes: [ 0, 0 ]
+};
+
 export function actions (pad)
 {
+    if (!pad) return actionsDefault;
+
     return {
         attacks: [
             pad.X,
