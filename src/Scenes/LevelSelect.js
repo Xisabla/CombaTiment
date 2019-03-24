@@ -71,6 +71,7 @@ export default class extends Phaser.Scene
         if ((this.keys.enter.isDown || (pad && actions(pad).attacks[1])) && this.panels.selected !== -1)
         {
             console.log('Go to level: ' + this.panels.selected);
+            this.scene.start('Level');
         }
 
         this.player.checkActions(this.cursors, { keys: this.keys, pad });
