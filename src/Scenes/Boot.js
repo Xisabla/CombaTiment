@@ -65,6 +65,9 @@ export default class extends Phaser.Scene
         this.load.image('ennemy/apple', 'assets/sprites/apple.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
 
+        // HUD
+        this.load.image('hud/gamepad', 'assets/hud/gamepad.png');
+
         // Level
         this.load.json('scenes/data', 'assets/scenes/level.json');
 
