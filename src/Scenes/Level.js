@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
 import Character from '../Sprites/Character';
+import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 
 export default class extends Phaser.Scene
@@ -49,12 +50,6 @@ export default class extends Phaser.Scene
         this.player.createAnim(this, 'idle', this.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10, -1);
         this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
         this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
-
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.keys = {
-            select: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-            enter: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z)
-        };
 
         this.hitboxGraphics = this.add.graphics();
 
@@ -170,18 +165,9 @@ export default class extends Phaser.Scene
 
     update ()
     {
-        let pad = null;
+        let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
-        if (this.input.gamepad.total > 0)
-        {
-            let padIndex = 0;
-
-            while (this.input.gamepad.getPad(padIndex).vibration === null) padIndex++;
-
-            pad = this.input.gamepad.getPad(padIndex);
-        }
-
-        if (this.keys.select.isDown)
+        if (input.attack1)
         {
             this.data.ennemiesOnScreen--; // kill an ennemy
             if (this.data.ennemiesOnScreen < 0)
@@ -191,9 +177,10 @@ export default class extends Phaser.Scene
             console.log(this.data.ennemiesOnScreen);
         }
 
-        this.player.checkActions(this.cursors, { keys: this.keys, pad }, this.sounds);
+        this.player.checkActions(input);
 
         this.handleCamera(); // handle camera and waveScreens if needed
+
         updateHitboxes(this.player); // update player's hitbox's position
         renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
     }

@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { Menu, MenuOption } from '../UI/Menu';
-import { gamesirController } from '../config/gamepad/controllers';
-import { menuButtons } from '../config/gamepad/buttons';
+import EventInput from '../Input/EventInput';
 
 export default class extends Phaser.Scene
 {
@@ -12,6 +11,8 @@ export default class extends Phaser.Scene
 
     create ()
     {
+        this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
+
         this.add.image(800, 450, 'menu/background');
         this.graphics = this.add.graphics();
 
@@ -44,8 +45,7 @@ export default class extends Phaser.Scene
 
         this.menu.create();
 
-        this.menu.bindKeyboard(this.input.keyboard);
-        this.menu.bindGamepad(this.input.gamepad, menuButtons(gamesirController));
+        this.menu.bindInput(this.inputs);
     }
 
     update ()

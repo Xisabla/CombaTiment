@@ -50,6 +50,13 @@ export class Menu
          */
         this.cursor = this._parseCursor(cursor);
 
+        /**
+         * Menu sounds
+         * @type {object}
+         * @public
+         */
+        this.sounds = settings['sounds'] || {};
+
         let choicesOffset = this.choices['offset'] || {};
         let seperatorsOffset = this.seperators['offset'] || {};
 
@@ -249,6 +256,14 @@ export class Menu
     {
         let selected = this.getOption(this.selectedIndex);
 
+        if (this.scene.sounds)
+        {
+            if (this.scene.sounds.ambiant)
+            {
+                if (this.scene.sounds.ambiant.isPlaying) this.scene.sounds.ambiant.stop();
+            }
+        }
+
         return selected.enter();
     }
 
@@ -369,39 +384,15 @@ export class Menu
         if (this.countOptions() > 0) this.select(0);
     }
 
-    /**
-     * Bind the Menu to keyboard keys
-     *
-     * @param {Phaser.Input.Keyboard} keyboard Keyboard to listen
-     * @param {object} keys Keymap (maps actions  with the keyboard's key)
-     */
-    bindKeyboard (keyboard, sound, keys = { down: ['ArrowDown'], up: ['ArrowUp'], enter: ['Enter'] })
+    bindInput (input)
     {
-        keyboard.on('keydown', (event) =>
+        input.on('down', key =>
         {
-            let key = event.key;
-            if (sound && (keys.down.includes(key) || keys.up.includes(key) || keys.enter.includes(key))) sound.play();
-            if (keys.down.includes(key)) this.selectDown();
-            if (keys.up.includes(key)) this.selectUp();
-            if (keys.enter.includes(key)) this.enter();
-        });
-    }
+            if (this.sounds.select && ['down', 'up', 'confirm'].includes(key)) this.sounds.select.play();
 
-    /**
-     * Bind the Menu to keyboard keys
-     *
-     * @param {Phaser.Input.Gamepad} gamepad Gamepad to listen
-     * @param {object} buttons Button map (maps actions  with the gamepad's buttons)
-     */
-    bindGamepad (gamepad, buttons = { down: [13], up: [12], enter: [0] })
-    {
-        gamepad.on('down', (pad, button) =>
-        {
-            let index = button.index;
-
-            if (buttons.down.includes(index)) this.selectDown();
-            if (buttons.up.includes(index)) this.selectUp();
-            if (buttons.enter.includes(index)) this.enter();
+            if (key === 'down') this.selectDown();
+            if (key === 'up') this.selectUp();
+            if (key === 'confirm') this.enter();
         });
     }
 };
