@@ -17,9 +17,9 @@ export default class extends Phaser.Scene
     create ()
     {
         this.sounds = {};
-        this.sounds.music = this.sound.add('music/tem', { loop: true, volume: 0.3 });
+        this.sounds.ambient = this.sound.add('music/tem', { loop: true, volume: 0.3 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
-        this.sounds.music.play();
+        this.sounds.ambient.play();
 
         this.data = this.cache.json.get('scenes/data');
         this.data.lastWaveScreen = 0;

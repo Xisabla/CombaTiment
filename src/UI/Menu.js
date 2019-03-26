@@ -258,9 +258,9 @@ export class Menu
 
         if (this.scene.sounds)
         {
-            if (this.scene.sounds.ambiant)
+            if (this.scene.sounds.ambient)
             {
-                if (this.scene.sounds.ambiant.isPlaying) this.scene.sounds.ambiant.stop();
+                if (this.scene.sounds.ambient.isPlaying) this.scene.sounds.ambient.stop();
             }
         }
 

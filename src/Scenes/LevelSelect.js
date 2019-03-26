@@ -20,11 +20,11 @@ export default class extends Phaser.Scene
         this.add.image(800, 450, 'levelselect/background');
 
         this.sounds = {};
-        this.sounds.ambiant = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
+        this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.menuSelection = this.sound.add('music/menu_selection', { volume: 1 });
 
-        this.sounds.ambiant.play();
+        this.sounds.ambient.play();
 
         this.ground = this.physics.add.staticGroup();
         this.ground.create(800, 810, 'levelselect/ground');
@@ -63,7 +63,7 @@ export default class extends Phaser.Scene
             console.log('Go to level: ' + this.panels.selected);
 
             this.sounds.menuSelection.play();
-            this.sounds.ambiant.stop();
+            this.sounds.ambient.stop();
             this.scene.start('Level');
         }
 

@@ -16,9 +16,9 @@ export default class extends Phaser.Scene
         this.add.image(800, 450, 'menu/background');
 
         this.sounds = {};
-        this.sounds.ambiant = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
+        this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
         this.sounds.menu = this.sound.add('music/menu_selection');
-        this.sounds.ambiant.play();
+        this.sounds.ambient.play();
 
         this.menu = new Menu(this, {
             title: { image: 'menu/title',
