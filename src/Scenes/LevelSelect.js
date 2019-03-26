@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import config from '../config/game';
 
 import Character from '../Sprites/Character';
 import LevelPanelCollection from '../UI/LevelPanelCollection';
@@ -69,7 +70,11 @@ export default class extends Phaser.Scene
 
         this.player.checkActions(input);
 
-        updateHitboxes(this.player); // update player's hitbox's position
-        renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
+        updateHitboxes(this.player);
+
+        if (config.physics.arcade.debug)
+        {
+            renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
+        }
     }
 };

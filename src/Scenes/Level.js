@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import config from '../config/game';
 
 import Character from '../Sprites/Character';
 import Input from '../Input/Input';
@@ -181,7 +182,11 @@ export default class extends Phaser.Scene
 
         this.handleCamera(); // handle camera and waveScreens if needed
 
-        updateHitboxes(this.player); // update player's hitbox's position
-        renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
+        updateHitboxes(this.player);
+
+        if (config.physics.arcade.debug)
+        {
+            renderHitboxes(this.hitboxGraphics, [this.player]);
+        }
     }
 };
