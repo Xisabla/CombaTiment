@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import config from '../config/game';
 import { getHitboxes } from '../Engine/Hitbox';
 
 export default class Character extends Phaser.GameObjects.Sprite
@@ -117,7 +118,38 @@ export default class Character extends Phaser.GameObjects.Sprite
         }
     }
 
-    punchAnimEnd ()
+    jump (input)
+    {
+        if (input.direction.right)
+        {
+            this.body.setVelocityX(input.getVelocity(this.baseVelocity));
+            this.setFlipX(false);
+        }
+        else if (input.direction.left)
+        {
+            this.body.setVelocityX(-input.getVelocity(this.baseVelocity));
+            this.setFlipX(true);
+        }
+        else
+        {
+            this.body.setVelocityX(0);
+        }
+
+        this.body.setVelocityY(-600);
+    }
+
+    animJump ()
+    {
+        this.body.setVelocityX(0);
+        this.anims.play('jump', true);
+    }
+
+    animForwardJump ()
+    {
+        this.anims.play('forwardjump', true);
+    }
+
+    animPunch ()
     {
         // if the punch animation has been triggered
         this.anims.play('punch', true);
@@ -133,12 +165,26 @@ export default class Character extends Phaser.GameObjects.Sprite
         this.body.setVelocityX(0);
     }
 
-    checkActions (input)
+    update (time, input)
     {
-        if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.punchAnimEnd();
-        else if (input.attack1) this.punch();
-        else if (input.direction.left) this.walk(input.getVelocity(this.baseVelocity), false);
-        else if (input.direction.right) this.walk(input.getVelocity(this.baseVelocity), true);
+        if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
+        else if (input.attack1 && this.body.touching.down) this.punch();
+        else if (input.jump && this.body.touching.down) this.jump(input);
+        else if (input.direction.left && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), false);
+        else if (input.direction.right && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), true);
+        else if (!this.body.touching.down && this.body.velocity.x === 0) this.animJump();
+        else if (!this.body.touching.down && this.body.velocity.x !== 0) this.animForwardJump();
         else this.idle();
+
+        if (config.debug.character)
+        {
+            if (!this.hpText) this.hpText = this.scene.add.text(1500, 825, `HP: ${this.hp}/${this.hpmax}`).setOrigin(1).setFontSize(20);
+            if (!this.energyText) this.energyText = this.scene.add.text(1500, 850, `Energy: ${this.energy}/${this.energymax}`).setOrigin(1).setFontSize(20);
+
+            this.hpText.x = this.scene.cameras.main.scrollX + 1500;
+            this.energyText.x = this.scene.cameras.main.scrollX + 1500;
+            this.hpText.setText(`HP: ${this.hp}/${this.hpmax}`);
+            this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
+        }
     }
 }
