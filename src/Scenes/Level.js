@@ -61,9 +61,7 @@ export default class extends Phaser.Scene
         this.cameras.main.startFollow(this.player.body);
         this.moveCamera = 0;
 
-        this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
-        this.hpText = this.add.text(1500, 825, `HP: ${this.player.hp}/${this.player.hpmax}`).setOrigin(1).setFontSize(20);
-        this.energyText = this.add.text(1500, 850, `Energy: ${this.player.energy}/${this.player.energymax}`).setOrigin(1).setFontSize(20);
+        if (config.debug.level) this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
     }
 
     handleWave (index)
@@ -178,12 +176,12 @@ export default class extends Phaser.Scene
         // "Randomly"
         if ((time % 500) < 30)
         {
-            // Ennemies deal damage
+            // Ennemies deal damage (TODO: Real ennemy damage (sprite, cooldown, ...))
             if (this.data.ennemiesOnScreen > 0)
             {
                 this.player.looseHp(this.data.ennemiesOnScreen);
             }
-            // Or regenerate if no ennemies
+            // Or regenerate if no ennemies TODO: "Natural" regeneration (out-of-fight cooldown)
             else
             {
                 this.player.gainHp(1);
@@ -191,7 +189,8 @@ export default class extends Phaser.Scene
             }
         }
 
-        if (input.attack1 && this.player.anims.currentAnim.key !== 'punch')
+        // If not: jumping or already punching, then kill an ennemy on input.attack1
+        if (input.attack1 && !['punch', 'jump', 'forwardjump'].includes(this.player.anims.currentAnim.key))
         {
             this.data.ennemiesOnScreen--; // kill an ennemy
 
@@ -201,28 +200,25 @@ export default class extends Phaser.Scene
             }
         };
 
-        this.player.checkActions(input, time);
+        this.player.update(time, input);
 
         this.handleCamera(); // handle camera and waveScreens if needed
 
+        // For testing (TODO: Remove)
         if (input.attack2) this.player.gainHp(1);
         if (input.attack3) this.player.gainEnergy(1);
 
         updateHitboxes(this.player);
 
+        // HPBar follow cameras
         this.hpbar.x = this.cameras.main.scrollX + 10;
 
-        this.ennemiesText.x = this.cameras.main.scrollX + 1500;
-        this.hpText.x = this.cameras.main.scrollX + 1500;
-        this.energyText.x = this.cameras.main.scrollX + 1500;
-
-        this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
-        this.hpText.setText(`HP: ${this.player.hp}/${this.player.hpmax}`);
-        this.energyText.setText(`Energy: ${this.player.energy}/${this.player.energymax}`);
-
-        if (config.physics.arcade.debug)
+        if (config.debug.level)
         {
-            renderHitboxes(this.hitboxGraphics, [this.player]);
+            this.ennemiesText.x = this.cameras.main.scrollX + 1500;
+            this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
         }
+
+        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, [this.player]);
     }
 };

@@ -31,7 +31,6 @@ export default class extends Phaser.Scene
         this.ground.create(800, 810, 'levelselect/ground');
         this.add.image(800, 710, 'levelselect/grass');
         this.add.image(300, 810, 'hud/gamepad').setScale(0.4);
-
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
 
         this.panels.add({ color: 0xf39c12, name: 'Consommation\nd\'énergie', power: 'power/thunder', ennemies: ['ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple'] });
@@ -45,6 +44,8 @@ export default class extends Phaser.Scene
         this.player.createAnim(this, 'idle', this.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10, -1);
         this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
         this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
+        this.player.createAnim(this, 'jump', this.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6, -1);
+        this.player.createAnim(this, 'forwardjump', this.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8, -1);
 
         this.hitboxGraphics = this.add.graphics();
     }
@@ -68,13 +69,10 @@ export default class extends Phaser.Scene
             this.scene.start('Level');
         }
 
-        this.player.checkActions(input);
+        this.player.update(time, input);
 
         updateHitboxes(this.player);
 
-        if (config.physics.arcade.debug)
-        {
-            renderHitboxes(this.hitboxGraphics, [this.player]); // render hitboxes (debug)
-        }
+        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, [this.player]);
     }
 };

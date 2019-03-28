@@ -15,5 +15,10 @@ export default {
     input: {
         gamepad: true
     },
+    debug: {
+        character: true,
+        hitboxes: false,
+        level: true
+    },
     localStorageName: 'combatiment'
 };
