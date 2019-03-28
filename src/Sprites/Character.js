@@ -43,14 +43,12 @@ export default class Character extends Phaser.GameObjects.Sprite
 
         if (hp > this.hpmax) hp = this.hpmax;
         if (hp < 0) hp = 0;
-        if (hp === 0) console.log('You are dead.');
+        if (hp === 0) this.scene.scene.start('TodoScene'); // TODO: Respawn/Death screen
 
         if (hp > this.hp) this.emit('hpgain', hp - this.hp, percent, this.hpmax);
         if (hp < this.hp) this.emit('hploose', this.hp - hp, percent, this.hpmax);
 
         this.hp = hp;
-
-        console.log('hp : ', this.hp, ':', percent * 100, ' %');
     }
 
     looseHp (amount)
@@ -74,8 +72,6 @@ export default class Character extends Phaser.GameObjects.Sprite
         if (energy < this.energy) this.emit('energyloose', this.energy - energy, percent, this.energymax);
 
         this.energy = energy;
-
-        console.log('energy : ', this.energy, ':', percent * 100, ' %');
     }
 
     useEnergy (amount)
@@ -118,8 +114,6 @@ export default class Character extends Phaser.GameObjects.Sprite
             {
                 if (this.scene.sounds.punch) this.scene.sounds.punch.play();
             }
-
-            this.setHp(this.hp - 10);
         }
     }
 
