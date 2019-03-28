@@ -12,7 +12,8 @@ export default class Input
         this.keys = {
             A: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
             Z: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
-            E: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+            E: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
+            space: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         };
 
         if (this.pad)
@@ -24,6 +25,8 @@ export default class Input
             left: this.cursors.left.isDown || this.padAxeH < 0,
             right: this.cursors.right.isDown || this.padAxeH > 0
         };
+
+        this.jump = this.cursors.up.isDown || this.keys.space.isDown || this.pad.A;
 
         this.attack1 = this.keys.A.isDown || this.pad.X;
         this.attack2 = this.keys.Z.isDown || this.pad.Y;
