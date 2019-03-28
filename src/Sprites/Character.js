@@ -41,6 +41,10 @@ export default class Character extends Phaser.GameObjects.Sprite
     {
         let percent = hp / this.hpmax;
 
+        if (hp > this.hpmax) hp = this.hpmax;
+        if (hp < 0) hp = 0;
+        if (hp === 0) console.log('You are dead.');
+
         if (hp > this.hp) this.emit('hpgain', hp - this.hp, percent, this.hpmax);
         if (hp < this.hp) this.emit('hploose', this.hp - hp, percent, this.hpmax);
 
@@ -49,11 +53,22 @@ export default class Character extends Phaser.GameObjects.Sprite
         console.log('hp : ', this.hp, ':', percent * 100, ' %');
     }
 
+    looseHp (amount)
+    {
+        this.setHp(this.hp - amount);
+    }
+
+    gainHp (amount)
+    {
+        this.setHp(this.hp + amount);
+    }
+
     setEnergy (energy)
     {
         let percent = energy / this.energymax;
 
-        console.log(percent, energy, this.energy);
+        if (energy > this.energymax) energy = this.energymax;
+        if (energy < 0) energy = 0;
 
         if (energy > this.energy) this.emit('energygain', energy - this.energy, percent, this.energymax);
         if (energy < this.energy) this.emit('energyloose', this.energy - energy, percent, this.energymax);
@@ -65,14 +80,16 @@ export default class Character extends Phaser.GameObjects.Sprite
 
     useEnergy (amount)
     {
-        if (this.energy >= amount)
-        {
-            this.setEnergy(this.energy - amount);
+        if (this.energy < amount) return false;
 
-            return true;
-        }
+        this.setEnergy(this.energy - amount);
 
-        return false;
+        return true;
+    }
+
+    gainEnergy (amount)
+    {
+        return this.setEnergy(this.energy + amount);
     }
 
     idle ()
