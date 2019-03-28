@@ -4,6 +4,7 @@ import config from '../config/game';
 import Character from '../Sprites/Character';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
+import HPBar from '../HUD/HPBar';
 
 export default class extends Phaser.Scene
 {
@@ -52,11 +53,17 @@ export default class extends Phaser.Scene
         this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
         this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
 
+        this.hpbar = new HPBar(this.player);
+
         this.hitboxGraphics = this.add.graphics();
 
         this.cameras.main.setBounds(0, 0, 5600, 900);
         this.cameras.main.startFollow(this.player.body);
         this.moveCamera = 0;
+
+        this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
+        this.hpText = this.add.text(1500, 825, `HP: ${this.player.hp}/${this.player.hpmax}`).setOrigin(1).setFontSize(20);
+        this.energyText = this.add.text(1500, 850, `Energy: ${this.player.energy}/${this.player.energymax}`).setOrigin(1).setFontSize(20);
     }
 
     handleWave (index)
@@ -164,25 +171,54 @@ export default class extends Phaser.Scene
         }
     }
 
-    update ()
+    update (time)
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
-        if (input.attack1)
+        // "Randomly"
+        if ((time % 500) < 30)
+        {
+            // Ennemies deal damage
+            if (this.data.ennemiesOnScreen > 0)
+            {
+                this.player.looseHp(this.data.ennemiesOnScreen);
+            }
+            // Or regenerate if no ennemies
+            else
+            {
+                this.player.gainHp(1);
+                this.player.gainEnergy(5);
+            }
+        }
+
+        if (input.attack1 && this.player.anims.currentAnim.key !== 'punch')
         {
             this.data.ennemiesOnScreen--; // kill an ennemy
+
             if (this.data.ennemiesOnScreen < 0)
             {
                 this.data.ennemiesOnScreen = 0;
             }
-            console.log(this.data.ennemiesOnScreen);
-        }
+        };
 
-        this.player.checkActions(input);
+        this.player.checkActions(input, time);
 
         this.handleCamera(); // handle camera and waveScreens if needed
 
+        if (input.attack2) this.player.gainHp(1);
+        if (input.attack3) this.player.gainEnergy(1);
+
         updateHitboxes(this.player);
+
+        this.hpbar.x = this.cameras.main.scrollX + 10;
+
+        this.ennemiesText.x = this.cameras.main.scrollX + 1500;
+        this.hpText.x = this.cameras.main.scrollX + 1500;
+        this.energyText.x = this.cameras.main.scrollX + 1500;
+
+        this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
+        this.hpText.setText(`HP: ${this.player.hp}/${this.player.hpmax}`);
+        this.energyText.setText(`Energy: ${this.player.energy}/${this.player.energymax}`);
 
         if (config.physics.arcade.debug)
         {
