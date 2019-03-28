@@ -67,6 +67,9 @@ export default class extends Phaser.Scene
 
         // HUD
         this.load.image('hud/gamepad', 'assets/hud/gamepad.png');
+        this.load.image('hud/hpbar/hp', 'assets/hud/hpbar/hp.png');
+        this.load.image('hud/hpbar/energy', 'assets/hud/hpbar/energy.png');
+        this.load.image('hud/hpbar/frame', 'assets/hud/hpbar/frame.png');
 
         // Level
         this.load.json('scenes/data', 'assets/scenes/level.json');
