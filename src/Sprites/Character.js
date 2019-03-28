@@ -19,6 +19,12 @@ export default class Character extends Phaser.GameObjects.Sprite
 
         this.hitboxes = getHitboxes(scene.cache.json.get(hitboxes), hitboxName);
         this.baseVelocity = 500;
+
+        this.hpmax = 200;
+        this.energymax = 100;
+
+        this.hp = this.hpmax;
+        this.energy = this.energymax;
     }
 
     createAnim (scene, key, frames, framerate, repeat)
@@ -29,6 +35,44 @@ export default class Character extends Phaser.GameObjects.Sprite
             frameRate: framerate,
             repeat: repeat
         });
+    }
+
+    setHp (hp)
+    {
+        let percent = hp / this.hpmax;
+
+        if (hp > this.hp) this.emit('hpgain', hp - this.hp, percent, this.hpmax);
+        if (hp < this.hp) this.emit('hploose', this.hp - hp, percent, this.hpmax);
+
+        this.hp = hp;
+
+        console.log('hp : ', this.hp, ':', percent * 100, ' %');
+    }
+
+    setEnergy (energy)
+    {
+        let percent = energy / this.energymax;
+
+        console.log(percent, energy, this.energy);
+
+        if (energy > this.energy) this.emit('energygain', energy - this.energy, percent, this.energymax);
+        if (energy < this.energy) this.emit('energyloose', this.energy - energy, percent, this.energymax);
+
+        this.energy = energy;
+
+        console.log('energy : ', this.energy, ':', percent * 100, ' %');
+    }
+
+    useEnergy (amount)
+    {
+        if (this.energy >= amount)
+        {
+            this.setEnergy(this.energy - amount);
+
+            return true;
+        }
+
+        return false;
     }
 
     idle ()
@@ -48,12 +92,17 @@ export default class Character extends Phaser.GameObjects.Sprite
 
     punch ()
     {
-        this.body.setVelocityX(0);
-        this.anims.play('punch', true);
-
-        if (this.scene.sounds)
+        if (this.useEnergy(5))
         {
-            if (this.scene.sounds.punch) this.scene.sounds.punch.play();
+            this.body.setVelocityX(0);
+            this.anims.play('punch', true);
+
+            if (this.scene.sounds)
+            {
+                if (this.scene.sounds.punch) this.scene.sounds.punch.play();
+            }
+
+            this.setHp(this.hp - 10);
         }
     }
 
