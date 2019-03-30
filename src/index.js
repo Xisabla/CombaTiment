@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
-import BootScene from './scenes/Boot';
-import SplashScene from './scenes/Splash';
+import BootScene from './Scenes/Boot';
+import SplashScene from './Scenes/Splash';
 import LevelSelect from './Scenes/LevelSelect';
 import Todo from './Scenes/Todo';
 import Level from './Scenes/Level';
