@@ -4,7 +4,7 @@ import config from '../config/game';
 import Character from '../Sprites/Character';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
-import HPBar from '../HUD/HPBar';
+import HPBar from '../UI/HPBar';
 
 export default class extends Phaser.Scene
 {
