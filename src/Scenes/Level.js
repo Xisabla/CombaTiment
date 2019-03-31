@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import config from '../config/game';
 
 import Character from '../Sprites/Character';
+import Player from '../Sprites/Player';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
@@ -48,11 +49,7 @@ export default class extends Phaser.Scene
         this.ground.create(5600, 810, 'levelselect/ground');
         this.add.image(5600, 710, 'levelselect/grass');
 
-        this.player = new Character(this, 40, 500, 'feilong/idle', this.ground, 'feilong/hitbox', 'feilong');
-        this.player.createAnim(this, 'idle', this.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10, -1);
-        this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
-        this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
-
+        this.player = new Player(this, 40, 500, this.ground);
         this.hpbar = new HPBar(this.player);
 
         this.hitboxGraphics = this.add.graphics();
@@ -60,6 +57,8 @@ export default class extends Phaser.Scene
         this.cameras.main.setBounds(0, 0, 5600, 900);
         this.cameras.main.startFollow(this.player.body);
         this.moveCamera = 0;
+
+        this.ennemy = new Character(this, 500, 500, 'feilong/idle', this.ground, 'feilong/hitbox', 'feilong');
 
         if (config.debug.level) this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
     }

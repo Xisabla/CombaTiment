@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import config from '../config/game';
 
-import Character from '../Sprites/Character';
+import Player from '../Sprites/Player';
 import LevelPanelCollection from '../UI/LevelPanelCollection';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
@@ -40,12 +40,7 @@ export default class extends Phaser.Scene
 
         this.panels.show(true, 200);
 
-        this.player = new Character(this, 40, 500, 'feilong/idle', this.ground, 'feilong/hitbox', 'feilong');
-        this.player.createAnim(this, 'idle', this.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10, -1);
-        this.player.createAnim(this, 'walk', this.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10, -1);
-        this.player.createAnim(this, 'punch', this.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10, -1);
-        this.player.createAnim(this, 'jump', this.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6, -1);
-        this.player.createAnim(this, 'forwardjump', this.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8, -1);
+        this.player = new Player(this, 40, 500, this.ground);
 
         this.hitboxGraphics = this.add.graphics();
     }
