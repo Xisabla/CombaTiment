@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
 import config from '../config/game';
 
-import Character from '../Sprites/Character';
 import Player from '../Sprites/Player';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
+import Bulb from '../Sprites/Bulb';
 
 export default class extends Phaser.Scene
 {
@@ -20,9 +20,10 @@ export default class extends Phaser.Scene
     create ()
     {
         this.sounds = {};
-        this.sounds.ambient = this.sound.add('music/tem', { loop: true, volume: 0.3 });
+        this.sounds.ambient = this.sound.add('music/nightoffire', { loop: true, volume: 0.2 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.ambient.play();
+        this.sounds.ambient.setSeek(36.5);
 
         this.data = this.cache.json.get('scenes/data');
         this.data.lastWaveScreen = 0;
@@ -49,8 +50,10 @@ export default class extends Phaser.Scene
         this.ground.create(5600, 810, 'levelselect/ground');
         this.add.image(5600, 710, 'levelselect/grass');
 
-        this.player = new Player(this, 40, 500, this.ground);
+        this.player = new Player(this, 40, 553, this.ground);
         this.hpbar = new HPBar(this.player);
+
+        this.ennemy = new Bulb(this, 500, 564, this.ground);
 
         this.hitboxGraphics = this.add.graphics();
 
@@ -58,9 +61,9 @@ export default class extends Phaser.Scene
         this.cameras.main.startFollow(this.player.body);
         this.moveCamera = 0;
 
-        this.ennemy = new Character(this, 500, 500, 'feilong/idle', this.ground, 'feilong/hitbox', 'feilong');
-
         if (config.debug.level) this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
+
+        updateHitboxes(this.player);
     }
 
     handleWave (index)
@@ -176,7 +179,7 @@ export default class extends Phaser.Scene
         if ((time % 500) < 30)
         {
             // Ennemies deal damage (TODO: Real ennemy damage (sprite, cooldown, ...))
-            if (this.data.ennemiesOnScreen > 0)
+            if (this.data.ennemiesOnScreen > 0 || this.ennemy.alive)
             {
                 this.player.looseHp(this.data.ennemiesOnScreen);
             }
@@ -200,14 +203,13 @@ export default class extends Phaser.Scene
         };
 
         this.player.update(time, input);
+        if (this.ennemy.alive) this.ennemy.update(time, this.player);
 
         this.handleCamera(); // handle camera and waveScreens if needed
 
         // For testing (TODO: Remove)
         if (input.attack2) this.player.gainHp(1);
         if (input.attack3) this.player.gainEnergy(1);
-
-        updateHitboxes(this.player);
 
         // HPBar follow cameras
         this.hpbar.x = this.cameras.main.scrollX + 10;
@@ -218,6 +220,6 @@ export default class extends Phaser.Scene
             this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
         }
 
-        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, [this.player]);
+        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, this.ennemy.alive ? [this.player, this.ennemy] : [this.player]);
     }
 };
