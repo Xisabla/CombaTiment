@@ -50,6 +50,7 @@ export default class extends Phaser.Scene
         this.load.audio('music/punch', ['assets/music/punch.ogg']);
         this.load.audio('music/menu_selection', ['assets/music/menu_selection.ogg']);
         this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
+        this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
 
         // Splash
         this.load.image('menu/background', 'assets/menu/background.png');
@@ -81,6 +82,15 @@ export default class extends Phaser.Scene
         this.load.spritesheet('feilong/jump', 'assets/feilong/jump.png', { frameWidth: 82, frameHeight: 187 });
         this.load.spritesheet('feilong/forwardjump', 'assets/feilong/forwardjump.png', { frameWidth: 90, frameHeight: 185 });
         this.load.json('feilong/hitbox', 'assets/feilong/hitboxes.json');
+
+        // Fridge
+        this.load.spritesheet('ennemies/fridge', 'assets/ennemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('ennemies/fridge/hitbox', 'assets/ennemies/hitbox-fridge.json');
+
+        // Bulb
+        this.load.spritesheet('ennemies/bulb/walking', 'assets/ennemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.spritesheet('ennemies/bulb/punch', 'assets/ennemies/bulb-punch.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('ennemies/bulb/hitbox', 'assets/ennemies/hitbox-bulb.json');
 
         WebFont.load({
             google: {
