@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { getHitboxes } from '../Engine/Hitbox';
+import { getHitboxes, updateHitboxes } from '../Engine/Hitbox';
 
 export default class Character extends Phaser.GameObjects.Sprite
 {
@@ -13,6 +13,7 @@ export default class Character extends Phaser.GameObjects.Sprite
         scene.physics.add.collider(this, ground);
 
         this.setOrigin(0);
+        this.alive = true;
 
         this.body.setBounce(0);
         this.body.setCollideWorldBounds(true);
@@ -66,6 +67,20 @@ export default class Character extends Phaser.GameObjects.Sprite
     createAnims ()
     {}
 
+    idle ()
+    {
+        this.hitboxes.active = 'still';
+        this.body.setVelocityX(0);
+    }
+
     update (time, input)
-    {}
+    {
+        if (this.hp <= 0)
+        {
+            this.alive = false;
+            this.destroy();
+        }
+
+        if (this.alive) updateHitboxes(this);
+    }
 }
