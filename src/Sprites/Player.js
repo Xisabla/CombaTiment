@@ -1,5 +1,6 @@
 import config from '../config/game';
 import Character from './Character';
+import { isOver } from '../Engine/Hitbox';
 
 export default class Player extends Character
 {
@@ -59,7 +60,7 @@ export default class Player extends Character
         this.body.setVelocityX(0);
     }
 
-    walk (velocity = 500, right = true)
+    walk (velocity = this.baseVelocity, right = true)
     {
         this.hitboxes.active = 'walking';
         this.setFlipX(!right);
@@ -73,6 +74,17 @@ export default class Player extends Character
         {
             this.body.setVelocityX(0);
             this.anims.play('punch', true);
+
+            // TODO: Multiple ennemies in scene
+            if (this.scene.ennemy)
+            {
+                let ennemy = this.scene.ennemy;
+
+                if (isOver(this.hitboxes.punch[1], ennemy.hitboxes[ennemy.hitboxes.active][0]))
+                {
+                    ennemy.looseHp(20);
+                }
+            }
 
             if (this.scene.sounds)
             {
@@ -149,5 +161,8 @@ export default class Player extends Character
             this.hpText.setText(`HP: ${this.hp}/${this.hpmax}`);
             this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
         }
+
+        if (this.hp <= 0) this.scene.scene.start('SplashScene');
+        super.update();
     }
 }
