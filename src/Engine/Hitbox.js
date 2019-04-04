@@ -83,6 +83,13 @@ export function getHitboxes (jsonFile, name)
 
 export function isOver (rectA, rectB)
 {
+    /** NO CARE TOP/BOTTOM
+    if (rectA.left <= rectB.left && rectA.right >= rectB.right) return true;
+    else if (rectA.left >= rectB.left && rectA.right <= rectB.right) return true;
+    else if (rectA.left >= rectB.left && rectA.left <= rectB.right) return true;
+    else if (rectA.left <= rectB.left && rectA.right >= rectB.left) return true;
+    */
+
     return (
         (rectA.right >= rectB.left && rectA.right <= rectB.right && rectA.bottom <= rectB.bottom && rectA.bottom >= rectB.top) ||
         (rectA.right >= rectB.left && rectA.right <= rectB.right && rectA.top >= rectB.top && rectA.top <= rectB.bottom) ||
