@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import config from '../config/game';
 
 import Player from '../Sprites/Player';
 import Input from '../Input/Input';
@@ -60,8 +59,6 @@ export default class extends Phaser.Scene
         this.cameras.main.setBounds(0, 0, 5600, 900);
         this.cameras.main.startFollow(this.player.body);
         this.moveCamera = 0;
-
-        if (config.debug.level) this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
 
         updateHitboxes(this.player);
     }
@@ -175,6 +172,8 @@ export default class extends Phaser.Scene
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
+        if (input.sudo) this.game.config.physics.arcade.debug = true;
+
         // "Randomly"
         if ((time % 500) < 30)
         {
@@ -214,12 +213,21 @@ export default class extends Phaser.Scene
         // HPBar follow cameras
         this.hpbar.x = this.cameras.main.scrollX + 10;
 
-        if (config.debug.level)
+        if (this.game.config.physics.arcade.debug)
         {
+            if (!this.ennemiesText) this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
+
             this.ennemiesText.x = this.cameras.main.scrollX + 1500;
             this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
-        }
 
-        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, this.player.alive ? [] : this.ennemy.alive ? [this.player, this.ennemy] : [this.player]);
+            let mustRender = [];
+
+            if (this.player.alive) mustRender.push(this.player);
+            if (this.ennemy.alive) mustRender.push(this.ennemy);
+
+            renderHitboxes(this.hitboxGraphics, mustRender);
+
+            //            renderHitboxes(this.hitboxGraphics, this.player.alive ? [] : this.ennemy.alive ? [this.player, this.ennemy] : [this.player]);
+        }
     }
 };

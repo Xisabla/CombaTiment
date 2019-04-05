@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import config from '../config/game';
 
 import Player from '../Sprites/Player';
 import LevelPanelCollection from '../UI/LevelPanelCollection';
@@ -11,6 +10,8 @@ export default class extends Phaser.Scene
     constructor ()
     {
         super({ key: 'LevelSelect' });
+
+        this.checkingSudo = false;
     }
 
     init ()
@@ -49,6 +50,8 @@ export default class extends Phaser.Scene
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
+        if (input.sudo) this.game.config.physics.arcade.debug = true;
+
         // Avoid crash: wait until the show animation is done
         if (time >= this.panels.panels.length * 200 * 2 * 1.5)
         {
@@ -68,6 +71,6 @@ export default class extends Phaser.Scene
 
         updateHitboxes(this.player);
 
-        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, [this.player]);
+        if (this.game.config.physics.arcade.debug) renderHitboxes(this.hitboxGraphics, [this.player]);
     }
 };

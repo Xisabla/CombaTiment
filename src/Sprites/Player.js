@@ -1,4 +1,3 @@
-import config from '../config/game';
 import Character from './Character';
 import { updateHitboxes, isOver } from '../Engine/Hitbox';
 
@@ -153,7 +152,7 @@ export default class Player extends Character
         else if (!this.body.touching.down && this.body.velocity.x !== 0) this.animForwardJump();
         else this.idle();
 
-        if (config.debug.character)
+        if (this.scene.game.config.physics.arcade.debug)
         {
             if (!this.hpText) this.hpText = this.scene.add.text(1500, 825, `HP: ${this.hp}/${this.hpmax}`).setOrigin(1).setFontSize(20);
             if (!this.energyText) this.energyText = this.scene.add.text(1500, 850, `Energy: ${this.energy}/${this.energymax}`).setOrigin(1).setFontSize(20);
