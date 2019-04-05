@@ -16,16 +16,23 @@ export default class extends Phaser.Scene
         this.add.image(800, 450, 'menu/background');
 
         this.sounds = {};
-        this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.3 });
+        this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.8 });
         this.sounds.menu = this.sound.add('music/menu_selection');
         this.sounds.ambient.play();
 
-        this.menu = new Menu(this, {
-            title: { image: 'menu/title',
-                y: 100,
-                offsetBottom: -60 },
+        this.frame = this.add.graphics();
+        this.frame.fillStyle(0x000000, 0.4);
+        this.frame.fillRect(550, 200, 500, 450);
 
-            choices: { color: '#2c3e50',
+        this.menu = new Menu(this, {
+            title: { text: 'CombaTiment',
+                fontFamily: 'Anton',
+                fontSize: 120,
+                color: '#000000',
+                y: 100,
+                offsetBottom: 80 },
+
+            choices: { color: '#ffffff',
                 fontFamily: 'Raleway',
                 fontSize: 32,
                 offset: 40,
