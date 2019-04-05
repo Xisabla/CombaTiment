@@ -220,6 +220,6 @@ export default class extends Phaser.Scene
             this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
         }
 
-        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, this.ennemy.alive ? [this.player, this.ennemy] : [this.player]);
+        if (config.debug.hitboxes) renderHitboxes(this.hitboxGraphics, this.player.alive ? [] : this.ennemy.alive ? [this.player, this.ennemy] : [this.player]);
     }
 };

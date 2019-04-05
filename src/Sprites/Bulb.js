@@ -72,7 +72,20 @@ export default class Bulb extends Character
 
             if (isOver(this.hitboxes.attack[1], player.hitboxes[player.hitboxes.active][0]))
             {
-                player.looseHp(5);
+                let damage = 20;
+
+                if (damage >= player.hp)
+                {
+                    this.scene.cameras.main.flash(2000);
+                    this.scene.cameras.main.shake(200, 0.1);
+                }
+                else
+                {
+                    this.scene.cameras.main.flash();
+                    this.scene.cameras.main.shake(200, 0.005);
+                }
+
+                player.looseHp(damage);
             }
         }
 
@@ -88,11 +101,10 @@ export default class Bulb extends Character
 
     update (time, player)
     {
-        // TODO: Check for player alive
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'bulbAttack') this.animPunch(player);
-        else if (isOver(this.hitboxes.attack[1], player.hitboxes[player.hitboxes.active][0])) this.attack(player);
-        else if (this.hitboxes[this.hitboxes.active][0].left > player.hitboxes[player.hitboxes.active][0].right) this.walk(this.baseVelocity, false);
-        else if (this.hitboxes[this.hitboxes.active][0].right < player.hitboxes[player.hitboxes.active][0].left) this.walk(this.baseVelocity, true);
+        else if (player && player.alive && isOver(this.hitboxes.attack[1], player.hitboxes[player.hitboxes.active][0])) this.attack(player);
+        else if (player && player.alive && this.hitboxes[this.hitboxes.active][0].left > player.hitboxes[player.hitboxes.active][0].right) this.walk(this.baseVelocity, false);
+        else if (player && player.alive && this.hitboxes[this.hitboxes.active][0].right < player.hitboxes[player.hitboxes.active][0].left) this.walk(this.baseVelocity, true);
         else this.idle();
 
         super.update();
