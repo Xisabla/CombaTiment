@@ -94,7 +94,7 @@ export default class extends Phaser.Scene
 
         WebFont.load({
             google: {
-                families: ['Raleway', 'Cairo']
+                families: ['Raleway', 'Cairo', 'Anton']
             },
             active: () =>
             {
