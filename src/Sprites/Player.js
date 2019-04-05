@@ -1,6 +1,6 @@
 import config from '../config/game';
 import Character from './Character';
-import { isOver } from '../Engine/Hitbox';
+import { updateHitboxes, isOver } from '../Engine/Hitbox';
 
 export default class Player extends Character
 {
@@ -76,7 +76,7 @@ export default class Player extends Character
             this.anims.play('punch', true);
 
             // TODO: Multiple ennemies in scene
-            if (this.scene.ennemy)
+            if (this.scene.ennemy && this.scene.ennemy.alive)
             {
                 let ennemy = this.scene.ennemy;
 
@@ -142,6 +142,8 @@ export default class Player extends Character
 
     update (time, input)
     {
+        if (!this.alive) return;
+
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
         else if (input.attack1 && this.body.touching.down) this.punch();
         else if (input.jump && this.body.touching.down) this.jump(input);
@@ -162,7 +164,23 @@ export default class Player extends Character
             this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
         }
 
-        if (this.hp <= 0) this.scene.scene.start('SplashScene');
-        super.update();
+        if (this.hp <= 0)
+        {
+            if (this.scene.sounds.ambient)
+            {
+                this.scene.sounds.ambient.stop();
+            }
+
+            setTimeout(() =>
+            {
+                this.baseScene.scene.start('SplashScene');
+                this.destroy();
+            }, 2000);
+
+            this.alive = false;
+            this.visible = false;
+        }
+
+        if (this.alive) updateHitboxes(this);
     }
 }

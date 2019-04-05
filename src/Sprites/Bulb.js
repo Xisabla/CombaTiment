@@ -15,6 +15,18 @@ export default class Bulb extends Character
 
         this.setScale(0.5);
         this.attackDone = false;
+
+        this.hpbarback = this.scene.add.graphics();
+        this.hpbar = this.scene.add.graphics();
+
+        this.hpBaseY = this.y - 20;
+        this.hpBaseX = 40;
+
+        this.hpbarback.fillStyle(0x696969, 0.7);
+        this.hpbarback.fillRect(this.hpBaseX, this.hpBaseY, 100, 10);
+
+        this.hpbar.fillStyle(0xe60000, 0.7);
+        this.hpbar.fillRect(this.hpBaseX, this.hpBaseY, 100, 10);
     }
 
     createAnims ()
@@ -84,5 +96,18 @@ export default class Bulb extends Character
         else this.idle();
 
         super.update();
+
+        if (this.alive)
+        {
+            this.hpbarback.setX(this.x);
+            this.hpbar.clear();
+            this.hpbar.fillStyle(0xe60000, 0.7);
+            this.hpbar.fillRect(this.x + 40, this.hpBaseY, 100 * this.hp / this.hpmax, 10);
+        }
+        else
+        {
+            this.hpbarback.destroy();
+            this.hpbar.destroy();
+        }
     }
 }
