@@ -72,7 +72,7 @@ export default class Bulb extends Character
 
             if (isOver(this.hitboxes.attack[1], player.hitboxes[player.hitboxes.active][0]))
             {
-                let damage = 20;
+                let damage = 50;
 
                 if (damage >= player.hp)
                 {

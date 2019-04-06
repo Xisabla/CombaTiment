@@ -167,17 +167,38 @@ export default class Player extends Character
         {
             if (this.scene.sounds.ambient)
             {
-                this.scene.sounds.ambient.stop();
+                let initVolume = this.scene.sounds.ambient.volume;
+
+                let tick = 0;
+                let tickTime = 10;
+                let time = 1500;
+
+                let timer = setInterval(() =>
+                {
+                    tick++;
+                    this.scene.sounds.ambient.setVolume(initVolume * (1 - tick / (time / tickTime)));
+
+                    if (tick >= time / tickTime) clearInterval(timer);
+                }, tickTime);
             }
+
+            this.scene.cameras.main.zoomTo(2, 1000);
 
             setTimeout(() =>
             {
-                this.baseScene.scene.start('SplashScene');
+                this.scene.scene.start('SplashScene');
+                this.scene.sounds.ambient.stop();
                 this.destroy();
             }, 2000);
 
             this.alive = false;
             this.visible = false;
+        }
+        else
+        {
+            // Temp regen
+            this.gainHp(0.1);
+            this.gainEnergy(0.1);
         }
 
         if (this.alive) updateHitboxes(this);

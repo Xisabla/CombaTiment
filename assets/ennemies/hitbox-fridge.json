@@ -2,7 +2,7 @@
 	"fridge" :
 		{
 			"active" :"still",
-			"attack1" : [
+			"attack" : [
 				{
 					"label" : "body",
 					"x" : 40,
