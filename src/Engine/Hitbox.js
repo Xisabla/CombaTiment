@@ -21,7 +21,7 @@ export class Hitbox
 
         this.flip = function (player)
         {
-            this.x = player.body.width - this.x - this.width;
+            this.x = player.displayWidth - this.x - this.width;
             this.flipped = !this.flipped;
         };
     }
