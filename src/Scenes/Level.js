@@ -5,6 +5,7 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import Bulb from '../Sprites/Bulb';
+import Fridge from '../Sprites/Fridge';
 
 export default class extends Phaser.Scene
 {
@@ -201,7 +202,12 @@ export default class extends Phaser.Scene
             }
         };
 
-        this.player.update(time, input);
+        if (!this.ennemy.alive)
+        {
+            this.ennemy = Math.random() >= 0.5 ? new Bulb(this, this.player.x + 300, 564, this.ground) : new Fridge(this, this.player.x + 300, 564, this.ground);
+        }
+
+        if (this.player.alive) this.player.update(time, input);
         if (this.ennemy.alive) this.ennemy.update(time, this.player);
 
         this.handleCamera(); // handle camera and waveScreens if needed
@@ -226,8 +232,6 @@ export default class extends Phaser.Scene
             if (this.ennemy.alive) mustRender.push(this.ennemy);
 
             renderHitboxes(this.hitboxGraphics, mustRender);
-
-            //            renderHitboxes(this.hitboxGraphics, this.player.alive ? [] : this.ennemy.alive ? [this.player, this.ennemy] : [this.player]);
         }
     }
 };
