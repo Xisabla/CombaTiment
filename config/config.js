@@ -13,13 +13,13 @@ module.exports = {
         hints: false,
 
         // use eslint loader ?
-        // If true, webpack will lint the code during the blundling.
-        // Linting errors and warnigs we be shown in the console.
+        // If true, webpack will lint the code during the bundling.
+        // Linting errors and warnings we be shown in the console.
         useEslint: true,
 
         // Webpack devServer settings
         server: {
-            // Server listenning
+            // Server listening
             host: 'localhost',
             port: 3000,
 

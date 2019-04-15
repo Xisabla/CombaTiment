@@ -8,7 +8,7 @@ module.exports = merge(WebpackConfig, {
 
     devServer: {
         compress: true,
-        host: config.dev.server.host || 'localost',
+        host: config.dev.server.host || 'localhost',
         port: config.dev.server.port || 3000
     },
 
