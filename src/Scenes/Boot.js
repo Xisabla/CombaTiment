@@ -63,7 +63,7 @@ export default class extends Phaser.Scene
         this.load.image('levelselect/grass', 'assets/levelselect/grass.png');
 
         // Gameplay
-        this.load.image('ennemy/apple', 'assets/sprites/apple.png');
+        this.load.image('enemy/apple', 'assets/sprites/apple.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
 
         // HUD
@@ -84,13 +84,13 @@ export default class extends Phaser.Scene
         this.load.json('feilong/hitbox', 'assets/feilong/hitboxes.json');
 
         // Fridge
-        this.load.spritesheet('ennemies/fridge', 'assets/ennemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
-        this.load.json('ennemies/fridge/hitbox', 'assets/ennemies/hitbox-fridge.json');
+        this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/fridge/hitbox', 'assets/enemies/hitbox-fridge.json');
 
         // Bulb
-        this.load.spritesheet('ennemies/bulb/walking', 'assets/ennemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });
-        this.load.spritesheet('ennemies/bulb/punch', 'assets/ennemies/bulb-punch.png', { frameWidth: 320, frameHeight: 320 });
-        this.load.json('ennemies/bulb/hitbox', 'assets/ennemies/hitbox-bulb.json');
+        this.load.spritesheet('enemies/bulb/walking', 'assets/enemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.spritesheet('enemies/bulb/punch', 'assets/enemies/bulb-punch.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/bulb/hitbox', 'assets/enemies/hitbox-bulb.json');
 
         WebFont.load({
             google: {

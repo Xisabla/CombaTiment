@@ -18,7 +18,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
         this.name = settings.name || '';
 
         this.power = settings.power || '';
-        this.ennemies = settings.ennemies || [];
+        this.enemies = settings.enemies || [];
 
         this.selected = false;
 
@@ -60,9 +60,9 @@ export default class LevelPanel extends Phaser.GameObjects.Container
             .setOrigin(0));
     }
 
-    showEnnemies ()
+    showEnemies ()
     {
-        this.add(new Phaser.GameObjects.Text(this.scene, 20, 230, 'Ennemies: ', {
+        this.add(new Phaser.GameObjects.Text(this.scene, 20, 230, 'Enemies: ', {
             fontFamily: 'Raleway',
             fontSize: 24 }));
 
@@ -78,7 +78,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
         let x = baseX;
         let y = baseY;
 
-        this.ennemies.forEach(ennemy =>
+        this.enemies.forEach(ennemy =>
         {
             this.add(new Phaser.GameObjects.Sprite(this.scene, x, y, ennemy)
                 .setDisplaySize(size, size)
@@ -97,7 +97,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
     {
         this.showBase();
         this.showPower();
-        this.showEnnemies();
+        this.showEnemies();
     }
 
     bounce (pixels = 5, time = 200, tick = 10)

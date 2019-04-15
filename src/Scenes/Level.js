@@ -31,7 +31,7 @@ export default class extends Phaser.Scene
         this.data.waveScreenFinished = true;
         this.data.waveFinished = true;
         this.data.finishingWave = false;
-        this.data.ennemiesOnScreen = 0;
+        this.data.enemiesOnScreen = 0;
 
         this.physics.world.bounds.width = 5600;
         this.physics.world.bounds.height = 900;
@@ -53,7 +53,7 @@ export default class extends Phaser.Scene
         this.player = new Player(this, 40, 553, this.ground);
         this.hpbar = new HPBar(this.player);
 
-        this.ennemy = new Bulb(this, 500, 564, this.ground);
+        this.enemy = new Bulb(this, 500, 564, this.ground);
 
         this.hitboxGraphics = this.add.graphics();
 
@@ -71,26 +71,26 @@ export default class extends Phaser.Scene
         if (this.data.waveFinished) // if the previous wave is finished
         {
             this.data.waveFinished = false;
-            console.log(wave.ennemies.length + ' ennemies spawned !'); // spawn new ennemies
-            this.data.ennemiesOnScreen += wave.ennemies.length;
+            console.log(wave.enemies.length + ' enemies spawned !'); // spawn new enemies
+            this.data.enemiesOnScreen += wave.enemies.length;
             this.data.currentWave++;
-            /* this.ennemySpawn = setInterval(function(){
-                console.log("Ennemy " + wave.ennemies[this.data.ennemiesOnScreen] + " spawned !");
-                this.data.ennemiesOnScreen++;
-                console.log(wave.ennemies.length);
-                if(this.data.nbEnnemies >= wave.ennemies.length)
+            /* this.enemySpawn = setInterval(function(){
+                console.log("Enemy " + wave.enemies[this.data.enemiesOnScreen] + " spawned !");
+                this.data.enemiesOnScreen++;
+                console.log(wave.enemies.length);
+                if(this.data.nbEnemies >= wave.enemies.length)
                 {
-                    clearInterval(scene.ennemySpawn);
+                    clearInterval(scene.enemySpawn);
                 }
             }, 100); */
         }
 
-        if (this.data.ennemiesOnScreen <= this.data.screens[index].nextWave.ennemiesNumber)
+        if (this.data.enemiesOnScreen <= this.data.screens[index].nextWave.enemiesNumber)
         {
-            // go to next wave if the condition is fulfilled or if there are no ennemies (for the last wave)
+            // go to next wave if the condition is fulfilled or if there are no enemies (for the last wave)
             if (this.data.screens[index].waves.length === this.data.currentWave)
             {
-                if (!this.data.ennemiesOnScreen)
+                if (!this.data.enemiesOnScreen)
                 {
                     this.data.waveFinished = true;
                 }
@@ -178,12 +178,12 @@ export default class extends Phaser.Scene
         // "Randomly"
         if ((time % 500) < 30)
         {
-            // Ennemies deal damage (TODO: Real ennemy damage (sprite, cooldown, ...))
-            if (this.data.ennemiesOnScreen > 0 || this.ennemy.alive)
+            // Enemies deal damage (TODO: Real enemy damage (sprite, cooldown, ...))
+            if (this.data.enemiesOnScreen > 0 || this.enemy.alive)
             {
-                this.player.looseHp(this.data.ennemiesOnScreen);
+                this.player.looseHp(this.data.enemiesOnScreen);
             }
-            // Or regenerate if no ennemies TODO: "Natural" regeneration (out-of-fight cooldown)
+            // Or regenerate if no enemies TODO: "Natural" regeneration (out-of-fight cooldown)
             else
             {
                 this.player.gainHp(1);
@@ -191,24 +191,24 @@ export default class extends Phaser.Scene
             }
         }
 
-        // If not: jumping or already punching, then kill an ennemy on input.attack1
+        // If not: jumping or already punching, then kill an enemy on input.attack1
         if (input.attack1 && !['punch', 'jump', 'forwardjump'].includes(this.player.anims.currentAnim.key))
         {
-            this.data.ennemiesOnScreen--; // kill an ennemy
+            this.data.enemiesOnScreen--; // kill an enemy
 
-            if (this.data.ennemiesOnScreen < 0)
+            if (this.data.enemiesOnScreen < 0)
             {
-                this.data.ennemiesOnScreen = 0;
+                this.data.enemiesOnScreen = 0;
             }
         };
 
-        if (!this.ennemy.alive)
+        if (!this.enemy.alive)
         {
-            this.ennemy = Math.random() >= 0.5 ? new Bulb(this, this.player.x + 300, 564, this.ground) : new Fridge(this, this.player.x + 300, 564, this.ground);
+            this.enemy = Math.random() >= 0.5 ? new Bulb(this, this.player.x + 300, 564, this.ground) : new Fridge(this, this.player.x + 300, 564, this.ground);
         }
 
         if (this.player.alive) this.player.update(time, input);
-        if (this.ennemy.alive) this.ennemy.update(time, this.player);
+        if (this.enemy.alive) this.enemy.update(time, this.player);
 
         this.handleCamera(); // handle camera and waveScreens if needed
 
@@ -221,15 +221,15 @@ export default class extends Phaser.Scene
 
         if (this.game.config.physics.arcade.debug)
         {
-            if (!this.ennemiesText) this.ennemiesText = this.add.text(1500, 800, 'Ennemies: 0').setOrigin(1).setFontSize(20);
+            if (!this.enemiesText) this.enemiesText = this.add.text(1500, 800, 'Enemies: 0').setOrigin(1).setFontSize(20);
 
-            this.ennemiesText.x = this.cameras.main.scrollX + 1500;
-            this.ennemiesText.setText(`Ennemies: ${this.data.ennemiesOnScreen}`);
+            this.enemiesText.x = this.cameras.main.scrollX + 1500;
+            this.enemiesText.setText(`Enemies: ${this.data.enemiesOnScreen}`);
 
             let mustRender = [];
 
             if (this.player.alive) mustRender.push(this.player);
-            if (this.ennemy.alive) mustRender.push(this.ennemy);
+            if (this.enemy.alive) mustRender.push(this.enemy);
 
             renderHitboxes(this.hitboxGraphics, mustRender);
         }

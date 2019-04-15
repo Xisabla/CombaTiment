@@ -1,23 +1,23 @@
 {
     "waves": [
         {
-            "ennemies": [ "apple", "apple","apple","apple" ],
+            "enemies": [ "apple", "apple","apple","apple" ],
             "timeout": 100
         }
     ],
- 
+
     "screens": [
         {
             "waves": [0, 0, 0],
-            "nextWave": {"ennemiesNumber": 1}
+            "nextWave": {"enemiesNumber": 1}
         },
         {
             "waves": [0, 0],
-            "nextWave": {"ennemiesNumber": 2}
+            "nextWave": {"enemiesNumber": 2}
         },
         {
             "waves": [0, 0, 0],
-            "nextWave": {"ennemiesNumber": 1}
+            "nextWave": {"enemiesNumber": 1}
         }
     ]
 }

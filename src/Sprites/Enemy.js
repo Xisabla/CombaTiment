@@ -2,7 +2,7 @@
 import Character from './Character';
 import { isOver } from '../Engine/Hitbox';
 
-export default class Ennemy extends Character
+export default class Enemy extends Character
 {
     constructor (scene, name, x, y, spritesheet, ground, hitboxes, hitboxName, anims = {}, settings = {})
     {

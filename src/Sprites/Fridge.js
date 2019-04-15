@@ -1,23 +1,23 @@
-import Ennemy from './Ennemy';
+import Enemy from './Enemy';
 
-export default class Fridge extends Ennemy
+export default class Fridge extends Enemy
 {
     constructor (scene, x, y, ground)
     {
         super(
             scene, 'fridge', x, y,
-            'ennemies/fridge',
+            'enemies/fridge',
             ground,
-            'ennemies/fridge/hitbox', 'fridge',
+            'enemies/fridge/hitbox', 'fridge',
             {
-                'idle': { 'anim': scene.anims.generateFrameNumbers('ennemies/fridge', { start: 0, end: 0 }), 'framerate': 10 },
-                'walk': { 'anim': scene.anims.generateFrameNumbers('ennemies/fridge', { start: 0, end: 0 }), 'framerate': 10 },
+                'idle': { 'anim': scene.anims.generateFrameNumbers('enemies/fridge', { start: 0, end: 0 }), 'framerate': 10 },
+                'walk': { 'anim': scene.anims.generateFrameNumbers('enemies/fridge', { start: 0, end: 0 }), 'framerate': 10 },
                 'attack': { 'anim': [
-                    { key: 'ennemies/fridge', frame: 0 },
-                    { key: 'ennemies/fridge', frame: 0 },
-                    { key: 'ennemies/fridge', frame: 1 },
-                    { key: 'ennemies/fridge', frame: 0 },
-                    { key: 'ennemies/fridge', frame: 0 }
+                    { key: 'enemies/fridge', frame: 0 },
+                    { key: 'enemies/fridge', frame: 0 },
+                    { key: 'enemies/fridge', frame: 1 },
+                    { key: 'enemies/fridge', frame: 0 },
+                    { key: 'enemies/fridge', frame: 0 }
                 ],
                 'framerate': 5 }
             },

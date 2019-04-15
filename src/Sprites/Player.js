@@ -80,14 +80,14 @@ export default class Player extends Character
             this.body.setVelocityX(0);
             this.anims.play('punch', true);
 
-            // TODO: Multiple ennemies in scene
-            if (this.scene.ennemy && this.scene.ennemy.alive)
+            // TODO: Multiple enemies in scene
+            if (this.scene.enemy && this.scene.enemy.alive)
             {
-                let ennemy = this.scene.ennemy;
+                let enemy = this.scene.enemy;
 
-                if (isOver(this.hitboxes.punch[1], ennemy.hitboxes[ennemy.hitboxes.active][0]))
+                if (isOver(this.hitboxes.punch[1], enemy.hitboxes[enemy.hitboxes.active][0]))
                 {
-                    ennemy.looseHp(20);
+                    enemy.looseHp(20);
                 }
             }
 

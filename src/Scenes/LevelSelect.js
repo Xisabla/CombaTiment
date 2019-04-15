@@ -34,10 +34,10 @@ export default class extends Phaser.Scene
         this.add.image(300, 810, 'hud/gamepad').setScale(0.4);
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
 
-        this.panels.add({ color: 0xf39c12, name: 'Consommation\nd\'énergie', power: 'power/thunder', ennemies: ['ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple'] });
-        this.panels.add({ color: 0xe74c3c, name: 'Consommation\nd\'énergie', power: 'power/thunder', ennemies: ['ennemy/apple', 'ennemy/apple', 'ennemy/apple'] });
-        this.panels.add({ color: 0x3498db, name: 'Consommation\nd\'énergie', power: 'power/thunder', ennemies: ['ennemy/apple', 'ennemy/apple', 'ennemy/apple', 'ennemy/apple'] });
-        this.panels.add({ color: 0x2ecc71, name: 'Consommation\nd\'énergie', power: 'power/thunder', ennemies: ['ennemy/apple', 'ennemy/apple'] });
+        this.panels.add({ color: 0xf39c12, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple'] });
+        this.panels.add({ color: 0xe74c3c, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple'] });
+        this.panels.add({ color: 0x3498db, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple'] });
+        this.panels.add({ color: 0x2ecc71, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple'] });
 
         this.panels.show(true, 200);
 
