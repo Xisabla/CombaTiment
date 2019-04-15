@@ -52,6 +52,12 @@ export default class Player extends Character
         return this.setEnergy(this.energy + amount);
     }
 
+    regenerate (hp = 0.1, energy = 0.1) 
+{
+        this.gainHp(hp);
+        this.gainEnergy(energy);
+    }
+
     idle ()
     {
         this.hitboxes.active = 'still';
@@ -139,6 +145,53 @@ export default class Player extends Character
         this.body.setVelocityX(0);
     }
 
+    die ()
+    {
+        // Fade sound
+        if (this.scene.sounds.ambient)
+        {
+            let initVolume = this.scene.sounds.ambient.volume;
+
+            let tick = 0;
+            let tickTime = 10;
+            let time = 1500;
+
+            let timer = setInterval(() =>
+            {
+                tick++;
+                this.scene.sounds.ambient.setVolume(initVolume * (1 - tick / (time / tickTime)));
+
+                if (tick >= time / tickTime) clearInterval(timer);
+            }, tickTime);
+        }
+
+        // Zoom
+        this.scene.cameras.main.zoomTo(2, 1000);
+
+        // Timed splashScreen
+        setTimeout(() =>
+        {
+            this.scene.scene.start('SplashScene');
+            this.scene.sounds.ambient.stop();
+            this.destroy();
+        }, 2000);
+
+        // Tell everyone that he's dead
+        this.alive = false;
+        this.visible = false;
+    }
+
+    debug ()
+    {
+        if (!this.hpText) this.hpText = this.scene.add.text(1500, 825, `HP: ${this.hp}/${this.hpmax}`).setOrigin(1).setFontSize(20);
+        if (!this.energyText) this.energyText = this.scene.add.text(1500, 850, `Energy: ${this.energy}/${this.energymax}`).setOrigin(1).setFontSize(20);
+
+        this.hpText.x = this.scene.cameras.main.scrollX + 1500;
+        this.energyText.x = this.scene.cameras.main.scrollX + 1500;
+        this.hpText.setText(`HP: ${this.hp}/${this.hpmax}`);
+        this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
+    }
+
     update (time, input)
     {
         if (!this.alive) return;
@@ -152,54 +205,10 @@ export default class Player extends Character
         else if (!this.body.touching.down && this.body.velocity.x !== 0) this.animForwardJump();
         else this.idle();
 
-        if (this.scene.game.config.physics.arcade.debug)
-        {
-            if (!this.hpText) this.hpText = this.scene.add.text(1500, 825, `HP: ${this.hp}/${this.hpmax}`).setOrigin(1).setFontSize(20);
-            if (!this.energyText) this.energyText = this.scene.add.text(1500, 850, `Energy: ${this.energy}/${this.energymax}`).setOrigin(1).setFontSize(20);
+        if (this.scene.game.config.physics.arcade.debug) this.debug();
 
-            this.hpText.x = this.scene.cameras.main.scrollX + 1500;
-            this.energyText.x = this.scene.cameras.main.scrollX + 1500;
-            this.hpText.setText(`HP: ${this.hp}/${this.hpmax}`);
-            this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
-        }
-
-        if (this.hp <= 0)
-        {
-            if (this.scene.sounds.ambient)
-            {
-                let initVolume = this.scene.sounds.ambient.volume;
-
-                let tick = 0;
-                let tickTime = 10;
-                let time = 1500;
-
-                let timer = setInterval(() =>
-                {
-                    tick++;
-                    this.scene.sounds.ambient.setVolume(initVolume * (1 - tick / (time / tickTime)));
-
-                    if (tick >= time / tickTime) clearInterval(timer);
-                }, tickTime);
-            }
-
-            this.scene.cameras.main.zoomTo(2, 1000);
-
-            setTimeout(() =>
-            {
-                this.scene.scene.start('SplashScene');
-                this.scene.sounds.ambient.stop();
-                this.destroy();
-            }, 2000);
-
-            this.alive = false;
-            this.visible = false;
-        }
-        else
-        {
-            // Temp regen
-            this.gainHp(0.1);
-            this.gainEnergy(0.1);
-        }
+        if (this.hp <= 0) this.die();
+        else this.regenerate();
 
         if (this.alive) updateHitboxes(this);
     }
