@@ -7,7 +7,7 @@ export default class Input
         this.keyboard = keyboard;
         this.gamepad = gamepad;
 
-        this.pad = this.findPad(this.gamepad);
+        this.pad = Input.findPad(this.gamepad);
         this.cursors = this.keyboard.createCursorKeys();
         this.keys = {
             A: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
@@ -58,7 +58,7 @@ export default class Input
         return baseVelocity;
     }
 
-    findPad (gamepad)
+    static findPad (gamepad)
     {
         let padIndex = 0;
 

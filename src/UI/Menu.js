@@ -48,7 +48,7 @@ export class Menu
          * @type {object}
          * @public
          */
-        this.cursor = this._parseCursor(cursor);
+        this.cursor = Menu._parseCursor(cursor);
 
         /**
          * Menu sounds
@@ -117,7 +117,7 @@ export class Menu
      *
      * @return {object} Parsed Cursor
      */
-    _parseCursor (cursor)
+    static _parseCursor (cursor)
     {
         let offset = cursor['offset'] || {};
 
