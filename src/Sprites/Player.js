@@ -52,8 +52,8 @@ export default class Player extends Character
         return this.setEnergy(this.energy + amount);
     }
 
-    regenerate (hp = 0.1, energy = 0.1) 
-{
+    regenerate (hp = 0.1, energy = 0.1)
+    {
         this.gainHp(hp);
         this.gainEnergy(energy);
     }
