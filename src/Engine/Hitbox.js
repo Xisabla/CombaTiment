@@ -18,13 +18,13 @@ export class Hitbox
         this.top = this.anchor.y + this.y;
         this.bottom = this.anchor.y + this.y + this.height;
         this.flipped = settings['flipped'] || false;
-
-        this.flip = function (player)
-        {
-            this.x = player.displayWidth - this.x - this.width;
-            this.flipped = !this.flipped;
-        };
     }
+
+    flip (player)
+    {
+        this.x = player.displayWidth - this.x - this.width;
+        this.flipped = !this.flipped;
+    };
 
     setX (x)
     {
@@ -183,7 +183,10 @@ export function updateHitboxes (player)
             for (let hitbox in player.hitboxes[name])
             {
                 player.hitboxes[name][hitbox].setXY(player.x, player.y);
-                if (player.flipX !== player.hitboxes[name][hitbox].flipped)
+                if (
+                    (!player.reverseFlipX && player.flipX !== player.hitboxes[name][hitbox].flipped) ||
+                    (player.reverseFlipX && player.flipX === player.hitboxes[name][hitbox].flipped)
+                )
                 {
                     player.hitboxes[name][hitbox].flip(player);
                 }

@@ -14,6 +14,7 @@ export default class Character extends Phaser.GameObjects.Sprite
 
         this.setOrigin(0);
         this.alive = true;
+        this.reverseFlipX = false;
 
         this.body.setBounce(0);
         this.body.setCollideWorldBounds(true);
