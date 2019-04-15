@@ -35,11 +35,11 @@ export class Menu
         this.choices = settings['choices'] || {};
 
         /**
-         * Global seperators settings
+         * Global separators settings
          * @type {object}
          * @public
          */
-        this.seperators = settings['seperators'] || {};
+        this.separators = settings['separators'] || {};
 
         let cursor = settings['cursor'] || {};
 
@@ -58,14 +58,14 @@ export class Menu
         this.sounds = settings['sounds'] || {};
 
         let choicesOffset = this.choices['offset'] || {};
-        let seperatorsOffset = this.seperators['offset'] || {};
+        let separatorsOffset = this.separators['offset'] || {};
 
         this.choices.offset = parseOffset(choicesOffset);
-        this.seperators.offset = parseOffset(seperatorsOffset);
+        this.separators.offset = parseOffset(separatorsOffset);
 
         /**
          * Ordered list of the menu's elements
-         * @type {Array<MenuOption|MenuSeperator>} Ordered list of elements of the menu
+         * @type {Array<MenuOption|MenuSeparator>} Ordered list of elements of the menu
          * @private
          */
         this.elements = [];
@@ -79,7 +79,7 @@ export class Menu
     }
 
     /**
-     * Parse Title paramater and return the parsed object
+     * Parse Title parameter and return the parsed object
      *
      * @param {object} title Title object
      *
@@ -111,7 +111,7 @@ export class Menu
     }
 
     /**
-     * Parse Cursor paramater and return the parsed object
+     * Parse Cursor parameter and return the parsed object
      *
      * @param {object} cursor Cursor object
      *
@@ -179,7 +179,7 @@ export class Menu
     /**
      * Add an element to the element's list
      *
-     * @param {MenuOption|MenuSeperator} element
+     * @param {MenuOption|MenuSeparator} element
      *
      * @return {Menu}
      */
@@ -317,14 +317,14 @@ export class Menu
             let settings = {};
 
             if (element instanceof MenuOption) settings = this.choices;
-            if (element instanceof MenuSeperator) settings = this.seperators;
+            if (element instanceof MenuSeparator) settings = this.separators;
 
             element.show(this.scene, x, y, settings);
 
             y += element.getHeight();
 
             if (element instanceof MenuOption) y += this.choices.offset.bottom;
-            if (element instanceof MenuSeperator) y += this.seperators.offset.bottom;
+            if (element instanceof MenuSeparator) y += this.separators.offset.bottom;
         });
     }
 
@@ -368,15 +368,15 @@ export class Menu
     }
 
     /**
-     * Initialy create and show the Menu's elements
+     * Initially create and show the Menu's elements
      */
     create ()
     {
         this._showTitle();
 
-        let titleHeigth = (this.title.type === 'text') ? (this.titleText.height) : (this.titleImage.height * this.title.scale);
+        let titleHeight = (this.title.type === 'text') ? (this.titleText.height) : (this.titleImage.height * this.title.scale);
 
-        let y = titleHeigth / 2 + this.title.y + this.title.offsetBottom;
+        let y = titleHeight / 2 + this.title.y + this.title.offsetBottom;
 
         this._showElements(this.title.x, y);
         this._showCursor();
@@ -418,7 +418,7 @@ export class MenuOption
         this.name = name;
 
         /**
-         * Option X positon
+         * Option X position
          * @type {number}
          * @private
          */
@@ -557,19 +557,19 @@ export class MenuOption
 };
 
 /**
- * Object that represent a Seperator in a Menu
+ * Object that represent a Separator in a Menu
  */
-export class MenuSeperator
+export class MenuSeparator
 {
     /**
-     * Create a MenuSeperator
+     * Create a MenuSeparator
      *
-     * @param {object} [settings={}] Settings of the seperator
+     * @param {object} [settings={}] Settings of the separator
      */
     constructor (settings = {})
     {
         /**
-         * Sepetrator Type
+         * Separator Type
          * @type {string}
          * @private
          */
@@ -579,7 +579,7 @@ export class MenuSeperator
         else if (settings['text'] || (settings['type'] && settings['type'].toLowerCase() === 'text')) this.type = 'text';
 
         /**
-         * Seperator base settings
+         * Separator base settings
          * @type {object}
          * @private
          */
@@ -599,28 +599,28 @@ export class MenuSeperator
         if (this.type === 'bar')
         {
             /**
-             * Seperator Bar Width
+             * Separator Bar Width
              * @type {number}
              * @public
              */
             this.width = settings['width'] || global['width'] || 100;
 
             /**
-             * Seperator Bar Height
+             * Separator Bar Height
              * @type {number}
              * @public
              */
             this.height = settings['height'] || global['height'] || 1;
 
             /**
-             * Seperator Bar Color
+             * Separator Bar Color
              * @type {number}
              * @public
              */
             this.color = settings['color'] || global['color'] || 0xffffff;
 
             /**
-             * Seperator Bar Alpha
+             * Separator Bar Alpha
              * @type {number}
              * @public
              */
@@ -630,28 +630,28 @@ export class MenuSeperator
         if (this.type === 'text')
         {
             /**
-             * Seperator Text Content
+             * Separator Text Content
              * @type {string}
              * @public
              */
             this.text = settings['text'] || global['text'] || '-----------';
 
             /**
-             * Seprator Text Color
+             * Separator Text Color
              * @type {string}
              * @public
              */
             this.color = settings['color'] || global['color'] || 'white';
 
             /**
-             * Seperator Text font family
+             * Separator Text font family
              * @type {string}
              * @public
              */
             this.fontFamily = settings['fontFamily'] || global['fontFamily'] || 'Courier';
 
             /**
-             * Seperator Text font size
+             * Separator Text font size
              * @type {number}
              * @public
              */
@@ -661,14 +661,14 @@ export class MenuSeperator
         if (this.type === 'image')
         {
             /**
-             * Seperator Image
+             * Separator Image
              * @type {string}
              * @public
              */
             this.image = settings['image'] || global['image'] || 'divider';
 
             /**
-             * Seperator Image Scale
+             * Separator Image Scale
              * @type {number}
              * @public
              */
@@ -676,7 +676,7 @@ export class MenuSeperator
         }
 
         /**
-         * Seperator Object Offset
+         * Separator Object Offset
          * @type {object}
          * @public
          */
@@ -684,21 +684,21 @@ export class MenuSeperator
     }
 
     /**
-     * Get the height of the graphical Seperator
+     * Get the height of the graphical Separator
      *
      * @return {number} Height of the Object
      */
     getHeight ()
     {
         if (this.type === 'bar') return this.height;
-        if (this.type === 'image') return this.seperatorImage.height * this.scale;
-        if (this.type === 'text') return this.seperatorText.height;
+        if (this.type === 'image') return this.separatorImage.height * this.scale;
+        if (this.type === 'text') return this.separatorText.height;
 
         return 0;
     }
 
     /**
-     * Show the Seperator Bar
+     * Show the Separator Bar
      *
      * @param {Phaser.Scene} scene Phaser Scene
      * @param {number} x X position
@@ -707,7 +707,7 @@ export class MenuSeperator
     _showBar (scene, x, y)
     {
         /**
-         * Seperator Bar Object
+         * Separator Bar Object
          * @type {Phaser.GameObjects.Graphics}
          * @private
          */
@@ -718,7 +718,7 @@ export class MenuSeperator
     }
 
     /**
-     * Show the Seperator Image
+     * Show the Separator Image
      *
      * @param {Phaser.Scene} scene Phaser Scene
      * @param {number} x X position
@@ -727,21 +727,21 @@ export class MenuSeperator
     _showImage (scene, x, y)
     {
         /**
-         * Seperator Image Object
+         * Separator Image Object
          * @type {Phaser.GameObjects.Image}
          * @private
          */
-        this.seperatorImage = scene.add.image(x, y, this.image);
+        this.separatorImage = scene.add.image(x, y, this.image);
 
-        this.seperatorImage.setOrigin(0.5);
-        this.seperatorImage.setScale(this.scale);
+        this.separatorImage.setOrigin(0.5);
+        this.separatorImage.setScale(this.scale);
 
-        y += this.seperatorImage.height * this.scale / 2;
-        this.seperatorImage.setPosition(x, y);
+        y += this.separatorImage.height * this.scale / 2;
+        this.separatorImage.setPosition(x, y);
     }
 
     /**
-     * Show the Seperator Text
+     * Show the Separator Text
      *
      * @param {Phaser.Scene} scene Phaser Scene
      * @param {number} x X position
@@ -750,26 +750,26 @@ export class MenuSeperator
     _showText (scene, x, y)
     {
         /**
-         * Seperator Text Object
+         * Separator Text Object
          * @type {Phaser.GameObjects.Text}
          * @private
          */
-        this.seperatorText = scene.add.text(x, y, this.text);
+        this.separatorText = scene.add.text(x, y, this.text);
 
-        this.seperatorText.setOrigin(0.5, 0);
-        this.seperatorText.setColor(this.color);
-        this.seperatorText.setFontFamily(this.fontFamily);
-        this.seperatorText.setFontSize(this.fontSize);
+        this.separatorText.setOrigin(0.5, 0);
+        this.separatorText.setColor(this.color);
+        this.separatorText.setFontFamily(this.fontFamily);
+        this.separatorText.setFontSize(this.fontSize);
 
-        y += this.seperatorText.height / 2;
+        y += this.separatorText.height / 2;
 
-        this.seperatorText.setPosition(x, y);
+        this.separatorText.setPosition(x, y);
     }
 
     /**
-     * Show the Seperator
+     * Show the Separator
      *
-     * @param {Phaser.Scene} scene Scene in which the Seperator will be showed
+     * @param {Phaser.Scene} scene Scene in which the Separator will be showed
      * @param {number} x X base position
      * @param {number} y Y base position
      * @param {object} settings Global settings to merge

@@ -54,14 +54,14 @@ export default class LoadingBar
         this.offsetBox = settings['offsetBox'] || 10;
 
         /**
-         * Offset on top of the LoadingBar bewteen the bar and the loading text
+         * Offset on top of the LoadingBar between the bar and the loading text
          * @type {number}
          * @public
          */
         this.offsetTop = settings['offsetTop'] || 25;
 
         /**
-         * Offset on the bottom of the LoadingBar bewteen the bar and the message text
+         * Offset on the bottom of the LoadingBar between the bar and the message text
          * @type {number}
          * @public
          */
@@ -117,7 +117,7 @@ export default class LoadingBar
         this.showMessageText = settings['messageText'] || true;
 
         /**
-         * Facultative MessageText prefix
+         * Facilitative MessageText prefix
          * @type {string|boolean}
          * @public
          */

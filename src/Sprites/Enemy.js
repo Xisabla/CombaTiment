@@ -139,9 +139,9 @@ export default class Enemy extends Character
         this.hpbar.destroy();
     }
 
-    update (time, player, ennemies = [])
+    update (time, player, enemies = [])
     {
-        // TODO: Ennemies collision
+        // TODO: Enemies collision
 
         if (this.isAttacking()) this.animAttack(player);
         else if (player && player.alive && this.canAttack(player)) this.attack(player);

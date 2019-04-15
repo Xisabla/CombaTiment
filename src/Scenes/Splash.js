@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Menu, MenuOption, MenuSeperator } from '../UI/Menu';
+import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
 import EventInput from '../Input/EventInput';
 
 export default class extends Phaser.Scene
@@ -46,7 +46,7 @@ export default class extends Phaser.Scene
                 select: this.sounds.menu
             },
 
-            seperators: { type: 'bar',
+            separators: { type: 'bar',
                 width: 150,
                 color: 0x1111111,
                 alpha: 0.5,
@@ -61,9 +61,9 @@ export default class extends Phaser.Scene
             this.scene.start('LevelSelect');
         } }));
 
-        this.menu.add(new MenuSeperator());
+        this.menu.add(new MenuSeparator());
         this.menu.add(new MenuOption('Load Game'));
-        this.menu.add(new MenuSeperator());
+        this.menu.add(new MenuSeparator());
         this.menu.add(new MenuOption('Credits'));
 
         this.menu.create();

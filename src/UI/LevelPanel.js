@@ -78,9 +78,9 @@ export default class LevelPanel extends Phaser.GameObjects.Container
         let x = baseX;
         let y = baseY;
 
-        this.enemies.forEach(ennemy =>
+        this.enemies.forEach(enemy =>
         {
-            this.add(new Phaser.GameObjects.Sprite(this.scene, x, y, ennemy)
+            this.add(new Phaser.GameObjects.Sprite(this.scene, x, y, enemy)
                 .setDisplaySize(size, size)
                 .setOrigin(0));
 
