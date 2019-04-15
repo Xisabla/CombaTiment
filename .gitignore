@@ -90,3 +90,6 @@ dist/
 !.vscode/extensions.json
 
 docs/
+
+# JetBrains
+.idea/*
