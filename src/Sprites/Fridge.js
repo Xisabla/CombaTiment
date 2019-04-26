@@ -19,9 +19,9 @@ export default class Fridge extends Enemy
                     { key: 'enemies/fridge', frame: 0 },
                     { key: 'enemies/fridge', frame: 0 }
                 ],
-                'framerate': 5 }
+                'framerate': 15 }
             },
-            { scale: 0.5, hpmax: 40, attackDamage: 20 }
+            { scale: 0.5 }
         );
 
         this.reverseFlipX = true;
