@@ -1,5 +1,5 @@
 import Character from './Character';
-import { updateHitboxes, isOver } from '../Engine/Hitbox';
+import { updateHitboxes } from '../Engine/Hitbox';
 
 export default class Player extends Character
 {
@@ -14,13 +14,14 @@ export default class Player extends Character
 
         this.energymax = 100;
         this.energy = this.energymax;
+        this.setDepth(1e6);
     }
 
     createAnims ()
     {
         this.createAnim('idle', this.scene.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10);
         this.createAnim('walk', this.scene.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10);
-        this.createAnim('punch', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 10);
+        this.createAnim('punch', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
         this.createAnim('jump', this.scene.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6);
         this.createAnim('forwardjump', this.scene.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8);
     }
@@ -52,7 +53,7 @@ export default class Player extends Character
         return this.setEnergy(this.energy + amount);
     }
 
-    regenerate (hp = 0.1, energy = 0.1)
+    regenerate (hp = 0, energy = 0.1)
     {
         this.gainHp(hp);
         this.gainEnergy(energy);
@@ -73,23 +74,14 @@ export default class Player extends Character
         this.body.setVelocityX(right ? Math.abs(velocity) : -Math.abs(velocity));
     }
 
-    punch ()
+    punch (enemies)
     {
-        if (this.useEnergy(5))
+        if (enemies && this.useEnergy(5))
         {
             this.body.setVelocityX(0);
             this.anims.play('punch', true);
 
-            // TODO: Multiple enemies in scene
-            if (this.scene.enemy && this.scene.enemy.alive)
-            {
-                let enemy = this.scene.enemy;
-
-                if (isOver(this.hitboxes.punch[1], enemy.hitboxes[enemy.hitboxes.active][0]))
-                {
-                    enemy.looseHp(20);
-                }
-            }
+            enemies.getOver(this.hitboxes.punch[1]).looseHp(20);
 
             if (this.scene.sounds)
             {
@@ -166,6 +158,7 @@ export default class Player extends Character
         }
 
         // Zoom
+        this.scene.cameras.main.centerOn(this.x, this.y);
         this.scene.cameras.main.zoomTo(2, 1000);
 
         // Timed splashScreen
@@ -192,12 +185,12 @@ export default class Player extends Character
         this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
     }
 
-    update (time, input)
+    update (time, input, enemies)
     {
         if (!this.alive) return;
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
-        else if (input.attack1 && this.body.touching.down) this.punch();
+        else if (input.attack1 && this.body.touching.down) this.punch(enemies);
         else if (input.jump && this.body.touching.down) this.jump(input);
         else if (input.direction.left && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), false);
         else if (input.direction.right && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), true);

@@ -7,8 +7,10 @@ export default class Enemy extends Character
     constructor (scene, name, x, y, spritesheet, ground, hitboxes, hitboxName, anims = {}, settings = {})
     {
         let baseVelocity = settings.baseVelocity || 250;
-        let hpmax = settings.hpmax || 100;
+        let hpmax = settings.hpmax || 40;
         let scale = settings.scale || 1;
+
+        if (settings.hpRandom) hpmax *= Math.random() * 2;
 
         super(scene, x, y,
             spritesheet,
@@ -20,7 +22,7 @@ export default class Enemy extends Character
         this.name = name;
         this.setScale(scale);
 
-        this.attackDamage = settings.attackDamage || 50;
+        this.attackDamage = settings.attackDamage || 10;
         this.hpbarOffset = settings.hpbarOffset || { x: 40, y: -20 };
 
         this.attackDone = false;
@@ -87,7 +89,7 @@ export default class Enemy extends Character
         {
             this.attackDone = true;
 
-            if (this.canAttack(target)) this.damage(target, this.attackDamage);
+            if (this.canAttack(target) && target.alive) this.damage(target, this.attackDamage);
         }
 
         if (frame === this.anims.currentAnim.frames.length)
@@ -118,10 +120,10 @@ export default class Enemy extends Character
         this.hpBaseY = this.y + this.hpbarOffset.y;
         this.hpBaseX = this.hpbarOffset.x;
 
-        this.hpbarback.fillStyle(0x696969, 0.7);
+        this.hpbarback.fillStyle(0x696969, 0.5);
         this.hpbarback.fillRect(this.hpBaseX, this.hpBaseY, 100, 10);
 
-        this.hpbar.fillStyle(0xe60000, 0.7);
+        this.hpbar.fillStyle(0xe60000, 0.3);
         this.hpbar.fillRect(this.hpBaseX, this.hpBaseY, 100, 10);
     }
 
@@ -141,9 +143,8 @@ export default class Enemy extends Character
 
     update (time, player, enemies = [])
     {
-        // TODO: Enemies collision
-
         if (this.isAttacking()) this.animAttack(player);
+        else if (Math.random() >= 0.1) super.update();
         else if (player && player.alive && this.canAttack(player)) this.attack(player);
         else if (player && player.alive && this.hitboxes[this.hitboxes.active][0].left > player.hitboxes[player.hitboxes.active][0].right) this.walk(this.baseVelocity, false);
         else if (player && player.alive && this.hitboxes[this.hitboxes.active][0].right < player.hitboxes[player.hitboxes.active][0].left) this.walk(this.baseVelocity, true);
