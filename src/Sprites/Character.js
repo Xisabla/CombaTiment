@@ -49,6 +49,8 @@ export default class Character extends Phaser.GameObjects.Sprite
 
     looseHp (amount)
     {
+        if (this.godmode) return;
+
         this.setHp(this.hp - amount);
     }
 
