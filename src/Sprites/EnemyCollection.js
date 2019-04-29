@@ -1,4 +1,11 @@
 import { isOver } from '../Engine/Hitbox';
+import Bulb from './Bulb';
+import Fridge from './Fridge';
+
+const Enemies = {
+    'bulb': Bulb,
+    'fridge': Fridge
+};
 
 export default class EnemyCollection extends Array
 {
@@ -8,6 +15,7 @@ export default class EnemyCollection extends Array
 
         // TODO: Make this useful if we get the time
         this.limit = limit;
+        this.spawnFinish = null;
     }
 
     spawn (Enemy, scene, x, y, ground)
@@ -17,19 +25,39 @@ export default class EnemyCollection extends Array
 
     spawnAll (enemies = [], delay = 100)
     {
+        this.spawnFinish = false;
+
         let t = 0;
 
         enemies.forEach(enemy =>
         {
-            let { type, scene, x, y, ground } = enemy;
+            let { type, scene, x, y } = enemy;
 
             setTimeout(() =>
             {
-                this.spawn(type, scene, x, y, ground);
+                this.spawn(type, scene, x, y, scene.ground);
             }, t);
 
             t += delay;
         });
+
+        setTimeout(() =>
+        {
+            this.spawnFinish = true;
+        }, t);
+    }
+
+    spawnWave (scene, wave, x, y)
+    {
+        let { enemies, timeout } = wave;
+        let enemiesList = [];
+
+        enemies.forEach(enemy =>
+        {
+            enemiesList.push({ type: Enemies[enemy], scene, x, y });
+        });
+
+        this.spawnAll(enemiesList, timeout);
     }
 
     getOver (hitbox)
