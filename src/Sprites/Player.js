@@ -12,6 +12,7 @@ export default class Player extends Character
             'feilong',
             { baseVelocity: 500, hpmax: 200 });
 
+        this.godmode = false;
         this.energymax = 100;
         this.energy = this.energymax;
         this.setDepth(1e6);
@@ -24,6 +25,11 @@ export default class Player extends Character
         this.createAnim('punch', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
         this.createAnim('jump', this.scene.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6);
         this.createAnim('forwardjump', this.scene.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8);
+    }
+
+    setGodmode (value)
+    {
+        this.godmode = value;
     }
 
     setEnergy (energy)
@@ -41,6 +47,7 @@ export default class Player extends Character
 
     useEnergy (amount)
     {
+        if (this.godmode) return true;
         if (this.energy < amount) return false;
 
         this.setEnergy(this.energy - amount);
@@ -76,12 +83,14 @@ export default class Player extends Character
 
     punch (enemies)
     {
+        let damage = this.godmode ? 1e6 : 20;
+
         if (enemies && this.useEnergy(5))
         {
             this.body.setVelocityX(0);
             this.anims.play('punch', true);
 
-            enemies.getOver(this.hitboxes.punch[1]).looseHp(20);
+            enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
 
             if (this.scene.sounds)
             {
@@ -139,6 +148,8 @@ export default class Player extends Character
 
     die ()
     {
+        if (this.godmode) return;
+
         // Fade sound
         if (this.scene.sounds.ambient)
         {
@@ -187,6 +198,7 @@ export default class Player extends Character
 
     update (time, input, enemies)
     {
+        if (this.godmode) this.regenerate(this.hpmax, this.energymax);
         if (!this.alive) return;
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
