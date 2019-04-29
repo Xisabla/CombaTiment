@@ -5,8 +5,6 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
-import Bulb from '../Sprites/Bulb';
-import Fridge from '../Sprites/Fridge';
 
 export default class extends Phaser.Scene
 {
@@ -44,29 +42,134 @@ export default class extends Phaser.Scene
         this.player = new Player(this, 40, 553, this.ground);
         this.hpbar = new HPBar(this.player);
 
+        // TODO: Remove - for testing
+        this.player.setGodmode(true);
+
         this.enemies = new EnemyCollection();
-        this.enemies.spawnAll([
-            { type: Fridge, scene: this, x: 500, y: 564, ground: this.ground },
-            { type: Bulb, scene: this, x: 500, y: 564, ground: this.ground },
-            { type: Fridge, scene: this, x: 500, y: 564, ground: this.ground },
-            { type: Bulb, scene: this, x: 500, y: 564, ground: this.ground },
-            { type: Fridge, scene: this, x: 500, y: 564, ground: this.ground },
-            { type: Bulb, scene: this, x: 500, y: 564, ground: this.ground }
-        ]);
+        this.data = this.cache.json.get('scenes/data');
+        this.screen = 0;
+        this.waveScreenId = 0;
+        this.screenStarted = false;
+        this.done = false;
+
+        // this.enemies.spawnWave(this, this.data.waves[this.data.screens[this.screen].waves[this.wave]], 500, 564);
 
         this.hitboxGraphics = this.add.graphics();
 
         updateHitboxes(this.player);
     }
 
+    // TODO: handleCamera() or lockCamera() and unlockCamera() <- might be easier to use but harder to code
+    //  check for everything and then move/lock/unlock camera & world border
+
+    spawnWave (id)
+    {
+        // If the wave exists, spawn it
+        if (this.data.waves[id])
+        {
+            this.enemies.spawnWave(this, this.data.waves[id], 500, 564);
+        }
+    }
+
+    startScreen (id)
+    {
+        let screen = this.data.screens[id];
+
+        // If the screen exists
+        // TODO: First, unlock the camera
+        // TODO: Wait for the player to be in the good 'x' range and then lock the camera
+        if (screen)
+        {
+            // Set the initial wave screen id to 0
+            this.waveScreenId = 0;
+
+            // If there is a wave number in the screen
+            if (screen.waves[this.waveScreenId] !== undefined)
+            {
+                // Call to spawn it
+                this.spawnWave(screen.waves[this.waveScreenId]);
+            }
+
+            this.screenStarted = true;
+        }
+        // Otherwise
+        else
+        {
+            // The level is done
+            this.done = true;
+        }
+    }
+
+    nextWaveCond ()
+    {
+        let screen = this.data.screens[this.screen];
+
+        if (screen)
+        {
+            let nextWave = screen.nextWave;
+            let enemiesCondition = (nextWave && nextWave.enemiesNumber) ? nextWave.enemiesNumber : 0;
+
+            if (this.enemies.spawnFinish && this.enemies.length <= enemiesCondition) return true;
+        }
+        return false;
+    }
+
+    // TODO: handleScreen()
+    //  if no screen started: start n°0 screen
+    //  if can start next wave
+    //      and wave remaining: start next wave
+    //      and no wave remain and no enemies: start next screen
+    handleScreen ()
+    {
+        // If the level is not done
+        if (!this.done)
+        {
+            // Init screen if not done
+            if (!this.screen) this.screen = 0;
+
+            // If no screen is started, start it
+            if (!this.screenStarted)
+            {
+                this.startScreen(this.screen);
+            }
+
+            // If you can call next wave
+            if (this.nextWaveCond())
+            {
+                let screen = this.data.screens[this.screen];
+
+                // And there is another wave after it
+                if (screen.waves[this.waveScreenId + 1] !== undefined)
+                {
+                    this.waveScreenId++;
+                    // Call to spawn it
+                    this.spawnWave(screen.waves[this.waveScreenId]);
+                }
+                // Otherwise, if there is no enemies left
+                else if (this.enemies.length === 0)
+                {
+                    // Start the next screen
+                    this.screen++;
+                    this.screenStarted = false;
+                    this.handleScreen();
+                }
+            }
+        }
+    }
+
     debug ()
     {
-        if (!this.enemiesText) this.enemiesText = this.add.text(1500, 800, 'Enemies: 0').setOrigin(1).setFontSize(20);
-
+        if (!this.enemiesText) this.enemiesText = this.add.text(1500, 800, 'Enemies: -').setOrigin(1).setFontSize(20);
         this.enemiesText.x = this.cameras.main.scrollX + 1500;
         this.enemiesText.setText(`Enemies: ${this.enemies.length}`);
 
-        let mustRender = this.enemies.export;
+        if (!this.waveText) this.waveText = this.add.text(1500, 775, 'Wave: -').setOrigin(1).setFontSize(20);
+        this.waveText.x = this.cameras.main.scrollX + 1500;
+        this.waveText.setText(`Wave: ${this.waveNb}`);
+
+        // Causes lags
+        // let mustRender = this.enemies.export;
+        let mustRender = [];
 
         if (this.player.alive) mustRender.push(this.player);
 
@@ -82,8 +185,12 @@ export default class extends Phaser.Scene
         if (this.player.alive) this.player.update(time, input, this.enemies);
         this.enemies.update(time, this.player);
 
-        // HPBar follow cameras
         this.hpbar.x = this.cameras.main.scrollX + 10;
+        this.handleScreen();
+        // TODO: this.handleCamera();
+
+        if (!this.done) console.log('Screen', this.screen);
+        else console.log('Level Done - Go find out the princess');
 
         if (this.game.config.physics.arcade.debug) this.debug();
     }
