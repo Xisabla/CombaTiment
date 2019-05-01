@@ -1,11 +1,5 @@
 import { isOver } from '../Engine/Hitbox';
-import Bulb from './Bulb';
-import Fridge from './Fridge';
-
-const Enemies = {
-    'bulb': Bulb,
-    'fridge': Fridge
-};
+import { enemiesObjects } from '../utils';
 
 export default class EnemyCollection extends Array
 {
@@ -54,7 +48,7 @@ export default class EnemyCollection extends Array
 
         enemies.forEach(enemy =>
         {
-            enemiesList.push({ type: Enemies[enemy], scene, x, y });
+            enemiesList.push({ type: enemiesObjects[enemy], scene, x, y });
         });
 
         this.spawnAll(enemiesList, timeout);
