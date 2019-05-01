@@ -5,16 +5,25 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
+import EventInput from '../Input/EventInput';
 
 export default class extends Phaser.Scene
 {
     constructor ()
     {
         super({ key: 'Level' });
+
+        this.data = {
+            waves: [],
+            screens: []
+        };
     }
 
-    init ()
-    {}
+    init (data)
+    {
+        this.id = data.id;
+        this.data = data;
+    }
 
     create ()
     {
@@ -24,9 +33,10 @@ export default class extends Phaser.Scene
         this.sounds.ambient.play();
         this.sounds.ambient.setSeek(36.5);
 
+        this.paused = false;
+
         this.screenOffset = 750;
         this.enemies = new EnemyCollection();
-        this.data = this.cache.json.get('scenes/data');
         this.screen = 0;
         this.waveScreenId = 0;
         this.screenStarted = false;
@@ -36,9 +46,9 @@ export default class extends Phaser.Scene
         this.ground = this.physics.add.staticGroup();
         for (let i = 0; i < this.data.screens.length + 2; i++)
         {
-            this.add.image(800 + 2 * 800 * i, 450, 'levelselect/background');
-            this.ground.create(800 + 2 * 800 * i, 810, 'levelselect/ground');
-            this.add.image(800 + 2 * 800 * i, 710, 'levelselect/grass');
+            this.add.image(800 + 2 * 800 * i, 450, 'levels/' + this.id + '/background');
+            this.ground.create(800 + 2 * 800 * i, 810, 'levels/ground');
+            this.add.image(800 + 2 * 800 * i, 710, 'levels/grass');
         }
 
         this.player = new Player(this, 40, 553, this.ground);
@@ -46,7 +56,6 @@ export default class extends Phaser.Scene
 
         // TODO: Remove - for testing
         this.player.setGodmode(true);
-        // this.enemies.spawnWave(this, this.data.waves[this.data.screens[this.screen].waves[this.wave]], 500, 564);
 
         this.hitboxGraphics = this.add.graphics();
 
@@ -56,11 +65,14 @@ export default class extends Phaser.Scene
         this.cameras.main.startFollow(this.player.body);
         this.moveCamera = 0;
 
+        this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
+        this.inputs.on('down', key =>
+        {
+            if (key === 'pause') this.pause();
+        });
+
         updateHitboxes(this.player);
     }
-
-    // TODO: handleCamera() or lockCamera() and unlockCamera() <- might be easier to use but harder to code
-    //  check for everything and then move/lock/unlock camera & world border
 
     spawnWave (id)
     {
@@ -76,8 +88,6 @@ export default class extends Phaser.Scene
         let screen = this.data.screens[id];
 
         // If the screen exists
-        // TODO: First, unlock the camera
-        // TODO: Wait for the player to be in the good 'x' range and then lock the camera
         if (screen)
         {
             // Set the initial wave screen id to 0
@@ -162,11 +172,6 @@ export default class extends Phaser.Scene
         return 1;
     }
 
-    // TODO: handleScreen()
-    //  if no screen started: start n°0 screen
-    //  if can start next wave
-    //      and wave remaining: start next wave
-    //      and no wave remain and no enemies: start next screen
     handleScreen ()
     {
         // If the level is not done
@@ -223,6 +228,30 @@ export default class extends Phaser.Scene
         }
     }
 
+    pause ()
+    {
+        if (this.paused)
+        {
+            this.paused = false;
+
+            this.pauseedScreenOverlay.destroy();
+            this.pausedScreenText.destroy();
+            this.unpauseText.destroy();
+            this.sounds.ambient.resume();
+        }
+        else
+        {
+            this.paused = true;
+            this.player.idle();
+            this.enemies.idle();
+            this.sounds.ambient.pause();
+
+            this.pauseedScreenOverlay = this.add.graphics().fillStyle(0x000000, 0.8).fillRect(this.cameras.main.scrollX + 550, 300, 500, 200);
+            this.pausedScreenText = this.add.text(this.cameras.main.scrollX + 800, 380, 'Pause').setOrigin(0.5).setFontSize(50);
+            this.unpauseText = this.add.text(this.cameras.main.scrollX + 800, 450, 'Repress pause key/touch to unpause').setOrigin(0.5).setFontSize(20);
+        }
+    }
+
     debug ()
     {
         if (!this.enemiesText) this.enemiesText = this.add.text(1500, 800, 'Enemies: -').setOrigin(1).setFontSize(20);
@@ -246,6 +275,8 @@ export default class extends Phaser.Scene
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
+        if (this.paused) return false;
+
         if (input.sudo) this.game.config.physics.arcade.debug = true;
 
         if (this.player.alive) this.player.update(time, input, this.enemies);
@@ -253,7 +284,6 @@ export default class extends Phaser.Scene
 
         this.hpbar.x = this.cameras.main.scrollX + 10;
         this.handleScreen();
-        // TODO: this.handleCamera();
 
         if (!this.done) console.log('Screen', this.screen);
         else console.log('Level Done - Go find out the princess');
