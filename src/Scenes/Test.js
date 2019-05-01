@@ -28,8 +28,8 @@ export default class extends Phaser.Scene
         this.add.image(800, 450, 'levelselect/background');
 
         this.ground = this.physics.add.staticGroup();
-        this.ground.create(800, 810, 'levelselect/ground');
-        this.add.image(800, 710, 'levelselect/grass');
+        this.ground.create(800, 810, 'levels/ground');
+        this.add.image(800, 710, 'levels/grass');
 
         this.player = new Player(this, 40, 553, this.ground);
         this.hpbar = new HPBar(this.player);
@@ -38,11 +38,6 @@ export default class extends Phaser.Scene
         this.player.setGodmode(true);
 
         this.enemies = new EnemyCollection();
-        this.data = this.cache.json.get('scenes/data');
-        this.screen = 0;
-        this.waveScreenId = 0;
-        this.screenStarted = false;
-        this.done = false;
 
         // Enemy to test:
         this.enemies.spawn(Radiator, this, 500, 500, this.ground);
