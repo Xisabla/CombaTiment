@@ -1,4 +1,7 @@
 {
+    "name": "Consommation\nd'énergie",
+    "color": "0xf39c12",
+    "power": "thunder",
     "waves": [
         {
             "enemies": [ "fridge", "fridge", "fridge" ],

@@ -1,0 +1,17 @@
+{
+    "name": "Niveau de test",
+    "color": "0x808080",
+    "power": "none",
+    "waves": [
+        {
+            "enemies": [ "radiator" ],
+            "timeout": 500
+        }
+    ],
+
+    "screens": [
+        {
+            "waves": [0]
+        }
+    ]
+}
