@@ -4,6 +4,7 @@ import Player from '../Sprites/Player';
 import LevelPanelCollection from '../UI/LevelPanelCollection';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
+import { levelEnemiesAssets } from '../utils';
 
 export default class extends Phaser.Scene
 {
@@ -34,7 +35,7 @@ export default class extends Phaser.Scene
         this.add.image(300, 810, 'hud/gamepad').setScale(0.4);
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
 
-        this.panels.add({ color: 0xf39c12, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple'] });
+        this.panels.add({ color: 0xf39c12, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: levelEnemiesAssets(this.cache.json.get('scenes/data')) });
         this.panels.add({ color: 0xe74c3c, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple'] });
         this.panels.add({ color: 0x3498db, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple'] });
         this.panels.add({ color: 0x2ecc71, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple'] });
@@ -64,7 +65,9 @@ export default class extends Phaser.Scene
 
             this.sounds.menuSelection.play();
             this.sounds.ambient.stop();
-            this.scene.start('Level');
+
+            if (this.panels.selected === 1) return this.scene.start('Test');
+            else this.scene.start('Level');
         }
 
         this.player.update(time, input);
