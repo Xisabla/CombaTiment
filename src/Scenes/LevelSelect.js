@@ -30,15 +30,26 @@ export default class extends Phaser.Scene
         this.sounds.ambient.play();
 
         this.ground = this.physics.add.staticGroup();
-        this.ground.create(800, 810, 'levelselect/ground');
-        this.add.image(800, 710, 'levelselect/grass');
+        this.ground.create(800, 810, 'levels/ground');
+        this.add.image(800, 710, 'levels/grass');
         this.add.image(300, 810, 'hud/gamepad').setScale(0.4);
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
 
-        this.panels.add({ color: 0xf39c12, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: levelEnemiesAssets(this.cache.json.get('scenes/data')) });
-        this.panels.add({ color: 0xe74c3c, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple'] });
-        this.panels.add({ color: 0x3498db, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple', 'enemy/apple', 'enemy/apple'] });
-        this.panels.add({ color: 0x2ecc71, name: 'Consommation\nd\'énergie', power: 'power/thunder', enemies: ['enemy/apple', 'enemy/apple'] });
+        this.levels = [
+            this.cache.json.get('levels/0'),
+            this.cache.json.get('levels/1'),
+            this.cache.json.get('levels/2'),
+            this.cache.json.get('levels/3')
+        ];
+
+        this.levels.forEach(level =>
+        {
+            let { color, name, power } = level;
+
+            power = 'power/' + power;
+            let enemies = levelEnemiesAssets(level);
+            this.panels.add({ color, name, power, enemies });
+        });
 
         this.panels.show(true, 200);
 
@@ -61,13 +72,14 @@ export default class extends Phaser.Scene
 
         if (input.attack2 && this.panels.selected !== -1)
         {
-            console.log('Go to level: ' + this.panels.selected);
-
             this.sounds.menuSelection.play();
             this.sounds.ambient.stop();
 
+            let data = this.cache.json.get('levels/' + this.panels.selected);
+            data.id = this.panels.selected;
+
             if (this.panels.selected === 1) return this.scene.start('Test');
-            else this.scene.start('Level');
+            else this.scene.start('Level', data);
         }
 
         this.player.update(time, input);

@@ -53,21 +53,10 @@ export default class extends Phaser.Scene
         this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
         this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
 
-        // ---------- Levels
-
-        // Splash
-        this.load.image('menu/background', 'assets/menu/background.png');
-        this.load.image('menu/title', 'assets/menu/title.png');
-        this.load.image('menu/selector', 'assets/menu/selector.png');
-
-        // LevelSelect
-        this.load.image('levelselect/background', 'assets/levelselect/background.png');
-        this.load.image('levelselect/ground', 'assets/levelselect/ground.png');
-        this.load.image('levelselect/grass', 'assets/levelselect/grass.png');
-
         // ---------- Interface
 
-        // Gameplay
+        // Powers
+        this.load.image('power/none', 'assets/power/none.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
 
         // GUI
@@ -78,8 +67,33 @@ export default class extends Phaser.Scene
 
         // ---------- Levels
 
-        // Level
-        this.load.json('scenes/data', 'assets/scenes/level.json');
+        // Splash
+        this.load.image('menu/background', 'assets/background/menu.png');
+        this.load.image('menu/title', 'assets/menu/title.png');
+        this.load.image('menu/selector', 'assets/menu/selector.png');
+
+        // LevelSelect
+        this.load.image('levelselect/background', 'assets/background/levelselect.png');
+
+        // All levels
+        this.load.image('levels/ground', 'assets/levels/ground.png');
+        this.load.image('levels/grass', 'assets/levels/grass.png');
+
+        // Level 0
+        this.load.json('levels/0', 'assets/levels/level_0.json');
+        this.load.image('levels/0/background', 'assets/background/city1.png');
+
+        // Level 1
+        this.load.json('levels/1', 'assets/levels/level_1.json');
+        this.load.image('levels/0/background', 'assets/background/city2.png');
+
+        // Level 2
+        this.load.json('levels/2', 'assets/levels/level_2.json');
+        this.load.image('levels/0/background', 'assets/background/city2.png');
+
+        // Level 3
+        this.load.json('levels/3', 'assets/levels/level_3.json');
+        this.load.image('levels/0/background', 'assets/background/city2.png');
 
         // ---------- Main Character
 
