@@ -82,6 +82,11 @@ export default class EnemyCollection extends Array
         });
     }
 
+    idle ()
+    {
+        this.forEach(enemy => enemy.idle());
+    }
+
     update (time, player)
     {
         this.forEach((enemy, index) =>
