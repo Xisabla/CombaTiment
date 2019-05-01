@@ -76,14 +76,15 @@ export default class Character extends Phaser.GameObjects.Sprite
         this.body.setVelocityX(0);
     }
 
+    die ()
+    {
+        this.alive = false;
+        this.destroy();
+    }
+
     update (time, input)
     {
-        if (this.hp <= 0)
-        {
-            this.alive = false;
-            this.destroy();
-        }
-
+        if (this.hp <= 0) this.die();
         if (this.alive) updateHitboxes(this);
     }
 }

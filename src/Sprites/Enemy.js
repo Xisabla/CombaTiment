@@ -23,11 +23,7 @@ export default class Enemy extends Character
         this.setScale(scale);
 
         this.attackDamage = settings.attackDamage || 10;
-        this.hpbarOffset = settings.hpbarOffset || { x: 40, y: -20 };
-
         this.attackDone = false;
-
-        this.createHpbar();
 
         if (anims) this.createAnims(anims);
     }
@@ -112,33 +108,21 @@ export default class Enemy extends Character
         return isOver(this.hitboxes.attack[1], character.hitboxes[character.hitboxes.active][0]);
     }
 
-    createHpbar ()
+    die ()
     {
-        this.hpbarback = this.scene.add.graphics();
-        this.hpbar = this.scene.add.graphics();
+        let tick = 0;
+        let timer = setInterval(() =>
+        {
+            tick++;
 
-        this.hpBaseY = this.y + this.hpbarOffset.y;
-        this.hpBaseX = this.hpbarOffset.x;
+            if (!this.alive) clearInterval(timer);
+            else
+            {
+                this.setAlpha(1 - 0.1 * tick);
+            }
+        }, 10);
 
-        this.hpbarback.fillStyle(0x696969, 0.5);
-        this.hpbarback.fillRect(this.hpBaseX, this.hpBaseY, 100, 10);
-
-        this.hpbar.fillStyle(0xe60000, 0.3);
-        this.hpbar.fillRect(this.hpBaseX, this.hpBaseY, 100, 10);
-    }
-
-    updateHpbar ()
-    {
-        this.hpbarback.setX(this.x);
-        this.hpbar.clear();
-        this.hpbar.fillStyle(0xe60000, 0.7);
-        this.hpbar.fillRect(this.x + this.hpbarOffset.x, this.hpBaseY, 100 * this.hp / this.hpmax, 10);
-    }
-
-    destroyHpbar ()
-    {
-        this.hpbarback.destroy();
-        this.hpbar.destroy();
+        setTimeout(() => super.die(), 100);
     }
 
     update (time, player, enemies = [])
@@ -151,8 +135,5 @@ export default class Enemy extends Character
         else this.walk(this.baseVelocity);
 
         super.update();
-
-        if (this.alive) this.updateHpbar();
-        else this.destroyHpbar();
     }
 }
