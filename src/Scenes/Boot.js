@@ -45,12 +45,15 @@ export default class extends Phaser.Scene
             this.assetsLoaded = true;
         });
 
-        // Audio
+        // ---------- Audio
+
         this.load.audio('music/mettaton', ['assets/music/mus_mettaton_ex.ogg']);
         this.load.audio('music/punch', ['assets/music/punch.ogg']);
         this.load.audio('music/menu_selection', ['assets/music/menu_selection.ogg']);
         this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
         this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
+
+        // ---------- Levels
 
         // Splash
         this.load.image('menu/background', 'assets/menu/background.png');
@@ -62,18 +65,23 @@ export default class extends Phaser.Scene
         this.load.image('levelselect/ground', 'assets/levelselect/ground.png');
         this.load.image('levelselect/grass', 'assets/levelselect/grass.png');
 
+        // ---------- Interface
+
         // Gameplay
-        this.load.image('enemy/apple', 'assets/sprites/apple.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
 
-        // HUD
+        // GUI
         this.load.image('hud/gamepad', 'assets/hud/gamepad.png');
         this.load.image('hud/hpbar/hp', 'assets/hud/hpbar/hp.png');
         this.load.image('hud/hpbar/energy', 'assets/hud/hpbar/energy.png');
         this.load.image('hud/hpbar/frame', 'assets/hud/hpbar/frame.png');
 
+        // ---------- Levels
+
         // Level
         this.load.json('scenes/data', 'assets/scenes/level.json');
+
+        // ---------- Main Character
 
         // Feilong
         this.load.spritesheet('feilong/idle', 'assets/feilong/idle.png', { frameWidth: 111.17, frameHeight: 171 });
@@ -83,6 +91,8 @@ export default class extends Phaser.Scene
         this.load.spritesheet('feilong/forwardjump', 'assets/feilong/forwardjump.png', { frameWidth: 90, frameHeight: 185 });
         this.load.json('feilong/hitbox', 'assets/feilong/hitboxes.json');
 
+        // ---------- Enemies
+
         // Fridge
         this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/fridge/hitbox', 'assets/enemies/hitbox-fridge.json');
@@ -91,6 +101,10 @@ export default class extends Phaser.Scene
         this.load.spritesheet('enemies/bulb/walking', 'assets/enemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });
         this.load.spritesheet('enemies/bulb/punch', 'assets/enemies/bulb-punch.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/bulb/hitbox', 'assets/enemies/hitbox-bulb.json');
+
+        // Radioator
+        this.load.spritesheet('enemies/radiator', 'assets/enemies/radiator.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/radiator/hitbox', 'assets/enemies/hitbox-radiator.json');
 
         WebFont.load({
             google: {
