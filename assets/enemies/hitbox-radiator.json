@@ -1,0 +1,40 @@
+{
+	"radiator" :
+		{
+			"active" :"still",
+			"attack" : [
+				{
+					"label" : "body",
+					"x" : 40,
+					"y" : 55,
+					"width" : 80,
+					"height" : 100,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 14
+				},
+				{
+					"label" : "punch",
+					"x" : 10,
+					"y" : 35,
+					"width" : 130,
+					"height" : 120,
+					"type" : "hurtbox",
+					"start" : 5,
+					"end" : 9
+				} 
+			],
+			"still" : [
+				{
+					"label" : "body",
+					"x" : 50,
+					"y" : 55,
+					"width" : 60,
+					"height" : 100,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 14
+				} 
+			]
+	} 
+}
