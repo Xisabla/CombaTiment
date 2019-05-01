@@ -72,7 +72,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
 
         let baseX = 20;
         let baseY = 280;
-        let size = 50;
+        let size = 60;
         let offset = 10;
 
         let x = baseX;
