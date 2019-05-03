@@ -28,10 +28,10 @@ export default class extends Phaser.Scene
     create ()
     {
         this.sounds = {};
-        this.sounds.ambient = this.sound.add('music/nightoffire', { loop: true, volume: 0.2 });
+        this.sounds.ambient = this.sound.add('music/' + this.data.ambient, { loop: true, volume: 0.2 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.ambient.play();
-        this.sounds.ambient.setSeek(36.5);
+        this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
 
         this.paused = false;
 

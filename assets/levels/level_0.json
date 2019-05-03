@@ -1,7 +1,9 @@
 {
     "name": "Consommation\nd'énergie",
     "color": "0xf39c12",
+    "ambient": "nightoffire",
     "power": "thunder",
+    "boss": "fridge",
     "waves": [
         {
             "enemies": [ "fridge", "fridge", "fridge" ],
