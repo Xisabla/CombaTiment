@@ -175,7 +175,7 @@ export default class Player extends Character
         // Timed splashScreen
         setTimeout(() =>
         {
-            this.scene.scene.start('SplashScene');
+            this.scene.scene.start('LevelSelect');
             this.scene.sounds.ambient.stop();
             this.destroy();
         }, 2000);
