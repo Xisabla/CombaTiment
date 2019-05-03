@@ -6,7 +6,7 @@
     "boss": "fridge",
     "waves": [
         {
-            "enemies": [ "fridge", "fridge", "fridge" ],
+            "enemies": [ "virus", "virus", "virus", "radiator" ],
             "timeout": 500
         },
         
@@ -15,7 +15,7 @@
             "timeout": 500
         },
         {
-            "enemies": [ "fridge", "bulb", "fridge", "bulb" ],
+            "enemies": [ "virus", "bulb", "virus", "bulb" ],
             "timeout": 500
         }
     ],
