@@ -54,9 +54,6 @@ export default class extends Phaser.Scene
         this.player = new Player(this, 40, 553, this.ground);
         this.hpbar = new HPBar(this.player);
 
-        // TODO: Remove - for testing
-        this.player.setGodmode(true);
-
         this.hitboxGraphics = this.add.graphics();
 
         this.physics.world.bounds.width = 1600 * (this.data.screens.length + 2);
@@ -86,6 +83,8 @@ export default class extends Phaser.Scene
     startScreen (id)
     {
         let screen = this.data.screens[id];
+
+        this.player.gainHp((this.player.hpmax - this.player.hp) / 2);
 
         // If the screen exists
         if (screen)
@@ -262,13 +261,7 @@ export default class extends Phaser.Scene
         this.waveText.x = this.cameras.main.scrollX + 1500;
         this.waveText.setText(`Wave: ${this.waveNb}`);
 
-        // Causes lags
-        // let mustRender = this.enemies.export;
-        let mustRender = [];
-
-        if (this.player.alive) mustRender.push(this.player);
-
-        renderHitboxes(this.hitboxGraphics, mustRender);
+        if (this.player.alive) renderHitboxes(this.hitboxGraphics, [this.player]);
     }
 
     update (time)

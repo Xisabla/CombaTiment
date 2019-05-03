@@ -10,8 +10,6 @@ export default class Enemy extends Character
         let hpmax = settings.hpmax || 40;
         let scale = settings.scale || 1;
 
-        if (settings.hpRandom) hpmax *= Math.random() * 2;
-
         super(scene, x, y,
             spritesheet,
             ground,

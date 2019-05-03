@@ -6,31 +6,38 @@
     "boss": "fridge",
     "waves": [
         {
-            "enemies": [ "virus", "virus", "virus", "radiator" ],
+            "enemies": [ "bulb" ],
             "timeout": 500
         },
         
         {
-            "enemies": [ "bulb", "bulb", "bulb" ],
+            "enemies": [ "radiator" ],
             "timeout": 500
         },
         {
-            "enemies": [ "virus", "bulb", "virus", "bulb" ],
-            "timeout": 500
+            "enemies": [ "radiator", "bulb" ],
+            "timeout": 200
+        },
+        {
+            "enemies": [ "bulb", "radiator", "radiator", "bulb", "bulb", "bulb" ],
+            "timeout": 100
+        },
+        {
+            "enemies": [ "bulb" , "bulb", "radiator", "radiator", "bulb", "radiator", "radiator", "radiator", "bulb", "bulb" ],
+            "timeout": 100
         }
     ],
 
     "screens": [
         {
-            "waves": [0, 0, 1],
-            "nextWave": {"enemiesNumber": 1}
+            "waves": [0, 1, 2, 2]
         },
         {
-            "waves": [1, 1],
+            "waves": [1, 2, 1, 2],
             "nextWave": {"enemiesNumber": 2}
         },
         {
-            "waves": [0, 1, 2],
+            "waves": [2, 2, 3, 3],
             "nextWave": {"enemiesNumber": 1}
         }
     ]
