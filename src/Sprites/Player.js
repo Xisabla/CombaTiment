@@ -89,17 +89,14 @@ export default class Player extends Character
     {
         let damage = this.godmode ? 1e6 : 20;
 
-        if (this.useEnergy(5))
+        this.body.setVelocityX(0);
+        this.anims.play('punch', true);
+
+        if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
+
+        if (this.scene.sounds)
         {
-            this.body.setVelocityX(0);
-            this.anims.play('punch', true);
-
-            if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
-
-            if (this.scene.sounds)
-            {
-                if (this.scene.sounds.punch) this.scene.sounds.punch.play();
-            }
+            if (this.scene.sounds.punch) this.scene.sounds.punch.play();
         }
     }
 

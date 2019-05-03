@@ -14,7 +14,7 @@ export default class Bulb extends Enemy
                 'walk': { 'anim': scene.anims.generateFrameNumbers('enemies/bulb/walking', { start: 0, end: 4 }), 'framerate': 10 },
                 'attack': { 'anim': scene.anims.generateFrameNumbers('enemies/bulb/punch', { start: 0, end: 21 }), 'framerate': 25 }
             },
-            { scale: 0.5, hpmax: 60 }
+            { scale: 0.5, attackDamage: 30 }
         );
     }
 }
