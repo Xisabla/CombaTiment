@@ -1,0 +1,40 @@
+{
+	"virus" :
+		{
+			"active" :"still",
+			"attack" : [
+				{
+					"label" : "body",
+					"x" : 40,
+					"y" : 35,
+					"width" : 70,
+					"height" : 125,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 14
+				} ,
+				{
+					"label" : "punch",
+					"x" : 0,
+					"y" : 5,
+					"width" : 150,
+					"height" : 160,
+					"type" : "hurtbox",
+					"start" : 6,
+					"end" : 14
+				} 
+			],
+			"still" : [
+				{
+					"label" : "body",
+					"x" : 40,
+					"y" : 35,
+					"width" : 70,
+					"height" : 125,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 14
+				} 
+			]
+	} 
+}

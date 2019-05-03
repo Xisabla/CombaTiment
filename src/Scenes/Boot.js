@@ -120,6 +120,10 @@ export default class extends Phaser.Scene
         this.load.spritesheet('enemies/radiator', 'assets/enemies/radiator.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/radiator/hitbox', 'assets/enemies/hitbox-radiator.json');
 
+        // Virus
+        this.load.spritesheet('enemies/virus', 'assets/enemies/virus.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/virus/hitbox', 'assets/enemies/hitbox-virus.json');
+
         WebFont.load({
             google: {
                 families: ['Raleway', 'Cairo', 'Anton']

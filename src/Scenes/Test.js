@@ -5,7 +5,7 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
-import Radiator from '../Sprites/Radioator';
+import Virus from '../Sprites/Virus';
 
 export default class extends Phaser.Scene
 {
@@ -35,12 +35,12 @@ export default class extends Phaser.Scene
         this.hpbar = new HPBar(this.player);
 
         // TODO: Remove - for testing
-        this.player.setGodmode(true);
+        this.player.setGodmode(false);
 
         this.enemies = new EnemyCollection();
 
         // Enemy to test:
-        this.enemies.spawn(Radiator, this, 500, 500, this.ground);
+        this.enemies.spawn(Virus, this, 500, 500, this.ground);
 
         this.hitboxGraphics = this.add.graphics();
 
@@ -60,6 +60,8 @@ export default class extends Phaser.Scene
     update (time)
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
+
+        if (this.enemies.length < 1) this.enemies.spawn(Virus, this, 500, 500, this.ground);
 
         if (this.player.alive) this.player.update(time, input, this.enemies);
         this.enemies.update(time, this.player);
