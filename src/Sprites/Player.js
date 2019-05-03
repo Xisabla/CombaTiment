@@ -1,5 +1,6 @@
 import Character from './Character';
 import { updateHitboxes } from '../Engine/Hitbox';
+import EnergyBall from './EnergyBall';
 
 export default class Player extends Character
 {
@@ -15,6 +16,8 @@ export default class Player extends Character
         this.godmode = false;
         this.energymax = 100;
         this.energy = this.energymax;
+        this.energyBalls = [];
+        this.projectileCreated = false;
         this.setDepth(1e6);
     }
 
@@ -23,6 +26,7 @@ export default class Player extends Character
         this.createAnim('idle', this.scene.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10);
         this.createAnim('walk', this.scene.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10);
         this.createAnim('punch', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
+        this.createAnim('throw', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
         this.createAnim('jump', this.scene.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6);
         this.createAnim('forwardjump', this.scene.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8);
     }
@@ -85,17 +89,26 @@ export default class Player extends Character
     {
         let damage = this.godmode ? 1e6 : 20;
 
-        if (enemies && this.useEnergy(5))
+        if (this.useEnergy(5))
         {
             this.body.setVelocityX(0);
             this.anims.play('punch', true);
 
-            enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
+            if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
 
             if (this.scene.sounds)
             {
                 if (this.scene.sounds.punch) this.scene.sounds.punch.play();
             }
+        }
+    }
+
+    throw ()
+    {
+        if (this.useEnergy(20))
+        {
+            this.body.setVelocityX(0);
+            this.anims.play('throw', true);
         }
     }
 
@@ -141,6 +154,27 @@ export default class Player extends Character
             // finish the punch animation
             this.anims.play('idle', true);
             this.hitboxes.active = 'still';
+        }
+
+        this.body.setVelocityX(0);
+    }
+
+    animThrow ()
+    {
+        this.anims.play('throw', true);
+        this.hitboxes.active = 'still';
+
+        if (Math.floor(this.anims.currentAnim.frames.length / 2) === this.anims.currentFrame.index && !this.projectileCreated)
+        {
+            this.energyBalls.push(new EnergyBall(this));
+            this.projectileCreated = true;
+        }
+
+        if (this.anims.currentAnim.frames.length === this.anims.currentFrame.index)
+        {
+            this.anims.play('idle', true);
+            this.hitboxes.active = 'still';
+            this.projectileCreated = false;
         }
 
         this.body.setVelocityX(0);
@@ -202,7 +236,9 @@ export default class Player extends Character
         if (!this.alive) return;
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
+        else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
         else if (input.attack1 && this.body.touching.down) this.punch(enemies);
+        else if (input.attack3 && this.body.touching.down) this.throw();
         else if (input.jump && this.body.touching.down) this.jump(input);
         else if (input.direction.left && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), false);
         else if (input.direction.right && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), true);

@@ -104,6 +104,7 @@ export default class extends Phaser.Scene
         this.load.spritesheet('feilong/jump', 'assets/feilong/jump.png', { frameWidth: 82, frameHeight: 187 });
         this.load.spritesheet('feilong/forwardjump', 'assets/feilong/forwardjump.png', { frameWidth: 90, frameHeight: 185 });
         this.load.json('feilong/hitbox', 'assets/feilong/hitboxes.json');
+        this.load.spritesheet('projectiles/energyball', 'assets/projectiles/energyball.png', { frameWidth: 50, frameHeight: 40 });
 
         // ---------- Enemies
 
