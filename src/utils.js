@@ -1,17 +1,27 @@
 import Bulb from './Sprites/Bulb';
 import Fridge from './Sprites/Fridge';
 import Radiator from './Sprites/Radioator';
+import Virus from './Sprites/Virus';
+
+export const enemiesText = {
+    'bulb': 'Ampoule\ngourmande',
+    'fridge': 'Frigo\n mal conçu',
+    'radiator': 'Radiateur\ndisfonctionnel',
+    'virus': 'Virus'
+};
 
 export const enemiesObjects = {
     'bulb': Bulb,
     'fridge': Fridge,
-    'radiator': Radiator
+    'radiator': Radiator,
+    'virus': Virus
 };
 
 export const enemiesAssets = {
     'bulb': 'enemies/bulb/walking',
     'fridge': 'enemies/fridge',
-    'radiator': 'enemies/radiator'
+    'radiator': 'enemies/radiator',
+    'virus': 'enemies/virus'
 };
 
 export function enemiesOfLevel (levelJson)
@@ -24,6 +34,7 @@ export function enemiesOfLevel (levelJson)
         enemies = [...enemies, ...wave.enemies];
     });
 
+    enemies.push(levelJson.boss);
     enemies = enemies.filter((enemy, id) => enemies.indexOf(enemy) === id);
 
     return enemies;

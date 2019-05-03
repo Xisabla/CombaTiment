@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { enemiesText } from '../utils';
 
 export default class LevelPanel extends Phaser.GameObjects.Container
 {
@@ -70,25 +71,36 @@ export default class LevelPanel extends Phaser.GameObjects.Container
             .fillStyle(0xffffff)
             .fillRect(20, 260, 115, 3));
 
-        let baseX = 20;
         let baseY = 280;
         let size = 60;
-        let offset = 10;
+        let offset = 22.5;
+        let baseX = offset;
 
         let x = baseX;
         let y = baseY;
 
         this.enemies.forEach(enemy =>
         {
+            if (!enemy) return;
+
+            let name = enemy.split('/')[1];
+            let description = enemiesText[name];
+
             this.add(new Phaser.GameObjects.Sprite(this.scene, x, y, enemy)
                 .setDisplaySize(size, size)
                 .setOrigin(0));
+
+            this.add(new Phaser.GameObjects.Text(this.scene, x + size / 2, y + size * 1.3, description, {
+                fontFamily: 'Raleway',
+                fontSize: 15,
+                align: 'center' })
+                .setOrigin(0.5));
 
             x += size + offset * 2;
 
             if (x >= this.width - size - offset)
             {
-                x = baseX; y += size + offset * 2;
+                x = baseX; y += size + offset * 2 + 20;
             }
         });
     }
