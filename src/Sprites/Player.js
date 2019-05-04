@@ -195,6 +195,10 @@ export default class Player extends Character
         {
             this.energyBalls.push(new EnergyBall(this));
             this.projectileCreated = true;
+            if (this.scene.sounds)
+            {
+                if (this.scene.sounds.energyball) this.scene.sounds.energyball.play();
+            }
         }
 
         if (this.anims.currentAnim.frames.length === this.anims.currentFrame.index)
@@ -264,8 +268,8 @@ export default class Player extends Character
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
-        else if (input.attack1 && this.body.touching.down && this.energy > 20) this.punch(enemies);
-        else if (input.attack3 && this.body.touching.down && this.energy > 20) this.throw();
+        else if (input.attack1 && this.body.touching.down) this.punch(enemies);
+        else if (input.attack3 && this.body.touching.down && this.energy > 30) this.throw();
         else if (input.dashLeft && this.body.touching.down) this.dash(time, false);
         else if (input.dashRight && this.body.touching.down) this.dash(time, true);
         else if (input.jump && this.body.touching.down) this.jump(input);

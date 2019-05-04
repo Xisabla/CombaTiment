@@ -2,6 +2,7 @@
     "name": "Consommation\nd'énergie",
     "color": "0xf39c12",
     "ambient": "nightoffire",
+    "ambientSeek": 36.5,
     "power": "thunder",
     "boss": "fridge",
     "waves": [

@@ -25,6 +25,7 @@ export default class extends Phaser.Scene
         this.sounds = {};
         this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.8 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
+        this.sounds.energyball = this.sound.add('music/energyball', { volume: 0.2 });
         this.sounds.menuSelection = this.sound.add('music/menu_selection', { volume: 1 });
 
         this.sounds.ambient.play();

@@ -49,6 +49,7 @@ export default class extends Phaser.Scene
 
         this.load.audio('music/mettaton', ['assets/music/mus_mettaton_ex.ogg']);
         this.load.audio('music/punch', ['assets/music/punch.ogg']);
+        this.load.audio('music/energyball', ['assets/music/energyball.ogg']);
         this.load.audio('music/menu_selection', ['assets/music/menu_selection.ogg']);
         this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
         this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
