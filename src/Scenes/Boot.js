@@ -111,6 +111,7 @@ export default class extends Phaser.Scene
         // Fridge
         this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/fridge/hitbox', 'assets/enemies/hitbox-fridge.json');
+        this.load.spritesheet('projectiles/icecube', 'assets/projectiles/icecube.png', { frameWidth: 13, frameHeight: 11 });
 
         // Bulb
         this.load.spritesheet('enemies/bulb/walking', 'assets/enemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });

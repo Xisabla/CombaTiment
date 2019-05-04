@@ -9,6 +9,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite
 
         let flipped = settings.flipped || false;
 
+        this.time = 0;
         this.baseVelocityX = settings.baseVelocityX || 100;
         this.baseVelocityY = settings.baseVelocityY || 0;
         this.gravity = !(!settings.gravity || false);
@@ -22,6 +23,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite
         this.body.setVelocityX(this.baseVelocityX);
         this.body.setVelocityY(this.baseVelocityY);
         this.setFlipX(flipped);
+
+        this.body.setBounce(0);
+        if (scene.ground) scene.physics.add.collider(this, scene.ground);
+
         this.hitbox = new Hitbox({
             type: 'hurtbox',
             anchor: { x, y },
@@ -36,8 +41,21 @@ export default class Projectile extends Phaser.GameObjects.Sprite
         }, 10);
     }
 
+    createAnim (key, frames, framerate, repeat = -1)
+    {
+        if (!this.anims.animationManager.anims.entries[key])
+        {
+            this.scene.anims.create({
+                key: key,
+                frames: frames,
+                frameRate: framerate,
+                repeat: repeat
+            });
+        }
+    }
     update (player, enemies = [])
     {
+        this.time += 10;
         this.hitbox.setXY(this.x - this.displayWidth / 2, this.y - this.displayHeight / 2);
 
         let x = this.x;

@@ -5,7 +5,7 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
-import Virus from '../Sprites/Enemies/Virus';
+import IceCube from '../Sprites/Projectiles/IceCube';
 
 export default class extends Phaser.Scene
 {
@@ -39,10 +39,8 @@ export default class extends Phaser.Scene
 
         this.enemies = new EnemyCollection();
 
-        // Enemy to test:
-        this.enemies.spawn(Virus, this, 500, 500, this.ground);
-
         this.hitboxGraphics = this.add.graphics();
+        this.icecube = new IceCube(this, 1300, 500, this.player);
 
         updateHitboxes(this.player);
     }
@@ -61,8 +59,7 @@ export default class extends Phaser.Scene
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
-        if (this.enemies.length < 1) this.enemies.spawn(Virus, this, 500, 500, this.ground);
-
+        if (!this.icecube.active) this.icecube = new IceCube(this, 1300, 500, this.player);
         if (this.player.alive) this.player.update(time, input, this.enemies);
         this.enemies.update(time, this.player);
 
