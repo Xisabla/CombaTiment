@@ -278,9 +278,6 @@ export default class extends Phaser.Scene
         this.hpbar.x = this.cameras.main.scrollX + 10;
         this.handleScreen();
 
-        if (!this.done) console.log('Screen', this.screen);
-        else console.log('Level Done - Go find out the princess');
-
         if (this.game.config.physics.arcade.debug) this.debug();
     }
 };

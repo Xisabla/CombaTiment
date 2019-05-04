@@ -107,7 +107,7 @@ export default class Player extends Character
 
     throw ()
     {
-        if (this.useEnergy(20))
+        if (this.useEnergy(30))
         {
             this.body.setVelocityX(0);
             this.anims.play('throw', true);
@@ -116,7 +116,6 @@ export default class Player extends Character
 
     dash (time, right = true)
     {
-        console.log(this.lastDash, time);
         if (time < this.lastDash + 300) return this.idle();
 
         if (this.useEnergy(20))
@@ -261,8 +260,7 @@ export default class Player extends Character
     update (time, input, enemies)
     {
         if (this.godmode) this.regenerate(this.hpmax, this.energymax);
-        if (!this.alive) return;
-        if (this.dashing) return;
+        if (!this.alive || this.dashing) return;
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
