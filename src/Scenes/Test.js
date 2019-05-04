@@ -5,7 +5,7 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
-import Virus from '../Sprites/Virus';
+import Virus from '../Sprites/Enemies/Virus';
 
 export default class extends Phaser.Scene
 {

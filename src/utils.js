@@ -1,7 +1,7 @@
-import Bulb from './Sprites/Bulb';
-import Fridge from './Sprites/Fridge';
-import Radiator from './Sprites/Radioator';
-import Virus from './Sprites/Virus';
+import Bulb from './Sprites/Enemies/Bulb';
+import Fridge from './Sprites/Enemies/Fridge';
+import Radiator from './Sprites/Enemies/Radioator';
+import Virus from './Sprites/Enemies/Virus';
 
 export const enemiesText = {
     'bulb': 'Ampoule\ngourmande',

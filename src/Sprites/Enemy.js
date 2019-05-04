@@ -47,13 +47,16 @@ export default class Enemy extends Character
     {
         super.looseHp(amount);
 
-        let vx = kvx || amount * 15;
-        let vy = -(kvy || amount * 5);
+        if (this.hp > 0)
+        {
+            let vx = kvx || amount * 15;
+            let vy = -(kvy || amount * 5);
 
-        if (!kvx) if (this.scene.player.flipX) vx *= -1;
+            if (!kvx) if (this.scene.player.flipX) vx *= -1;
 
-        this.anims.play(this.name + 'Idle', true);
-        this.body.setVelocity(vx, vy);
+            this.anims.play(this.name + 'Idle', true);
+            this.body.setVelocity(vx, vy);
+        }
     }
 
     attack (target)

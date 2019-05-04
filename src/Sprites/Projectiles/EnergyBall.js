@@ -1,4 +1,4 @@
-import Projectile from './Projectile';
+import Projectile from '../Projectile';
 
 export default class EnergyBall extends Projectile
 {

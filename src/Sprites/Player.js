@@ -1,6 +1,6 @@
 import Character from './Character';
 import { updateHitboxes } from '../Engine/Hitbox';
-import EnergyBall from './EnergyBall';
+import EnergyBall from './Projectiles/EnergyBall';
 
 export default class Player extends Character
 {
