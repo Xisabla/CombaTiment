@@ -123,6 +123,7 @@ export default class Player extends Character
         {
             let velocity = 1000;
 
+            this.invulerable = true;
             this.hitboxes.active = 'walking';
             this.setFlipX(!right);
             this.anims.play('dash', true);
@@ -133,6 +134,7 @@ export default class Player extends Character
             setTimeout(() =>
             {
                 this.dashing = false;
+                this.invulerable = false;
                 this.idle();
             }, 200);
         }

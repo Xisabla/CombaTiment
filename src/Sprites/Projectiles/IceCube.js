@@ -29,6 +29,8 @@ export default class IceCube extends Projectile
                 player.looseHp(30);
                 this.lastHit = this.time;
             }
+
+            if (player.dashing) this.destroy();
         }
     }
 }
