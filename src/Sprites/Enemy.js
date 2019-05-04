@@ -125,7 +125,7 @@ export default class Enemy extends Character
 
     update (time, player, enemies = [])
     {
-        if (this.scene.paused) this.idle();
+        if (this.scene && this.scene.paused) this.idle();
 
         if (this.isAttacking()) this.animAttack(player);
         else if (Math.random() >= 0.1) super.update();
