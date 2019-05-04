@@ -43,6 +43,19 @@ export default class Enemy extends Character
         this.body.setVelocityX(0);
     }
 
+    looseHp (amount, kvx, kvy)
+    {
+        super.looseHp(amount);
+
+        let vx = kvx || amount * 15;
+        let vy = -(kvy || amount * 5);
+
+        if (!kvx) if (this.scene.player.flipX) vx *= -1;
+
+        this.anims.play(this.name + 'Idle', true);
+        this.body.setVelocity(vx, vy);
+    }
+
     attack (target)
     {
         this.anims.play(this.name + 'Attack', true);
@@ -130,9 +143,10 @@ export default class Enemy extends Character
         if (this.isAttacking()) this.animAttack(player);
         else if (Math.random() >= 0.1) super.update();
         else if (player && player.alive && this.canAttack(player)) this.attack(player);
-        else if (player && player.alive && this.hitboxes[this.hitboxes.active][0].left > player.hitboxes[player.hitboxes.active][0].right) this.walk(this.baseVelocity, false);
-        else if (player && player.alive && this.hitboxes[this.hitboxes.active][0].right < player.hitboxes[player.hitboxes.active][0].left) this.walk(this.baseVelocity, true);
-        else this.walk(this.baseVelocity);
+        else if (this.body.touching.down && player && player.alive && this.hitboxes[this.hitboxes.active][0].left > player.hitboxes[player.hitboxes.active][0].right) this.walk(this.baseVelocity, false);
+        else if (this.body.touching.down && player && player.alive && this.hitboxes[this.hitboxes.active][0].right < player.hitboxes[player.hitboxes.active][0].left) this.walk(this.baseVelocity, true);
+        else if (this.body.touching.down) this.walk(this.baseVelocity);
+        else this.idle();
 
         super.update();
     }

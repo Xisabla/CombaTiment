@@ -18,6 +18,10 @@ export default class EnergyBall extends Projectile
     {
         super.update();
 
-        enemies.getOver(this.hitbox).looseHp(1);
+        let kvx = 150;
+        let kvy = 50;
+        if (this.flipX) kvx *= -1;
+
+        enemies.getOver(this.hitbox).looseHp(1, kvx, kvy);
     }
 }

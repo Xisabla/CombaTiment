@@ -66,7 +66,7 @@ export default class EnemyCollection extends Array
         return enemies;
     }
 
-    looseHp (damage)
+    looseHp (damage, kvx, kvy)
     {
         let done = 0;
 
@@ -74,7 +74,7 @@ export default class EnemyCollection extends Array
         {
             if (done < 2)
             {
-                enemy.looseHp(damage);
+                enemy.looseHp(damage, kvx, kvy);
                 enemy.update();
 
                 done++;
