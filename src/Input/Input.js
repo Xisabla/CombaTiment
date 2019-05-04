@@ -13,6 +13,8 @@ export default class Input
             A: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
             Z: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
             E: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
+            Q: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
+            S: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
             space: this.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         };
 
@@ -48,7 +50,10 @@ export default class Input
         this.attack2 = this.keys.Z.isDown || this.pad.Y;
         this.attack3 = this.keys.E.isDown || this.pad.B;
 
-        this.sudo = this.b4 && this.b5 && this.b6 && this.b7 && this.b10 && this.b11;
+        this.dashLeft = this.b6 || this.b4 || this.keys.Q.isDown;
+        this.dashRight = this.b7 || this.b5 || this.keys.S.isDown;
+
+        this.sudo = (this.b4 && this.b5 && this.b6 && this.b7 && this.b10 && this.b11) || (this.keys.A.isDown && this.keys.Z.isDown && this.keys.E.isDown);
     }
 
     getVelocity (baseVelocity)

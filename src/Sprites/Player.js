@@ -18,6 +18,7 @@ export default class Player extends Character
         this.energy = this.energymax;
         this.energyBalls = [];
         this.projectileCreated = false;
+        this.dashing = false;
         this.setDepth(1e6);
     }
 
@@ -26,7 +27,10 @@ export default class Player extends Character
         this.createAnim('idle', this.scene.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10);
         this.createAnim('walk', this.scene.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10);
         this.createAnim('punch', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
+        // TODO: Change with real throw animation
         this.createAnim('throw', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
+        // TODO: Change with real dash animation
+        this.createAnim('dash', this.scene.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10);
         this.createAnim('jump', this.scene.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6);
         this.createAnim('forwardjump', this.scene.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8);
     }
@@ -106,6 +110,25 @@ export default class Player extends Character
         {
             this.body.setVelocityX(0);
             this.anims.play('throw', true);
+        }
+    }
+
+    dash (right = true)
+    {
+        if (this.useEnergy(20))
+        {
+            let velocity = 1000;
+
+            this.hitboxes.active = 'walking';
+            this.setFlipX(!right);
+            this.anims.play('dash', true);
+            this.body.setVelocityX(right ? Math.abs(velocity) : -Math.abs(velocity));
+            this.dashing = true;
+
+            setTimeout(() =>
+            {
+                this.dashing = false;
+            }, 200);
         }
     }
 
@@ -231,11 +254,14 @@ export default class Player extends Character
     {
         if (this.godmode) this.regenerate(this.hpmax, this.energymax);
         if (!this.alive) return;
+        if (this.dashing) return;
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
         else if (input.attack1 && this.body.touching.down) this.punch(enemies);
         else if (input.attack3 && this.body.touching.down) this.throw();
+        else if (input.dashLeft && this.body.touching.down) this.dash(false);
+        else if (input.dashRight && this.body.touching.down) this.dash(true);
         else if (input.jump && this.body.touching.down) this.jump(input);
         else if (input.direction.left && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), false);
         else if (input.direction.right && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), true);
