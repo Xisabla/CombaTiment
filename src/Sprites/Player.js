@@ -19,6 +19,7 @@ export default class Player extends Character
         this.energyBalls = [];
         this.projectileCreated = false;
         this.dashing = false;
+        this.lastDash = -1;
         this.setDepth(1e6);
     }
 
@@ -113,8 +114,11 @@ export default class Player extends Character
         }
     }
 
-    dash (right = true)
+    dash (time, right = true)
     {
+        console.log(this.lastDash, time);
+        if (time < this.lastDash + 300) return this.idle();
+
         if (this.useEnergy(20))
         {
             let velocity = 1000;
@@ -124,10 +128,12 @@ export default class Player extends Character
             this.anims.play('dash', true);
             this.body.setVelocityX(right ? Math.abs(velocity) : -Math.abs(velocity));
             this.dashing = true;
+            this.lastDash = time;
 
             setTimeout(() =>
             {
                 this.dashing = false;
+                this.idle();
             }, 200);
         }
     }
@@ -258,10 +264,10 @@ export default class Player extends Character
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
-        else if (input.attack1 && this.body.touching.down) this.punch(enemies);
-        else if (input.attack3 && this.body.touching.down) this.throw();
-        else if (input.dashLeft && this.body.touching.down) this.dash(false);
-        else if (input.dashRight && this.body.touching.down) this.dash(true);
+        else if (input.attack1 && this.body.touching.down && this.energy > 20) this.punch(enemies);
+        else if (input.attack3 && this.body.touching.down && this.energy > 20) this.throw();
+        else if (input.dashLeft && this.body.touching.down) this.dash(time, false);
+        else if (input.dashRight && this.body.touching.down) this.dash(time, true);
         else if (input.jump && this.body.touching.down) this.jump(input);
         else if (input.direction.left && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), false);
         else if (input.direction.right && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), true);
