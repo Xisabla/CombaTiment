@@ -40,8 +40,7 @@ export default class extends Phaser.Scene
 
         this.enemies = new EnemyCollection();
         // this.icecube = new IceCube(this, 1300, 500, this.player);
-        this.boss = new BossFridge(this, 1600, 240, this.ground);
-
+        this.boss = new BossFridge(this, 1120, 240, this.ground);
         this.hitboxGraphics = this.add.graphics();
 
         this.data = this.cache.json.get('levels/0');

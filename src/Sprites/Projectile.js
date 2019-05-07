@@ -10,8 +10,8 @@ export default class Projectile extends Phaser.GameObjects.Sprite
         let flipped = settings.flipped || false;
 
         this.time = 0;
-        this.baseVelocityX = settings.baseVelocityX || 100;
-        this.baseVelocityY = settings.baseVelocityY || 0;
+        this.baseVelocityX = (settings.baseVelocityX !== undefined) ? settings.baseVelocityX : 100;
+        this.baseVelocityY = (settings.baseVelocityY !== undefined) ? settings.baseVelocityY : 0;
         this.gravity = !(!settings.gravity || false);
 
         if (flipped) this.baseVelocityX *= -1;
