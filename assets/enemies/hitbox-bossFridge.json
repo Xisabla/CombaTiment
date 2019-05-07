@@ -1,0 +1,40 @@
+{
+	"bossFridge" :
+		{
+			"active" :"still",
+			"attack" : [
+				{
+					"label" : "body",
+					"x" : 130,
+					"y" : 80,
+					"width" : 220,
+					"height" : 400,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 8
+				},
+				{
+					"label" : "punch",
+					"x" : 60,
+					"y" : 250,
+					"width" : 100,
+					"height" : 160,
+					"type" : "hurtbox",
+					"start" : 3,
+					"end" : 3
+				} 
+			],
+			"still" : [
+				{
+					"label" : "body",
+					"x" : 130,
+					"y" : 80,
+					"width" : 220,
+					"height" : 400,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 4
+				} 
+			]
+	} 
+}

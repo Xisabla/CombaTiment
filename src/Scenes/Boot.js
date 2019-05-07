@@ -50,6 +50,7 @@ export default class extends Phaser.Scene
         this.load.audio('music/mettaton', ['assets/music/mus_mettaton_ex.ogg']);
         this.load.audio('music/punch', ['assets/music/punch.ogg']);
         this.load.audio('music/energyball', ['assets/music/energyball.ogg']);
+        this.load.audio('music/iceCube', ['assets/music/iceCube.wav']);
         this.load.audio('music/menu_selection', ['assets/music/menu_selection.ogg']);
         this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
         this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
@@ -108,6 +109,10 @@ export default class extends Phaser.Scene
         this.load.spritesheet('projectiles/energyball', 'assets/projectiles/energyball.png', { frameWidth: 50, frameHeight: 40 });
 
         // ---------- Enemies
+
+        // BossFridge
+        this.load.spritesheet('enemies/bossFridge', 'assets/enemies/bossFridge.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/bossFridge/hitbox', 'assets/enemies/hitbox-bossFridge.json');
 
         // Fridge
         this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
