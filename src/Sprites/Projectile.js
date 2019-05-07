@@ -66,9 +66,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite
         this.hitbox.setXY(this.x - this.displayWidth / 2, this.y - this.displayHeight / 2);
 
         let x = this.x;
+        let y = this.y;
         let camera = this.scene.cameras.main;
 
-        if (x < camera.scrollX || x > camera.scrollX + camera.width)
+        if (x < camera.scrollX || x > camera.scrollX + camera.width || y <= 0)
         {
             this.destroy();
         }

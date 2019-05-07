@@ -113,6 +113,7 @@ export default class extends Phaser.Scene
         // BossFridge
         this.load.spritesheet('enemies/bossFridge', 'assets/enemies/bossFridge.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/bossFridge/hitbox', 'assets/enemies/hitbox-bossFridge.json');
+        this.load.json('enemies/bossFridge/pattern', 'assets/enemies/pattern-bossFridge.json');
 
         // Fridge
         this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });

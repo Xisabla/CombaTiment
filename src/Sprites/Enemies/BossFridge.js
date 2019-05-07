@@ -22,7 +22,10 @@ export default class BossFridge extends Boss
                 },
                 'throw': { 'anim': scene.anims.generateFrameNumbers('enemies/bossFridge', { start: 14, end: 22 }), 'framerate': 10 }
             },
-            { scale: 1.5 }
+            {
+                scale: 1.5,
+                pattern: scene.cache.json.get('enemies/bossFridge/pattern')
+            }
         );
 
         this.projectileName = 'IceCube';

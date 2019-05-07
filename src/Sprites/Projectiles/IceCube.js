@@ -3,11 +3,11 @@ import { isOver } from '../../Engine/Hitbox';
 
 export default class IceCube extends Projectile
 {
-    constructor (scene, x, y)
+    constructor (scene, x, y, vx, vy)
     {
         super(scene, x, y, 'projectiles/icecube', {
-            baseVelocityX: -300,
-            baseVelocityY: 0,
+            baseVelocityX: vx | -300,
+            baseVelocityY: vy | 0,
             gravity: true
         });
 
