@@ -26,6 +26,10 @@
         {
             "enemies": [ "bulb" , "bulb", "radiator", "radiator", "bulb", "radiator", "radiator", "radiator", "bulb", "bulb" ],
             "timeout": 100
+        },
+        {
+            "enemies": [ "bulb", "radiator", "bulb", "radiator"],
+            "timeout": 300
         }
     ],
 
