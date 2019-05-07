@@ -53,7 +53,7 @@ export default class extends Phaser.Scene
 
         this.panels.show(true, 200);
 
-        this.player = new Player(this, 40, 550, this.ground);
+        this.player = new Player(this, 40, 525, this.ground);
 
         this.hitboxGraphics = this.add.graphics();
     }

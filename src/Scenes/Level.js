@@ -51,7 +51,7 @@ export default class extends Phaser.Scene
             this.ground.create(800 + 2 * 800 * i, 810, 'levels/ground');
         }
 
-        this.player = new Player(this, 40, 550, this.ground);
+        this.player = new Player(this, 40, 525, this.ground);
         this.hpbar = new HPBar(this.player);
 
         this.hitboxGraphics = this.add.graphics();

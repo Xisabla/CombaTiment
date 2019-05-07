@@ -7,10 +7,10 @@ export default class Player extends Character
     constructor (scene, x, y, ground)
     {
         super(scene, x, y,
-            'feilong/idle',
+            'player/walk',
             ground,
-            'feilong/hitbox',
-            'feilong',
+            'player/hitbox',
+            'player',
             { baseVelocity: 500, hpmax: 200 });
 
         this.godmode = false;
@@ -21,19 +21,18 @@ export default class Player extends Character
         this.dashing = false;
         this.lastDash = -1;
         this.setDepth(1e6);
+        this.punchDone = false;
     }
 
     createAnims ()
     {
-        this.createAnim('idle', this.scene.anims.generateFrameNumbers('feilong/idle', { start: 0, end: 10 }), 10);
-        this.createAnim('walk', this.scene.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10);
-        this.createAnim('punch', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
+        this.createAnim('idle', this.scene.anims.generateFrameNumbers('player/walk', { start: 0, end: 1 }), 10);
+        this.createAnim('walk', this.scene.anims.generateFrameNumbers('player/walk', { start: 0, end: 5 }), 10);
+        this.createAnim('punch', this.scene.anims.generateFrameNumbers('player/punch', { start: 0, end: 4 }), 12);
         // TODO: Change with real throw animation
-        this.createAnim('throw', this.scene.anims.generateFrameNumbers('feilong/punch', { start: 0, end: 3 }), 8);
+        this.createAnim('throw', this.scene.anims.generateFrameNumbers('player/throw', { start: 0, end: 6 }), 8);
         // TODO: Change with real dash animation
-        this.createAnim('dash', this.scene.anims.generateFrameNumbers('feilong/walking', { start: 0, end: 5 }), 10);
-        this.createAnim('jump', this.scene.anims.generateFrameNumbers('feilong/jump', { start: 0, end: 6 }), 6);
-        this.createAnim('forwardjump', this.scene.anims.generateFrameNumbers('feilong/forwardjump', { start: 0, end: 8 }), 8);
+        this.createAnim('dash', this.scene.anims.generateFrameNumbers('player/dash', { start: 0, end: 3 }), 10);
     }
 
     setGodmode (value)
@@ -84,25 +83,15 @@ export default class Player extends Character
 
     walk (velocity = this.baseVelocity, right = true)
     {
-        this.hitboxes.active = 'walking';
         this.setFlipX(!right);
         this.anims.play('walk', true);
         this.body.setVelocityX(right ? Math.abs(velocity) : -Math.abs(velocity));
     }
 
-    punch (enemies)
+    punch ()
     {
-        let damage = this.godmode ? 1e6 : 20;
-
         this.body.setVelocityX(0);
         this.anims.play('punch', true);
-
-        if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
-
-        if (this.scene.sounds)
-        {
-            if (this.scene.sounds.punch) this.scene.sounds.punch.play();
-        }
     }
 
     throw ()
@@ -123,7 +112,6 @@ export default class Player extends Character
             let velocity = 1000;
 
             this.invulnerable = true;
-            this.hitboxes.active = 'walking';
             this.setFlipX(!right);
             this.anims.play('dash', true);
             this.body.setVelocityX(right ? Math.abs(velocity) : -Math.abs(velocity));
@@ -139,6 +127,7 @@ export default class Player extends Character
         }
     }
 
+    /**
     jump (input)
     {
         if (input.direction.right)
@@ -158,29 +147,51 @@ export default class Player extends Character
 
         this.body.setVelocityY(-600);
     }
+     */
 
+    /**
     animJump ()
     {
         this.body.setVelocityX(0);
         this.anims.play('jump', true);
     }
+     */
 
+    /**
     animForwardJump ()
     {
         this.anims.play('forwardjump', true);
     }
+     */
 
-    animPunch ()
+    animPunch (enemies)
     {
         // if the punch animation has been triggered
         this.anims.play('punch', true);
         this.hitboxes.active = 'punch';
+
+        let frame = this.anims.currentFrame.index;
+
+        if (frame >= this.hitboxes.punch[1].start && frame <= this.hitboxes.punch[1].end && !this.punchDone)
+        {
+            this.punchDone = true;
+            let damage = 20;
+
+            if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
+
+            if (this.scene.sounds)
+            {
+                if (this.scene.sounds.punch) this.scene.sounds.punch.play();
+            }
+        }
 
         if (this.anims.currentAnim.frames.length === this.anims.currentFrame.index)
         {
             // finish the punch animation
             this.anims.play('idle', true);
             this.hitboxes.active = 'still';
+
+            this.punchDone = false;
         }
 
         this.body.setVelocityX(0);
@@ -191,7 +202,9 @@ export default class Player extends Character
         this.anims.play('throw', true);
         this.hitboxes.active = 'still';
 
-        if (Math.floor(this.anims.currentAnim.frames.length / 2) === this.anims.currentFrame.index && !this.projectileCreated)
+        let frame = this.anims.currentFrame.index;
+
+        if (frame === 5 && !this.projectileCreated)
         {
             this.energyBalls.push(new EnergyBall(this));
             this.projectileCreated = true;
@@ -267,17 +280,17 @@ export default class Player extends Character
         if (!this.alive) return;
         if (this.dashing) return updateHitboxes(this);
 
-        if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
+        if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch(enemies);
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
-        else if (input.attack1 && this.body.touching.down) this.punch(enemies);
+        else if (input.attack1 && this.body.touching.down) this.punch();
         else if (input.attack3 && this.body.touching.down && this.energy > 30) this.throw();
         else if (input.dashLeft && this.body.touching.down) this.dash(time, false);
         else if (input.dashRight && this.body.touching.down) this.dash(time, true);
-        else if (input.jump && this.body.touching.down) this.jump(input);
+        // else if (input.jump && this.body.touching.down) this.jump(input);
         else if (input.direction.left && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), false);
         else if (input.direction.right && this.body.touching.down) this.walk(input.getVelocity(this.baseVelocity), true);
-        else if (!this.body.touching.down && this.body.velocity.x === 0) this.animJump();
-        else if (!this.body.touching.down && this.body.velocity.x !== 0) this.animForwardJump();
+        // else if (!this.body.touching.down && this.body.velocity.x === 0) this.animJump();
+        // else if (!this.body.touching.down && this.body.velocity.x !== 0) this.animForwardJump();
         else this.idle();
 
         if (this.scene.game.config.physics.arcade.debug) this.debug();

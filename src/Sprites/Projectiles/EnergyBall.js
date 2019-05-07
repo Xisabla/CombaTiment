@@ -4,9 +4,9 @@ export default class EnergyBall extends Projectile
 {
     constructor (player)
     {
-        let delta = (player.flipX) ? 0 : player.displayWidth;
+        let delta = (player.flipX) ? 100 : (player.displayWidth - 100);
 
-        super(player.scene, player.x + delta, player.y + 60, 'projectiles/energyball', {
+        super(player.scene, player.x + delta, player.y + 110, 'projectiles/energyball', {
             baseVelocityX: 500,
             flipped: player.flipX
         });

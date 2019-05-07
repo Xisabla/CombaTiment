@@ -99,6 +99,13 @@ export default class extends Phaser.Scene
 
         // ---------- Main Character
 
+        // Player
+        this.load.json('player/hitbox', 'assets/building/hitboxes.json');
+        this.load.spritesheet('player/walk', 'assets/building/walk.png', { frameWidth: 192, frameHeight: 195 });
+        this.load.spritesheet('player/punch', 'assets/building/punch.png', { frameWidth: 192, frameHeight: 195 });
+        this.load.spritesheet('player/throw', 'assets/building/throw.png', { frameWidth: 192, frameHeight: 195 });
+        this.load.spritesheet('player/dash', 'assets/building/dash.png', { frameWidth: 192, frameHeight: 195 });
+
         // Feilong
         this.load.spritesheet('feilong/idle', 'assets/feilong/idle.png', { frameWidth: 111.17, frameHeight: 171 });
         this.load.spritesheet('feilong/walking', 'assets/feilong/walking.png', { frameWidth: 90, frameHeight: 171 });

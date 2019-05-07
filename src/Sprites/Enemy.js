@@ -114,6 +114,8 @@ export default class Enemy extends Character
 
     isAttacking ()
     {
+        if (!this.anims) return false;
+
         return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Attack';
     }
 
