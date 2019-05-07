@@ -62,6 +62,7 @@ export default class extends Phaser.Scene
         this.load.image('power/thunder', 'assets/power/thunder.png');
 
         // GUI
+        this.load.image('title', 'assets/misc/title.png');
         this.load.image('hud/gamepad', 'assets/hud/gamepad.png');
         this.load.image('hud/hpbar/hp', 'assets/hud/hpbar/hp.png');
         this.load.image('hud/hpbar/energy', 'assets/hud/hpbar/energy.png');
