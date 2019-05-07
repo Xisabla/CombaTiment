@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
+import { Menu, MenuOption } from '../UI/Menu';
 import EventInput from '../Input/EventInput';
 
 export default class extends Phaser.Scene
@@ -21,25 +21,19 @@ export default class extends Phaser.Scene
         this.sounds.ambient.play();
 
         this.frame = this.add.graphics();
-        this.frame.fillStyle(0x000000, 0.4);
-        this.frame.fillRect(550, 200, 500, 450);
+        this.frame.fillStyle(0x000000, 0.7);
+        this.frame.fillRect(550, 300, 500, 250);
 
         this.menu = new Menu(this, {
-            title: { text: 'CombaTiment',
-                fontFamily: 'Anton',
-                fontSize: 120,
-                color: '#000000',
+            title: { image: 'title',
+                scale: 0.12,
                 y: 100,
-                offsetBottom: 80 },
+                offsetBottom: 180 },
 
             choices: { color: '#ffffff',
                 fontFamily: 'Raleway',
                 fontSize: 32,
-                offset: 40,
-                enter: () =>
-                {
-                    this.scene.start('TodoScene');
-                }
+                offset: 40
             },
 
             sounds: {
@@ -56,15 +50,10 @@ export default class extends Phaser.Scene
             cursorOffsetX: 0
         });
 
-        this.menu.add(new MenuOption('New Game', { enter: () =>
+        this.menu.add(new MenuOption('Start', { enter: () =>
         {
             this.scene.start('LevelSelect');
         } }));
-
-        this.menu.add(new MenuSeparator());
-        this.menu.add(new MenuOption('Load Game'));
-        this.menu.add(new MenuSeparator());
-        this.menu.add(new MenuOption('Credits'));
 
         this.menu.create();
 
