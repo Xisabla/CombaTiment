@@ -28,6 +28,8 @@ export default class Boss extends Character
         this.patternId = 0;
         this.attackId = 0;
         this.continueAttack = true;
+        this.airStrikePending = false;
+        this.lastFrame = -1;
 
         this.attackDamage = settings.attackDamage || 10;
         this.attackDone = false;
@@ -44,6 +46,7 @@ export default class Boss extends Character
             if (anims['attack']) this.createAnim(this.name + 'Attack', anims['attack']['anim'], anims['attack']['framerate']);
             if (anims['spawn']) this.createAnim(this.name + 'Spawn', anims['spawn']['anim'], anims['spawn']['framerate']);
             if (anims['throw']) this.createAnim(this.name + 'Throw', anims['throw']['anim'], anims['throw']['framerate']);
+            if (anims['airStrike']) this.createAnim(this.name + 'AirStrike', anims['airStrike']['anim'], anims['airStrike']['framerate']);
         }
     }
 
@@ -115,10 +118,10 @@ export default class Boss extends Character
         this.body.setVelocityX(0);
     }
 
-    spawn (enemies, wave, x, y)
+    spawn ()
     {
         this.anims.play(this.name + 'Spawn', true);
-        enemies.spawnWave(this.scene, wave, x, y);
+        this.scene.enemies.spawnWave(this.scene, this.scene.data.waves[this.scene.data.waves.length - 1], this.spawnX, this.spawnY);
     }
 
     animSpawn (target)
@@ -175,6 +178,59 @@ export default class Boss extends Character
         this.body.setVelocityX(0);
     }
 
+    airStrike ()
+    {
+        this.anims.play(this.name + 'AirStrike', true);
+        this.airStrikePending = true;
+    }
+
+    animAirStrike ()
+    {
+        this.anims.play(this.name + 'AirStrike', true);
+        this.hitboxes.active = 'still';
+
+        if (Math.floor(this.anims.currentAnim.frames.length / 2) <= this.anims.currentFrame.index && Math.floor(this.anims.currentAnim.frames.length / 2) + 3 > this.anims.currentFrame.index)
+        {
+            if (this.anims.currentFrame.index !== this.lastFrame)
+            {
+                if (this.projectileName === 'IceCube') this.projectiles.push(new IceCube(this.scene, this.x + 180, this.y + 200, -100, -1500));
+                if (this.scene.sounds)
+                {
+                    if (this.projectileName === 'IceCube' && this.scene.sounds.iceCube) this.scene.sounds.iceCube.play();
+                }
+                this.lastFrame = this.anims.currentFrame.index;
+            }
+        }
+
+        if (this.anims.currentAnim.frames.length === this.anims.currentFrame.index)
+        {
+            this.anims.play(this.name + 'Idle', true);
+            this.hitboxes.active = 'still';
+            this.projectileCreated = false;
+        }
+
+        this.body.setVelocityX(0);
+    }
+
+    finishAirStrike ()
+    {
+        let xMid = Math.random() * (this.scene.physics.world.bounds.width - 900) + 400;
+        let space = Math.random() * 50 + 50;
+
+        this.airStrikePending = false;
+        if (this.projectileName === 'IceCube')
+        {
+            this.projectiles.push(new IceCube(this.scene, xMid - space, 1, 0, 500));
+            this.projectiles.push(new IceCube(this.scene, xMid, 1, 0, 500));
+            this.projectiles.push(new IceCube(this.scene, xMid + space, 1, 0, 500));
+        }
+    }
+
+    isAirStriking ()
+    {
+        return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'AirStrike';
+    }
+
     isThrowing ()
     {
         return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Throw';
@@ -226,13 +282,25 @@ export default class Boss extends Character
             let attack = this.pattern[this.patternId][this.attackId];
 
             if (attack === 'throw') this.throw();
-            else if (attack === 'spawn') this.spawn(this.scene.enemies, this.scene.data.waves[this.scene.data.waves.length - 1], this.spawnX, this.spawnY);
+            else if (attack === 'airStrike') this.airStrike();
+            else if (attack === 'spawn') this.spawn();
 
             this.continueAttack = false;
-            setTimeout(() =>
+            if (attack === 'airStrike')
             {
-                this.continueAttack = true;
-            }, 3000);
+                setTimeout(() =>
+                {
+                    this.finishAirStrike();
+                    this.continueAttack = true;
+                }, 3000);
+            }
+            else
+            {
+                setTimeout(() =>
+                {
+                    this.continueAttack = true;
+                }, 3000);
+            }
 
             this.attackId++;
             if (this.attackId === this.pattern[this.patternId].length) this.patternDone = true;
@@ -246,8 +314,9 @@ export default class Boss extends Character
         if (this.isAttacking()) this.animAttack(player);
         else if (this.isSpawning()) this.animSpawn(player);
         else if (this.isThrowing()) this.animThrow();
-        else if (player && player.alive && this.canAttack(player)) this.attack(player);
-        else this.followPattern(player);
+        else if (this.isAirStriking()) this.animAirStrike();
+        else if (player && player.alive && !this.airStrikePending && this.canAttack(player)) this.attack(player);
+        else if (!this.airStrikePending) this.followPattern(player);
 
         super.update();
     }

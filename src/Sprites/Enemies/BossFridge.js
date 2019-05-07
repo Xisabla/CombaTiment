@@ -20,11 +20,28 @@ export default class BossFridge extends Boss
                 ],
                 'framerate': 2
                 },
-                'throw': { 'anim': scene.anims.generateFrameNumbers('enemies/bossFridge', { start: 14, end: 22 }), 'framerate': 10 }
+                'throw': { 'anim': scene.anims.generateFrameNumbers('enemies/bossFridge', { start: 14, end: 22 }), 'framerate': 10 },
+                'airStrike': { 'anim': [
+                    { key: 'enemies/bossFridge', frame: 14 },
+                    { key: 'enemies/bossFridge', frame: 15 },
+                    { key: 'enemies/bossFridge', frame: 16 },
+                    { key: 'enemies/bossFridge', frame: 17 },
+                    { key: 'enemies/bossFridge', frame: 18 },
+                    { key: 'enemies/bossFridge', frame: 18 },
+                    { key: 'enemies/bossFridge', frame: 18 },
+                    { key: 'enemies/bossFridge', frame: 19 },
+                    { key: 'enemies/bossFridge', frame: 20 },
+                    { key: 'enemies/bossFridge', frame: 21 },
+                    { key: 'enemies/bossFridge', frame: 22 }
+                ],
+                'framerate': 7
+                }
             },
             {
                 scale: 1.5,
-                pattern: scene.cache.json.get('enemies/bossFridge/pattern')
+                pattern: scene.cache.json.get('enemies/bossFridge/pattern'),
+                spawnX: x + 80,
+                spawnY: y + 235
             }
         );
 

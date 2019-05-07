@@ -6,8 +6,8 @@ export default class IceCube extends Projectile
     constructor (scene, x, y, vx, vy)
     {
         super(scene, x, y, 'projectiles/icecube', {
-            baseVelocityX: vx | -300,
-            baseVelocityY: vy | 0,
+            baseVelocityX: (vx !== undefined) ? vx : -300,
+            baseVelocityY: (vy !== undefined) ? vy : 0,
             gravity: true
         });
 
