@@ -24,7 +24,7 @@ export default class Character extends Phaser.GameObjects.Sprite
         this.baseVelocity = settings.baseVelocity || 100;
         this.hpmax = settings.hpmax || 100;
         this.hp = settings.hp || this.hpmax;
-        this.invulerable = false;
+        this.invulnerable = false;
 
         this.createAnims();
     }
@@ -50,7 +50,7 @@ export default class Character extends Phaser.GameObjects.Sprite
 
     looseHp (amount)
     {
-        if (this.godmode || this.invulerable) return;
+        if (this.godmode || this.invulnerable) return;
 
         this.setHp(this.hp - amount);
     }

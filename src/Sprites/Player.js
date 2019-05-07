@@ -122,7 +122,7 @@ export default class Player extends Character
         {
             let velocity = 1000;
 
-            this.invulerable = true;
+            this.invulnerable = true;
             this.hitboxes.active = 'walking';
             this.setFlipX(!right);
             this.anims.play('dash', true);
@@ -133,7 +133,7 @@ export default class Player extends Character
             setTimeout(() =>
             {
                 this.dashing = false;
-                this.invulerable = false;
+                this.invulnerable = false;
                 this.idle();
             }, 200);
         }
@@ -264,7 +264,8 @@ export default class Player extends Character
     update (time, input, enemies)
     {
         if (this.godmode) this.regenerate(this.hpmax, this.energymax);
-        if (!this.alive || this.dashing) return;
+        if (!this.alive) return;
+        if (this.dashing) return updateHitboxes(this);
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch();
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
