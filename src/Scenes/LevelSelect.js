@@ -32,7 +32,6 @@ export default class extends Phaser.Scene
 
         this.ground = this.physics.add.staticGroup();
         this.ground.create(800, 810, 'levels/ground');
-        this.add.image(800, 710, 'levels/grass');
         this.add.image(300, 810, 'hud/gamepad').setScale(0.4);
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
 
@@ -54,7 +53,7 @@ export default class extends Phaser.Scene
 
         this.panels.show(true, 200);
 
-        this.player = new Player(this, 40, 500, this.ground);
+        this.player = new Player(this, 40, 550, this.ground);
 
         this.hitboxGraphics = this.add.graphics();
     }

@@ -49,10 +49,9 @@ export default class extends Phaser.Scene
         {
             this.add.image(800 + 2 * 800 * i, 450, 'levels/' + this.id + '/background');
             this.ground.create(800 + 2 * 800 * i, 810, 'levels/ground');
-            this.add.image(800 + 2 * 800 * i, 710, 'levels/grass');
         }
 
-        this.player = new Player(this, 40, 553, this.ground);
+        this.player = new Player(this, 40, 550, this.ground);
         this.hpbar = new HPBar(this.player);
 
         this.hitboxGraphics = this.add.graphics();
@@ -77,7 +76,7 @@ export default class extends Phaser.Scene
         // If the wave exists, spawn it
         if (this.data.waves[id])
         {
-            this.enemies.spawnWave(this, this.data.waves[id], this.screenOffset + 1600 * this.screen + this.cameras.main.width, 564);
+            this.enemies.spawnWave(this, this.data.waves[id], this.screenOffset + 1600 * this.screen + this.cameras.main.width, 560);
         }
     }
 

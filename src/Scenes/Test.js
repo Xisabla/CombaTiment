@@ -31,7 +31,7 @@ export default class extends Phaser.Scene
         this.ground.create(800, 810, 'levels/ground');
         this.add.image(800, 710, 'levels/grass');
 
-        this.player = new Player(this, 40, 553, this.ground);
+        this.player = new Player(this, 40, 550, this.ground);
         this.hpbar = new HPBar(this.player);
 
         // TODO: Remove - for testing
