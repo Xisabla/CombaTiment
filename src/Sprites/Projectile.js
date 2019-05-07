@@ -55,6 +55,8 @@ export default class Projectile extends Phaser.GameObjects.Sprite
     }
     update (player, enemies = [])
     {
+        if (!this.active) return;
+
         this.time += 10;
         this.hitbox.setXY(this.x - this.displayWidth / 2, this.y - this.displayHeight / 2);
 
