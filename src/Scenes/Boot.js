@@ -67,6 +67,7 @@ export default class extends Phaser.Scene
         this.load.image('hud/hpbar/hp', 'assets/hud/hpbar/hp.png');
         this.load.image('hud/hpbar/energy', 'assets/hud/hpbar/energy.png');
         this.load.image('hud/hpbar/frame', 'assets/hud/hpbar/frame.png');
+        this.load.image('hud/menuframe', 'assets/misc/menuframe.png');
         this.load.image('hud/pauseframe', 'assets/misc/pauseframe.png');
 
         // ---------- Levels

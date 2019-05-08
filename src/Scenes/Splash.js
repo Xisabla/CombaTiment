@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
+import { Menu, MenuOption } from '../UI/Menu';
 import EventInput from '../Input/EventInput';
 
 export default class extends Phaser.Scene
@@ -52,15 +52,13 @@ export default class extends Phaser.Scene
 
     makeMenu ()
     {
-        this.frame = this.add.graphics();
-        this.frame.fillStyle(0x000000, 0.7);
-        this.frame.fillRect(550, 300, 500, 250);
+        this.frame = this.add.image(800, 400, 'hud/menuframe');
 
         this.menu = new Menu(this, {
             title: { image: 'title',
                 scale: 0.12,
                 y: 100,
-                offsetBottom: 180 },
+                offsetBottom: 150 },
 
             choices: { color: '#ffffff',
                 fontFamily: 'Raleway',
@@ -87,10 +85,7 @@ export default class extends Phaser.Scene
             this.scene.start('LevelSelect');
         } }));
 
-        this.menu.add(new MenuSeparator());
-
         this.menu.create();
-
         this.menu.bindInput(this.inputs);
     }
 
