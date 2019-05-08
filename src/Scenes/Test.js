@@ -5,7 +5,7 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
-import WashMachine from '../Sprites/Enemies/WashMachine';
+import TutorialIceCube from '../Sprites/Projectiles/TutorialIceCube';
 
 export default class extends Phaser.Scene
 {
@@ -39,8 +39,9 @@ export default class extends Phaser.Scene
         this.player.setGodmode(true);
 
         this.enemies = new EnemyCollection();
-        this.enemies.spawn(WashMachine, this, 500, 500, this.ground);
+        // this.enemies.spawn(WashMachine, this, 500, 500, this.ground);
         this.hitboxGraphics = this.add.graphics();
+        this.ice = new TutorialIceCube(this, 600, 690);
 
         this.data = this.cache.json.get('levels/0');
 
