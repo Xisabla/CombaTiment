@@ -106,8 +106,8 @@ export default class extends Phaser.Scene
         this.ground.create(800 + 2 * 800 * (this.data.screens.length + 2), 810, 'levels/ground');
 
         this.player = new Player(this, 40, 525, this.ground);
-        // TODO: Remove
-        this.player.setGodmode(true);
+
+        // this.player.setGodmode(true);
         this.hpbar = new HPBar(this.player);
 
         if (this.data.id === 0) this.iceTuto = new TutorialIceCube(this, 6500, 690);
