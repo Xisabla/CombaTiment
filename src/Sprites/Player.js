@@ -1,5 +1,5 @@
 import Character from './Character';
-import { updateHitboxes } from '../Engine/Hitbox';
+import { updateHitboxes, isOver } from '../Engine/Hitbox';
 import EnergyBall from './Projectiles/EnergyBall';
 
 export default class Player extends Character
@@ -164,7 +164,7 @@ export default class Player extends Character
     }
      */
 
-    animPunch (enemies)
+    animPunch (enemies, boss)
     {
         // if the punch animation has been triggered
         this.anims.play('punch', true);
@@ -178,6 +178,7 @@ export default class Player extends Character
             let damage = 20;
 
             if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
+            if (boss && isOver(this.hitboxes.punch[1], boss.hitboxes[boss.hitboxes.active][0])) boss.looseHp(damage);
 
             if (this.scene.sounds)
             {
@@ -274,13 +275,13 @@ export default class Player extends Character
         this.energyText.setText(`Energy: ${this.energy}/${this.energymax}`);
     }
 
-    update (time, input, enemies)
+    update (time, input, enemies, boss)
     {
         if (this.godmode) this.regenerate(this.hpmax, this.energymax);
         if (!this.alive) return;
         if (this.dashing) return updateHitboxes(this);
 
-        if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch(enemies);
+        if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch(enemies, boss);
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
         else if (input.attack1 && this.body.touching.down) this.punch();
         else if (input.attack3 && this.body.touching.down && this.energy > 30) this.throw();

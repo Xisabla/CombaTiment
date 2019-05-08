@@ -57,20 +57,10 @@ export default class Boss extends Character
         this.body.setVelocityX(0);
     }
 
-    looseHp (amount, kvx, kvy)
+    looseHp (amount)
     {
         super.looseHp(amount);
-
-        if (this.hp > 0)
-        {
-            let vx = kvx || amount * 15;
-            let vy = -(kvy || amount * 5);
-
-            if (!kvx) if (this.scene.player.flipX) vx *= -1;
-
-            this.anims.play(this.name + 'Idle', true);
-            this.body.setVelocity(vx, vy);
-        }
+        if (this.hp <= 0) this.die();
     }
 
     attack (target)

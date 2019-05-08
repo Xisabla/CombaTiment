@@ -65,9 +65,10 @@ export default class extends Phaser.Scene
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
         // if (!this.icecube.active) this.icecube = new IceCube(this, 1300, 500, this.player);
-        if (this.player.alive) this.player.update(time, input, this.enemies);
+        if (this.player.alive) this.player.update(time, input, this.enemies, this.boss);
         this.enemies.update(time, this.player);
-        this.boss.update(time, this.player, this.enemies, this.data.waves[this.data.waves.length - 1], this.boss.hitboxes['attack'][1].anchor.x + 70, this.boss.hitboxes['attack'][1].anchor.y + 275);
+        if (this.boss.alive) this.boss.update(time, this.player);
+        console.log(this.boss.hp);
         this.debug();
     }
 };
