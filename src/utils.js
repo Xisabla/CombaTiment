@@ -1,25 +1,25 @@
 import Bulb from './Sprites/Enemies/Bulb';
-import Fridge from './Sprites/Enemies/Fridge';
+import BossFridge from './Sprites/Enemies/BossFridge';
 import Radiator from './Sprites/Enemies/Radioator';
 import Virus from './Sprites/Enemies/Virus';
 
 export const enemiesText = {
+    'bossFridge': 'Frigo\n mal concu',
     'bulb': 'Ampoule\ngourmande',
-    'fridge': 'Frigo\n mal concu',
     'radiator': 'Radiateur\ndisfonctionnel',
     'virus': 'Virus'
 };
 
 export const enemiesObjects = {
+    'bossFridge': BossFridge,
     'bulb': Bulb,
-    'fridge': Fridge,
     'radiator': Radiator,
     'virus': Virus
 };
 
 export const enemiesAssets = {
+    'bossFridge': 'enemies/bossFridge',
     'bulb': 'enemies/bulb/walking',
-    'fridge': 'enemies/fridge',
     'radiator': 'enemies/radiator',
     'virus': 'enemies/virus'
 };
