@@ -187,6 +187,7 @@ export default class Enemy extends Character
 
     update (time, player, enemies = [])
     {
+        if (!this.alive) return;
         if (this.scene && this.scene.paused) this.idle();
 
         if (this.isDying()) this.animDie();
