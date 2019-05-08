@@ -1,4 +1,5 @@
 import IceCube from './IceCube';
+import { isOver } from '../../Engine/Hitbox';
 
 export default class TutorialIceCube extends IceCube
 {
@@ -17,5 +18,22 @@ export default class TutorialIceCube extends IceCube
     {
         this.text.destroy();
         super.destroy();
+    }
+
+    update (player, enemies = [])
+    {
+        this.time += 10;
+        this.hitbox.setXY(this.x - this.displayWidth / 2, this.y - this.displayHeight / 2);
+
+        if (isOver(this.hitbox, player.hitboxes[player.hitboxes.active][0]))
+        {
+            if (this.time - this.lastHit > 500 || this.lastHit === -1)
+            {
+                player.looseHp(30);
+                this.lastHit = this.time;
+            }
+
+            if (player.dashing) this.destroy();
+        }
     }
 }

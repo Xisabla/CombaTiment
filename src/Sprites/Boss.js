@@ -17,6 +17,7 @@ export default class Boss extends Character
             hitboxName,
             { hpmax });
 
+        this.body.setCollideWorldBounds(false);
         this.name = name;
         this.setScale(scale);
 
@@ -105,7 +106,7 @@ export default class Boss extends Character
     spawn ()
     {
         this.anims.play(this.name + 'Spawn', true);
-        this.scene.enemies.spawnWave(this.scene, this.scene.data.waves[this.scene.data.waves.length - 1], this.spawnX, this.spawnY);
+        this.scene.enemies.spawnWave(this.scene, this.scene.data.waves[this.scene.data.waves.length - 1], this.x + this.spawnX, this.y + this.spawnY);
     }
 
     animSpawn (target)
@@ -198,15 +199,15 @@ export default class Boss extends Character
 
     finishAirStrike ()
     {
-        let xMid = Math.random() * (this.scene.physics.world.bounds.width - 900) + 400;
-        let space = Math.random() * 50 + 50;
+        let xMid = Math.random() * (this.scene.physics.world.bounds.width - 800) + this.scene.physics.world.bounds.left + 200;
+        let space = Math.random() * 60 + 50;
 
         this.airStrikePending = false;
         if (this.projectileName === 'IceCube')
         {
             this.projectiles.push(new IceCube(this.scene, xMid - space, 1, 0, 500));
-            this.projectiles.push(new IceCube(this.scene, xMid, 1, 0, 500));
-            this.projectiles.push(new IceCube(this.scene, xMid + space, 1, 0, 500));
+            this.projectiles.push(new IceCube(this.scene, xMid, 5, 0, 500));
+            this.projectiles.push(new IceCube(this.scene, xMid + space, 10, 0, 500));
         }
     }
 
@@ -279,14 +280,14 @@ export default class Boss extends Character
                 {
                     this.finishAirStrike();
                     this.continueAttack = true;
-                }, 3000);
+                }, 4500);
             }
             else
             {
                 setTimeout(() =>
                 {
                     this.continueAttack = true;
-                }, 3000);
+                }, 4500);
             }
 
             this.attackId++;
@@ -306,6 +307,7 @@ export default class Boss extends Character
         else if (player && player.alive && !this.airStrikePending && this.canAttack(player)) this.attack(player);
         else if (!this.airStrikePending) this.followPattern(player);
 
+        console.log(this.hp);
         super.update();
     }
 }
