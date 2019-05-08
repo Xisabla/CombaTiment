@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Menu, MenuOption } from '../UI/Menu';
+import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
 import EventInput from '../Input/EventInput';
 
 export default class extends Phaser.Scene
@@ -26,26 +26,6 @@ export default class extends Phaser.Scene
                     return resolve();
                 }
             }, 10);
-
-            /**
-            setTimeout(() =>
-            {
-                ticks = 0;
-                timer = setInterval(() =>
-                {
-                    this.background.setAlpha(0.01 * ticks);
-                    this.title.setScale(0.2 - 0.0008 * ticks);
-                    this.title.setY(400 - 3 * ticks);
-
-                    ticks++;
-                    if (ticks >= 100)
-                    {
-                        clearInterval(timer);
-                        return resolve();
-                    }
-                }, 10);
-            }, 1010);
-             */
         });
     }
 
@@ -106,6 +86,8 @@ export default class extends Phaser.Scene
         {
             this.scene.start('LevelSelect');
         } }));
+
+        this.menu.add(new MenuSeparator());
 
         this.menu.create();
 

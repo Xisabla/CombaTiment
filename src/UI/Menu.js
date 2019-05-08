@@ -17,6 +17,7 @@ export class Menu
          * @private
          */
         this.scene = scene;
+        this.active = false;
 
         let title = settings['title'] || { text: 'Menu' };
 
@@ -198,6 +199,7 @@ export class Menu
      */
     _moveCursor (x, y)
     {
+        if (this.scene.cameras) x += this.scene.cameras.main.scrollX;
         if (this.cursorText) this.cursorText.setPosition(x + this.cursor.offset['top'], y + this.cursor.offset['bottom']);
         if (this.cursorImage) this.cursorImage.setPosition(x + this.cursor.offset['top'], y + this.cursor.offset['bottom']);
     }
@@ -380,19 +382,63 @@ export class Menu
 
         this._showElements(this.title.x, y);
         this._showCursor();
+        this.active = true;
 
         if (this.countOptions() > 0) this.select(0);
+    }
+
+    show ()
+    {
+        let x = this.title.x + this.scene.cameras.main.scrollX;
+
+        if (this.titleImage)
+        {
+            if (this.scene.cameras) this.titleImage.x = x;
+            this.titleImage.visible = true; this.titleImage.setDepth(1e6 + 2);
+        }
+        if (this.titleText)
+        {
+            if (this.scene.cameras) this.titleText.x = x;
+            this.titleText.visible = true; this.titleText.setDepth(1e6 + 2);
+        }
+        if (this.elements) this.elements.forEach(e => e.show(this.scene, x));
+        if (this.cursorImage)
+        {
+            if (this.scene.cameras) this.cursorImage.x = x;
+            this.cursorImage.visible = true; this.cursorImage.setDepth(1e6 + 2);
+        }
+        if (this.cursorText)
+        {
+            if (this.scene.cameras) this.cursorText.x = x;
+            this.cursorText.visible = true; this.cursorText.setDepth(1e6 + 2);
+        }
+
+        this.active = true;
+    }
+
+    hide ()
+    {
+        if (this.titleImage) this.titleImage.visible = false;
+        if (this.titleText) this.titleText.visible = false;
+        if (this.elements) this.elements.forEach(e => e.hide());
+        if (this.cursorImage) this.cursorImage.visible = false;
+        if (this.cursorText) this.cursorText.visible = false;
+
+        this.active = false;
     }
 
     bindInput (input)
     {
         input.on('down', key =>
         {
-            if (this.sounds.select && ['down', 'up', 'confirm'].includes(key)) this.sounds.select.play();
+            if (this.active)
+            {
+                if (this.sounds.select && ['down', 'up', 'confirm'].includes(key)) this.sounds.select.play();
 
-            if (key === 'down') this.selectDown();
-            if (key === 'up') this.selectUp();
-            if (key === 'confirm') this.enter();
+                if (key === 'down') this.selectDown();
+                if (key === 'up') this.selectUp();
+                if (key === 'confirm') this.enter();
+            }
         });
     }
 };
@@ -534,25 +580,37 @@ export class MenuOption
      */
     show (scene, x, y, settings = {})
     {
-        this.x = x;
-        this.y = y;
+        if (!this.optionText)
+        {
+            this.x = x;
+            this.y = y;
 
-        this.define(this.settings, settings);
+            this.define(this.settings, settings);
 
-        /**
-         * Option Text Object
-         * @type {Phaser.GameObjects.Text} Option Text
-         * @private
-         */
-        this.optionText = scene.add.text(this.x, this.y, this.name);
+            /**
+             * Option Text Object
+             * @type {Phaser.GameObjects.Text} Option Text
+             * @private
+             */
+            this.optionText = scene.add.text(this.x, this.y, this.name);
 
-        this.optionText.setOrigin(0.5);
-        this.optionText.setColor(this.color);
-        this.optionText.setFontFamily(this.fontFamily);
-        this.optionText.setFontSize(this.fontSize);
+            this.optionText.setOrigin(0.5);
+            this.optionText.setColor(this.color);
+            this.optionText.setFontFamily(this.fontFamily);
+            this.optionText.setFontSize(this.fontSize);
 
-        this.y += this.optionText.height / 2;
-        this.optionText.setPosition(this.x, this.y);
+            this.y += this.optionText.height / 2;
+            this.optionText.setPosition(this.x, this.y);
+        }
+
+        if (x) this.optionText.x = x;
+        this.optionText.setDepth(1e6 + 2);
+        this.optionText.visible = true;
+    }
+
+    hide ()
+    {
+        if (this.optionText) this.optionText.visible = false;
     }
 };
 
@@ -776,13 +834,38 @@ export class MenuSeparator
      */
     show (scene, x, y, settings)
     {
-        this.define(this.settings, settings);
+        if (!this.bar && !this.separatorImage && !this.separatorText)
+        {
+            this.define(this.settings, settings);
 
-        y += this.offset.top;
+            y += this.offset.top;
+        }
 
-        if (this.type === 'bar') this._showBar(scene, x, y);
-        if (this.type === 'image') this._showImage(scene, x, y);
-        if (this.type === 'text') this._showText(scene, x, y);
+        if (this.type === 'bar' && !this.bar) this._showBar(scene, x, y);
+        if (this.type === 'bar' && this.bar)
+        {
+            if (x) this.bar.x = x - 800;
+            this.bar.visible = true; this.bar.setDepth(1e6 + 2);
+        }
+        if (this.type === 'image' && !this.separatorImage) this._showImage(scene, x, y);
+        if (this.type === 'image' && this.separatorImage)
+        {
+            if (x) this.separatorImage.x = x;
+            this.separatorImage.visible = true; this.separatorImage.setDepth(1e6 + 2);
+        }
+        if (this.type === 'text' && !this.separatorText) this._showText(scene, x, y);
+        if (this.type === 'text' && this.separatorText)
+        {
+            if (x) this.separatorText.x = x;
+            this.separatorText.visible = true; this.separatorText.setDepth(1e6 + 2);
+        }
+    }
+
+    hide ()
+    {
+        if (this.bar) this.bar.visible = false;
+        if (this.separatorImage) this.separatorImage.visible = false;
+        if (this.separatorText) this.separatorText.visible = false;
     }
 };
 

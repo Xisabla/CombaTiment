@@ -6,6 +6,7 @@ import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
 import EventInput from '../Input/EventInput';
+import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
 
 export default class extends Phaser.Scene
 {
@@ -25,14 +26,61 @@ export default class extends Phaser.Scene
         this.data = data;
     }
 
+    pauseMenu ()
+    {
+        this.pframe = this.add.image(800, 400, 'hud/pauseframe');
+        this.pframe.setDepth(1e6 + 1);
+        this.pframe.visible = false;
+
+        this.pmenu = new Menu(this, {
+            title: { text: ' ',
+                y: 180,
+                offsetBottom: 0 },
+
+            choices: { color: '#ffffff',
+                fontFamily: 'Raleway',
+                fontSize: 32,
+                offset: 40
+            },
+
+            sounds: {
+                select: this.sounds.menu
+            },
+
+            separators: { type: 'bar',
+                width: 250,
+                color: 0x000000,
+                alpha: 0.5,
+                offset: 20 },
+
+            cursor: { image: 'menu/selector', scale: 1.2 },
+            cursorOffsetX: 0
+        });
+
+        this.pmenu.add(new MenuOption('Resume', { enter: () => this.pause() }));
+        this.pmenu.add(new MenuSeparator());
+        this.pmenu.add(new MenuOption('Restart Level', { enter: () => this.scene.start('Level', this.data) }));
+        this.pmenu.add(new MenuSeparator());
+        this.pmenu.add(new MenuOption('LevelSelect', { enter: () => this.scene.start('LevelSelect') }));
+        this.pmenu.add(new MenuSeparator());
+        this.pmenu.add(new MenuOption('Main Menu', { enter: () => this.scene.start('SplashScene') }));
+
+        this.pmenu.create();
+        this.pmenu.bindInput(this.inputs);
+
+        this.pmenu.hide();
+    }
+
     create ()
     {
+        this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
         this.sounds = {};
         this.sounds.ambient = this.sound.add('music/' + this.data.ambient, { loop: true, volume: 0.2 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.energyball = this.sound.add('music/energyball', { volume: 0.2 });
         this.sounds.ambient.play();
         this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
+        this.pauseMenu();
 
         this.paused = false;
 
@@ -232,11 +280,9 @@ export default class extends Phaser.Scene
         if (this.paused)
         {
             this.paused = false;
-
-            this.pauseedScreenOverlay.destroy();
-            this.pausedScreenText.destroy();
-            this.unpauseText.destroy();
             this.sounds.ambient.resume();
+            this.pmenu.hide();
+            this.pframe.visible = false;
         }
         else
         {
@@ -244,10 +290,9 @@ export default class extends Phaser.Scene
             this.player.idle();
             this.enemies.idle();
             this.sounds.ambient.pause();
-
-            this.pauseedScreenOverlay = this.add.graphics().fillStyle(0x000000, 0.8).fillRect(this.cameras.main.scrollX + 550, 300, 500, 200);
-            this.pausedScreenText = this.add.text(this.cameras.main.scrollX + 800, 380, 'Pause').setOrigin(0.5).setFontSize(50);
-            this.unpauseText = this.add.text(this.cameras.main.scrollX + 800, 450, 'Repress pause key/touch to unpause').setOrigin(0.5).setFontSize(20);
+            this.pmenu.show();
+            this.pframe.visible = true;
+            this.pframe.x = 800 + this.cameras.main.scrollX;
         }
     }
 
