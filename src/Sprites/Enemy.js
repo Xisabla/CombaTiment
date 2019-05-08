@@ -125,7 +125,7 @@ export default class Enemy extends Character
             super.die();
         }
 
-        this.body.setVelocityX(0);
+        if (this.active) this.body.setVelocityX(0);
     }
 
     isAttacking ()

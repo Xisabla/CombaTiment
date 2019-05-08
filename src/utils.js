@@ -2,11 +2,13 @@ import Bulb from './Sprites/Enemies/Bulb';
 import BossFridge from './Sprites/Enemies/BossFridge';
 import Radiator from './Sprites/Enemies/Radioator';
 import Virus from './Sprites/Enemies/Virus';
+import WashMachine from './Sprites/Enemies/WashMachine';
 
 export const enemiesText = {
     'bossFridge': 'Frigo\n mal concu',
     'bulb': 'Ampoule\ngourmande',
     'radiator': 'Radiateur\ndisfonctionnel',
+    'washmachine': 'Machine\na laver',
     'virus': 'Virus'
 };
 
@@ -14,6 +16,7 @@ export const enemiesObjects = {
     'bossFridge': BossFridge,
     'bulb': Bulb,
     'radiator': Radiator,
+    'washmachine': WashMachine,
     'virus': Virus
 };
 
@@ -21,6 +24,7 @@ export const enemiesAssets = {
     'bossFridge': 'enemies/bossFridge',
     'bulb': 'enemies/bulb/walking',
     'radiator': 'enemies/radiator',
+    'washmachine': 'enemies/washmachine',
     'virus': 'enemies/virus'
 };
 

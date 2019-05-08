@@ -141,6 +141,11 @@ export default class extends Phaser.Scene
         this.load.spritesheet('enemies/radiator', 'assets/enemies/radiator.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/radiator/hitbox', 'assets/enemies/hitbox-radiator.json');
 
+        // WashMachine
+        this.load.spritesheet('enemies/washmachine', 'assets/enemies/washmachine.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/washmachine/hitbox', 'assets/enemies/hitbox-washmachine.json');
+        this.load.spritesheet('projectiles/water', 'assets/projectiles/water.png', { frameWidth: 17, frameHeight: 16 });
+
         // Virus
         this.load.spritesheet('enemies/virus', 'assets/enemies/virus.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/virus/hitbox', 'assets/enemies/hitbox-virus.json');

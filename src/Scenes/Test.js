@@ -5,7 +5,7 @@ import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
-import BossFridge from '../Sprites/Enemies/BossFridge';
+import WashMachine from '../Sprites/Enemies/WashMachine';
 
 export default class extends Phaser.Scene
 {
@@ -36,17 +36,15 @@ export default class extends Phaser.Scene
         this.hpbar = new HPBar(this.player);
 
         // TODO: Remove - for testing
-        this.player.setGodmode(false);
+        this.player.setGodmode(true);
 
         this.enemies = new EnemyCollection();
-        // this.icecube = new IceCube(this, 1300, 500, this.player);
-        this.boss = new BossFridge(this, 1120, 240, this.ground);
+        this.enemies.spawn(WashMachine, this, 500, 500, this.ground);
         this.hitboxGraphics = this.add.graphics();
 
         this.data = this.cache.json.get('levels/0');
 
         updateHitboxes(this.player);
-        updateHitboxes(this.boss);
     }
 
     debug ()
@@ -55,7 +53,6 @@ export default class extends Phaser.Scene
 
         if (this.enemies.length) mustRender.push(this.enemies[0]);
         if (this.player.alive) mustRender.push(this.player);
-        if (this.boss.alive) mustRender.push(this.boss);
 
         renderHitboxes(this.hitboxGraphics, mustRender);
     }
@@ -64,11 +61,9 @@ export default class extends Phaser.Scene
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
-        // if (!this.icecube.active) this.icecube = new IceCube(this, 1300, 500, this.player);
         if (this.player.alive) this.player.update(time, input, this.enemies, this.boss);
         this.enemies.update(time, this.player);
-        if (this.boss.alive) this.boss.update(time, this.player);
-        console.log(this.boss.hp);
+
         this.debug();
     }
 };
