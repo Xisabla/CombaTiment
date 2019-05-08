@@ -155,6 +155,6 @@ export default class extends Phaser.Scene
 
     update ()
     {
-        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('LevelSelect');
+        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('SplashScene');
     }
 }
