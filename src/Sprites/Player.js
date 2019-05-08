@@ -254,10 +254,10 @@ export default class Player extends Character
         // Timed splashScreen
         setTimeout(() =>
         {
-            this.scene.scene.start('LevelSelect');
+            this.scene.scene.start('DeathScene');
             this.scene.sounds.ambient.stop();
             this.destroy();
-        }, 2000);
+        }, 1200);
 
         // Tell everyone that he's dead
         this.alive = false;

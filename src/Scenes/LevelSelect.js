@@ -32,7 +32,6 @@ export default class extends Phaser.Scene
 
         this.ground = this.physics.add.staticGroup();
         this.ground.create(800, 810, 'levels/ground');
-        this.add.image(300, 810, 'hud/gamepad').setScale(0.4);
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
 
         this.levels = [
