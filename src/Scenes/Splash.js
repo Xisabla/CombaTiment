@@ -9,17 +9,42 @@ export default class extends Phaser.Scene
         super({ key: 'SplashScene' });
     }
 
-    create ()
+    fadeIn ()
     {
-        this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
+        return new Promise((resolve, reject) =>
+        {
+            let ticks = 0;
+            let timer = setInterval(() =>
+            {
+                this.title.setAlpha(0.01 * ticks);
+                this.title.setScale(0.05 + 0.0015 * ticks);
 
-        this.add.image(800, 450, 'menu/background');
+                ticks++;
+                if (ticks >= 100) clearInterval(timer);
+            }, 10);
 
-        this.sounds = {};
-        this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.8 });
-        this.sounds.menu = this.sound.add('music/menu_selection');
-        this.sounds.ambient.play();
+            setTimeout(() =>
+            {
+                ticks = 0;
+                timer = setInterval(() =>
+                {
+                    this.background.setAlpha(0.01 * ticks);
+                    this.title.setScale(0.2 - 0.0008 * ticks);
+                    this.title.setY(400 - 3 * ticks);
 
+                    ticks++;
+                    if (ticks >= 100)
+                    {
+                        clearInterval(timer);
+                        return resolve();
+                    }
+                }, 10);
+            }, 1010);
+        });
+    }
+
+    makeMenu ()
+    {
         this.frame = this.add.graphics();
         this.frame.fillStyle(0x000000, 0.7);
         this.frame.fillRect(550, 300, 500, 250);
@@ -58,6 +83,22 @@ export default class extends Phaser.Scene
         this.menu.create();
 
         this.menu.bindInput(this.inputs);
+    }
+
+    create ()
+    {
+        this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
+
+        this.sounds = {};
+        this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.8 });
+        this.sounds.menu = this.sound.add('music/menu_selection');
+        this.sounds.ambient.play();
+
+        this.background = this.add.image(800, 450, 'menu/background').setAlpha(0);
+        this.title = this.add.image(800, 400, 'title').setScale(0.05).setAlpha(0);
+
+        this.fadeIn()
+            .then(() => this.makeMenu());
     }
 
     update ()
