@@ -25,6 +25,7 @@ export default class Character extends Phaser.GameObjects.Sprite
         this.hpmax = settings.hpmax || 100;
         this.hp = settings.hp || this.hpmax;
         this.invulnerable = false;
+        this.dying = false;
 
         this.createAnims();
     }

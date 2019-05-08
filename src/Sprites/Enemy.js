@@ -33,6 +33,7 @@ export default class Enemy extends Character
             if (anims['idle']) this.createAnim(this.name + 'Idle', anims['idle']['anim'], anims['idle']['framerate']);
             if (anims['walk']) this.createAnim(this.name + 'Walk', anims['walk']['anim'], anims['walk']['framerate']);
             if (anims['attack']) this.createAnim(this.name + 'Attack', anims['attack']['anim'], anims['attack']['framerate']);
+            if (anims['death']) this.createAnim(this.name + 'Death', anims['death']['anim'], anims['death']['framerate']);
         }
     }
 
@@ -119,32 +120,58 @@ export default class Enemy extends Character
         return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Attack';
     }
 
+    animDie ()
+    {
+        this.anims.play(this.name + 'Death', true);
+
+        let frame = this.anims.currentFrame.index;
+
+        if (frame === this.anims.currentAnim.frames.length)
+        {
+            super.die();
+        }
+
+        this.body.setVelocityX(0);
+    }
+
     canAttack (character)
     {
         return isOver(this.hitboxes.attack[1], character.hitboxes[character.hitboxes.active][0]);
     }
 
-    die ()
+    die (anim = true)
     {
-        let tick = 0;
-        let timer = setInterval(() =>
+        if (this.dying || !this.alive) return false;
+
+        if (anim && this.anims.animationManager.anims.entries[this.name + 'Death'])
         {
-            tick++;
-
-            if (!this.alive) clearInterval(timer);
-            else
+            this.dying = true;
+            this.anims.play(this.name + 'Death', true);
+        }
+        else
+        {
+            // ---------- Fade
+            let tick = 0;
+            let timer = setInterval(() =>
             {
-                this.setAlpha(1 - 0.1 * tick);
-            }
-        }, 10);
+                tick++;
 
-        setTimeout(() => super.die(), 100);
+                if (!this.alive) clearInterval(timer);
+                else
+                {
+                    this.setAlpha(1 - 0.1 * tick);
+                }
+            }, 10);
+
+            setTimeout(() => super.die(), 100);
+        }
     }
 
     update (time, player, enemies = [])
     {
         if (this.scene && this.scene.paused) this.idle();
 
+        if (this.dying) this.animDie();
         if (this.isAttacking()) this.animAttack(player);
         else if (Math.random() >= 0.1) super.update();
         else if (player && player.alive && this.canAttack(player)) this.attack(player);

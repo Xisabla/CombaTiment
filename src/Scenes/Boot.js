@@ -133,6 +133,7 @@ export default class extends Phaser.Scene
         // Bulb
         this.load.spritesheet('enemies/bulb/walking', 'assets/enemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });
         this.load.spritesheet('enemies/bulb/punch', 'assets/enemies/bulb-punch.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.spritesheet('enemies/bulb/death', 'assets/enemies/bulb-death.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/bulb/hitbox', 'assets/enemies/hitbox-bulb.json');
 
         // Radioator
