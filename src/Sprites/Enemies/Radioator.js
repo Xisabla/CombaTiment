@@ -12,7 +12,8 @@ export default class Radiator extends Enemy
             {
                 'idle': { 'anim': scene.anims.generateFrameNumbers('enemies/radiator', { start: 0, end: 0 }), 'framerate': 10 },
                 'walk': { 'anim': scene.anims.generateFrameNumbers('enemies/radiator', { start: 0, end: 3 }), 'framerate': 10 },
-                'attack': { 'anim': scene.anims.generateFrameNumbers('enemies/radiator', { start: 4, end: 14 }), 'framerate': 10 }
+                'attack': { 'anim': scene.anims.generateFrameNumbers('enemies/radiator', { start: 4, end: 14 }), 'framerate': 10 },
+                'death': { 'anim': scene.anims.generateFrameNumbers('enemies/radiator', { start: 15, end: 19 }), 'framerate': 10 }
             },
             { scale: 0.5, hpmax: 60, attackDamage: 20 }
         );
