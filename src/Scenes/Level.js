@@ -132,8 +132,6 @@ export default class extends Phaser.Scene
     {
         let screen = this.data.screens[id];
 
-        this.player.gainHp((this.player.hpmax - this.player.hp) / 2);
-
         // If the screen exists
         if (screen)
         {
@@ -265,10 +263,13 @@ export default class extends Phaser.Scene
                 // Otherwise, if there is no enemies left
                 else if (this.enemies.length === 0)
                 {
+                    this.player.gainHp((this.player.hpmax - this.player.hp) / 2);
                     this.finishingWave = true;
                     // Start the next screen
                     this.screen++;
                     this.screenStarted = false;
+
+                    if (this.screen >= this.data.screens.length) this.player.regenerate(200, 100);
                     this.handleScreen();
                 }
             }

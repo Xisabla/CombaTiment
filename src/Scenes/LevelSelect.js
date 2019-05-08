@@ -54,6 +54,7 @@ export default class extends Phaser.Scene
         this.panels.show(true, 200);
 
         this.player = new Player(this, 40, 525, this.ground);
+        this.player.setGodmode(true);
 
         this.hitboxGraphics = this.add.graphics();
     }
