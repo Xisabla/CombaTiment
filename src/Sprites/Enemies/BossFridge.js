@@ -40,8 +40,9 @@ export default class BossFridge extends Boss
             {
                 scale: 1.5,
                 pattern: scene.cache.json.get('enemies/bossFridge/pattern'),
-                spawnX: x + 80,
-                spawnY: y + 235
+                spawnX: 80,
+                spawnY: 235,
+                hpmax: 1000
             }
         );
 

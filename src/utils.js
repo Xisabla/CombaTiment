@@ -2,6 +2,7 @@ import Bulb from './Sprites/Enemies/Bulb';
 import Fridge from './Sprites/Enemies/Fridge';
 import Radiator from './Sprites/Enemies/Radioator';
 import Virus from './Sprites/Enemies/Virus';
+import BossFridge from './Sprites/Enemies/BossFridge';
 
 export const enemiesText = {
     'bulb': 'Ampoule\ngourmande',
@@ -14,7 +15,8 @@ export const enemiesObjects = {
     'bulb': Bulb,
     'fridge': Fridge,
     'radiator': Radiator,
-    'virus': Virus
+    'virus': Virus,
+    'bossFridge': BossFridge
 };
 
 export const enemiesAssets = {

@@ -2,9 +2,11 @@
     "name": "Consommation\nd'energie",
     "color": "0xf39c12",
     "ambient": "nightoffire",
+    "bossAmbient": "gasgasgas",
     "ambientSeek": 36.5,
+    "bossAmbientSeek": 34,
     "power": "thunder",
-    "boss": "fridge",
+    "boss": "bossFridge",
     "waves": [
         {
             "enemies": [ "bulb" ],

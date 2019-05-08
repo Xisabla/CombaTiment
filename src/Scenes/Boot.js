@@ -54,6 +54,7 @@ export default class extends Phaser.Scene
         this.load.audio('music/menu_selection', ['assets/music/menu_selection.ogg']);
         this.load.audio('music/tem', ['assets/music/mus_temvillage.ogg']);
         this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
+        this.load.audio('music/gasgasgas', ['assets/music/mus_gasgasgas.ogg']);
 
         // ---------- Interface
 

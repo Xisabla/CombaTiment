@@ -7,6 +7,7 @@ import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
 import EventInput from '../Input/EventInput';
 import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
+import { enemiesObjects } from '../utils';
 
 export default class extends Phaser.Scene
 {
@@ -78,6 +79,7 @@ export default class extends Phaser.Scene
         this.sounds.ambient = this.sound.add('music/' + this.data.ambient, { loop: true, volume: 0.2 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.energyball = this.sound.add('music/energyball', { volume: 0.2 });
+        this.sounds.iceCube = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.ambient.play();
         this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
         this.pauseMenu();
@@ -86,6 +88,8 @@ export default class extends Phaser.Scene
 
         this.screenOffset = 750;
         this.enemies = new EnemyCollection();
+        this.boss = false;
+        this.bossArrived = false;
         this.screen = 0;
         this.waveScreenId = 0;
         this.screenStarted = false;
@@ -98,8 +102,10 @@ export default class extends Phaser.Scene
             this.add.image(800 + 2 * 800 * i, 450, 'levels/' + this.id + '/background');
             this.ground.create(800 + 2 * 800 * i, 810, 'levels/ground');
         }
+        this.ground.create(800 + 2 * 800 * (this.data.screens.length + 2), 810, 'levels/ground');
 
         this.player = new Player(this, 40, 525, this.ground);
+        // this.player.setGodmode(true);
         this.hpbar = new HPBar(this.player);
 
         this.hitboxGraphics = this.add.graphics();
@@ -217,6 +223,27 @@ export default class extends Phaser.Scene
         return 1;
     }
 
+    launchBoss ()
+    {
+        if (!this.boss.alive && !this.bossArrived)
+        {
+            this.sounds.ambient.stop();
+            this.sounds.ambient = this.sound.add('music/' + this.data.bossAmbient, { loop: true, volume: 0.2 });
+            this.sounds.ambient.play();
+            this.sounds.ambient.setSeek(this.data.bossAmbientSeek || 0);
+            this.boss = new enemiesObjects[this.data.boss](this, this.physics.world.bounds.right + 50, 240, this.ground);
+        }
+        if (this.boss.x + this.boss.displayWidth >= this.physics.world.bounds.right)
+        {
+            this.boss.body.setVelocityX(-100);
+            this.boss.anims.play(this.boss.name + 'Idle', true);
+        }
+        else
+        {
+            this.bossArrived = true;
+        }
+    }
+
     handleScreen ()
     {
         // If the level is not done
@@ -274,6 +301,16 @@ export default class extends Phaser.Scene
                 }
             }
         }
+        else
+        {
+            if ((this.player.x >= this.physics.world.bounds.right - 700 || this.boss.alive) && !this.boss.arrived)
+            {
+                this.cameras.main.stopFollow(this.player);
+                this.physics.world.bounds.left = 1600 * (this.data.screens.length + 1);
+                this.physics.world.bounds.right = 1600 * (this.data.screens.length + 2);
+                this.launchBoss();
+            }
+        }
     }
 
     pause ()
@@ -318,8 +355,9 @@ export default class extends Phaser.Scene
 
         if (input.sudo) this.game.config.physics.arcade.debug = true;
 
-        if (this.player.alive) this.player.update(time, input, this.enemies);
+        if (this.player.alive) this.player.update(time, input, this.enemies, this.boss);
         this.enemies.update(time, this.player);
+        if (this.boss.alive && this.bossArrived) this.boss.update(time, this.player);
 
         this.hpbar.x = this.cameras.main.scrollX + 10;
         this.handleScreen();
