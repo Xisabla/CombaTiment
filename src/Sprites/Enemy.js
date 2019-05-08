@@ -19,6 +19,7 @@ export default class Enemy extends Character
 
         this.name = name;
         this.setScale(scale);
+        this.fading = false;
 
         this.attackDamage = settings.attackDamage || 10;
         this.attackDone = false;
@@ -113,13 +114,6 @@ export default class Enemy extends Character
         this.body.setVelocityX(0);
     }
 
-    isAttacking ()
-    {
-        if (!this.anims) return false;
-
-        return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Attack';
-    }
-
     animDie ()
     {
         this.anims.play(this.name + 'Death', true);
@@ -134,36 +128,60 @@ export default class Enemy extends Character
         this.body.setVelocityX(0);
     }
 
+    isAttacking ()
+    {
+        if (!this.anims) return false;
+
+        return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Attack';
+    }
+
+    isDying ()
+    {
+        if (!this.anims) return false;
+
+        return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Death';
+    }
+
     canAttack (character)
     {
         return isOver(this.hitboxes.attack[1], character.hitboxes[character.hitboxes.active][0]);
     }
 
+    fadeOut (nbticks = 10, tickTime = 10)
+    {
+        if (!this.fading)
+        {
+            let factor = 1 / nbticks;
+            let ticks = 0;
+            let timer = setInterval(() =>
+            {
+                this.setAlpha(1 - factor * ticks);
+                ticks++;
+                if (ticks >= nbticks) clearInterval(timer);
+            }, tickTime);
+        }
+
+        this.fading = true;
+    }
+
     die (anim = true)
     {
         if (this.dying || !this.alive) return false;
+        this.dying = true;
 
         if (anim && this.anims.animationManager.anims.entries[this.name + 'Death'])
         {
-            this.dying = true;
             this.anims.play(this.name + 'Death', true);
+            this.fadeOut(100, 10);
         }
         else
         {
-            // ---------- Fade
-            let tick = 0;
-            let timer = setInterval(() =>
+            this.anims.play(this.name + 'Idle', true);
+            this.fadeOut(10, 10);
+            setTimeout(() =>
             {
-                tick++;
-
-                if (!this.alive) clearInterval(timer);
-                else
-                {
-                    this.setAlpha(1 - 0.1 * tick);
-                }
-            }, 10);
-
-            setTimeout(() => super.die(), 100);
+                super.die();
+            }, 100);
         }
     }
 
@@ -171,7 +189,8 @@ export default class Enemy extends Character
     {
         if (this.scene && this.scene.paused) this.idle();
 
-        if (this.dying) this.animDie();
+        if (this.isDying()) this.animDie();
+        else if (this.dying) return;
         else if (this.isAttacking()) this.animAttack(player);
         else if (Math.random() >= 0.1) super.update();
         else if (player && player.alive && this.canAttack(player)) this.attack(player);
