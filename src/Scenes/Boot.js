@@ -144,8 +144,9 @@ export default class extends Phaser.Scene
         this.load.json('enemies/virus/hitbox', 'assets/enemies/hitbox-virus.json');
 
         WebFont.load({
-            google: {
-                families: ['Raleway', 'Cairo', 'Anton']
+            custom: {
+                families: ['BT1982', 'Pixel'],
+                urls: ['assets/fonts/backto1982.css', 'assets/fonts/pixel.css']
             },
             active: () =>
             {

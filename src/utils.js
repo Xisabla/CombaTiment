@@ -5,7 +5,7 @@ import Virus from './Sprites/Enemies/Virus';
 
 export const enemiesText = {
     'bulb': 'Ampoule\ngourmande',
-    'fridge': 'Frigo\n mal conçu',
+    'fridge': 'Frigo\n mal concu',
     'radiator': 'Radiateur\ndisfonctionnel',
     'virus': 'Virus'
 };

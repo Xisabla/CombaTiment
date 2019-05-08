@@ -61,7 +61,7 @@ export default class extends Phaser.Scene
                 offsetBottom: 150 },
 
             choices: { color: '#ffffff',
-                fontFamily: 'Raleway',
+                fontFamily: 'BT1982',
                 fontSize: 32,
                 offset: 40
             },

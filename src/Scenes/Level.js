@@ -38,8 +38,8 @@ export default class extends Phaser.Scene
                 offsetBottom: 0 },
 
             choices: { color: '#ffffff',
-                fontFamily: 'Raleway',
-                fontSize: 32,
+                fontFamily: 'BT1982',
+                fontSize: 28,
                 offset: 40
             },
 
@@ -59,9 +59,9 @@ export default class extends Phaser.Scene
 
         this.pmenu.add(new MenuOption('Resume', { enter: () => this.pause() }));
         this.pmenu.add(new MenuSeparator());
-        this.pmenu.add(new MenuOption('Restart Level', { enter: () => this.scene.start('Level', this.data) }));
+        this.pmenu.add(new MenuOption('Restart', { enter: () => this.scene.start('Level', this.data) }));
         this.pmenu.add(new MenuSeparator());
-        this.pmenu.add(new MenuOption('LevelSelect', { enter: () => this.scene.start('LevelSelect') }));
+        this.pmenu.add(new MenuOption('Select', { enter: () => this.scene.start('LevelSelect') }));
         this.pmenu.add(new MenuSeparator());
         this.pmenu.add(new MenuOption('Main Menu', { enter: () => this.scene.start('SplashScene') }));
 

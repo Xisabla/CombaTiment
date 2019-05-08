@@ -41,15 +41,15 @@ export default class LevelPanel extends Phaser.GameObjects.Container
 
         this.add(new Phaser.GameObjects.Text(this.scene, this.width / 2, 50, this.name, {
             align: 'center',
-            fontFamily: 'Raleway',
-            fontSize: 36 })
+            fontFamily: 'BT1982',
+            fontSize: 30 })
             .setOrigin(0.5));
     }
 
     showPower ()
     {
         this.add(new Phaser.GameObjects.Text(this.scene, 20, 120, 'Power: ', {
-            fontFamily: 'Raleway',
+            fontFamily: 'Pixel',
             fontSize: 24 }));
 
         this.add(new Phaser.GameObjects.Graphics(this.scene)
@@ -64,7 +64,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
     showEnemies ()
     {
         this.add(new Phaser.GameObjects.Text(this.scene, 20, 230, 'Enemies: ', {
-            fontFamily: 'Raleway',
+            fontFamily: 'Pixel',
             fontSize: 24 }));
 
         this.add(new Phaser.GameObjects.Graphics(this.scene)
@@ -91,8 +91,8 @@ export default class LevelPanel extends Phaser.GameObjects.Container
                 .setOrigin(0));
 
             this.add(new Phaser.GameObjects.Text(this.scene, x + size / 2, y + size * 1.3, description, {
-                fontFamily: 'Raleway',
-                fontSize: 15,
+                fontFamily: 'Pixel',
+                fontSize: 13,
                 align: 'center' })
                 .setOrigin(0.5));
 
