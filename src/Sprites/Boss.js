@@ -57,12 +57,6 @@ export default class Boss extends Character
         this.body.setVelocityX(0);
     }
 
-    looseHp (amount)
-    {
-        super.looseHp(amount);
-        if (this.hp <= 0) this.die();
-    }
-
     attack (target)
     {
         this.anims.play(this.name + 'Attack', true);
@@ -243,6 +237,9 @@ export default class Boss extends Character
 
     die ()
     {
+        if (this.dying) return;
+        this.dying = true;
+
         let tick = 0;
         let timer = setInterval(() =>
         {
@@ -255,7 +252,7 @@ export default class Boss extends Character
             }
         }, 10);
 
-        setTimeout(() => super.die(), 100);
+        setTimeout(() => super.die(), 1000);
     }
 
     followPattern (player)
@@ -301,7 +298,8 @@ export default class Boss extends Character
     {
         if (this.scene && this.scene.paused) this.idle();
 
-        if (this.isAttacking()) this.animAttack(player);
+        if (this.dying) this.idle();
+        else if (this.isAttacking()) this.animAttack(player);
         else if (this.isSpawning()) this.animSpawn(player);
         else if (this.isThrowing()) this.animThrow();
         else if (this.isAirStriking()) this.animAirStrike();
