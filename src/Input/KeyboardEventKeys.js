@@ -9,5 +9,5 @@ export default {
     dashL: 49,
     dashR: 50,
     confirm: 13,
-    pause: 18
+    pause: 32
 };
