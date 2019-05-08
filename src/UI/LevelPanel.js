@@ -81,7 +81,6 @@ export default class LevelPanel extends Phaser.GameObjects.Container
 
         this.enemies.forEach(enemy =>
         {
-            console.log(enemy);
             if (!enemy) return;
 
             let name = enemy.split('/')[1];

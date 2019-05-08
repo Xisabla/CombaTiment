@@ -4,7 +4,7 @@
     "ambient": "nightoffire",
     "ambientSeek": 36.5,
     "power": "thunder",
-    "boss": "fridge",
+    "boss": "bossFridge",
     "waves": [
         {
             "enemies": [ "bulb" ],
@@ -28,7 +28,7 @@
             "timeout": 100
         },
         {
-            "enemies": [ "bulb", "radiator", "bulb"],
+            "enemies": [ "bulb", "radiator", "bulb"] ,
             "timeout": 300
         }
     ],
