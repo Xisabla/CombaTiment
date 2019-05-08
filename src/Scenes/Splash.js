@@ -9,7 +9,7 @@ export default class extends Phaser.Scene
         super({ key: 'SplashScene' });
     }
 
-    fadeIn ()
+    fadeInTitle ()
     {
         return new Promise((resolve, reject) =>
         {
@@ -20,9 +20,14 @@ export default class extends Phaser.Scene
                 this.title.setScale(0.05 + 0.0015 * ticks);
 
                 ticks++;
-                if (ticks >= 100) clearInterval(timer);
+                if (ticks >= 100)
+                {
+                    clearInterval(timer);
+                    return resolve();
+                }
             }, 10);
 
+            /**
             setTimeout(() =>
             {
                 ticks = 0;
@@ -40,6 +45,28 @@ export default class extends Phaser.Scene
                     }
                 }, 10);
             }, 1010);
+             */
+        });
+    }
+
+    moveTitle ()
+    {
+        return new Promise((resolve, reject) =>
+        {
+            let ticks = 0;
+            let timer = setInterval(() =>
+            {
+                this.background.setAlpha(0.01 * ticks);
+                this.title.setScale(0.2 - 0.0008 * ticks);
+                this.title.setY(400 - 3 * ticks);
+
+                ticks++;
+                if (ticks >= 100)
+                {
+                    clearInterval(timer);
+                    return resolve();
+                }
+            }, 10);
         });
     }
 
@@ -97,7 +124,8 @@ export default class extends Phaser.Scene
         this.background = this.add.image(800, 450, 'menu/background').setAlpha(0);
         this.title = this.add.image(800, 400, 'title').setScale(0.05).setAlpha(0);
 
-        this.fadeIn()
+        this.fadeInTitle()
+            .then(() => this.moveTitle())
             .then(() => this.makeMenu());
     }
 
