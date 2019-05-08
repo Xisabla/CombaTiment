@@ -172,7 +172,7 @@ export default class Enemy extends Character
         if (this.scene && this.scene.paused) this.idle();
 
         if (this.dying) this.animDie();
-        if (this.isAttacking()) this.animAttack(player);
+        else if (this.isAttacking()) this.animAttack(player);
         else if (Math.random() >= 0.1) super.update();
         else if (player && player.alive && this.canAttack(player)) this.attack(player);
         else if (this.body.touching.down && player && player.alive && this.hitboxes[this.hitboxes.active][0].left > player.hitboxes[player.hitboxes.active][0].right) this.walk(this.baseVelocity, false);
