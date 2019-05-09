@@ -255,8 +255,7 @@ export default class Player extends Character
             let timer = setInterval(() =>
             {
                 tick++;
-                this.scene.sounds.ambient.setVolume(initVolume * (1 - tick / (time / tickTime)));
-
+                if (this.scene) this.scene.sounds.ambient.setVolume(initVolume * (1 - tick / (time / tickTime)));
                 if (tick >= time / tickTime) clearInterval(timer);
             }, tickTime);
         }
