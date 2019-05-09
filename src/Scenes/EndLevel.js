@@ -51,6 +51,7 @@ export default class extends Phaser.Scene
 
         this.player = new Player(this, 40, 525, this.ground);
         this.player.setGodmode(true);
+        this.player.body.setCollideWorldBounds(false);
         this.player.idle();
 
         this.slowWrite(800, 100, 'Niveau ' + this.data.level, 100, { origin: 0.5, align: 'center', fontFamily: 'BT1982', fontSize: 40 })
@@ -73,6 +74,6 @@ export default class extends Phaser.Scene
 
     update (time)
     {
-        if (this.player.x >= 1400) this.scene.start('LevelSelect');
+        if (this.player.x >= 1600) this.scene.start('LevelSelect');
     }
 };

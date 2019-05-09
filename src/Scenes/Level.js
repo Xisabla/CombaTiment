@@ -113,7 +113,7 @@ export default class extends Phaser.Scene
 
         this.player = new Player(this, 40, 525, this.ground);
 
-        // this.player.setGodmode(true);
+        this.player.setGodmode(true);
         this.hpbar = new HPBar(this.player);
 
         if (this.data.id === 0) this.iceTuto = new TutorialIceCube(this, 6500, 690);
@@ -448,13 +448,13 @@ export default class extends Phaser.Scene
                 maxCombo: 0 // TODO: Combo
             };
 
-            repeat(10, 200, (tick, progression) =>
-            {
-                console.log(progression);
+            this.player.body.setCollideWorldBounds(false);
 
-                this.sounds.ambient.setVolume(0.2 - progression / 5);
-                this.black.setAlpha(progression * 1.1);
-                this.player.walk(400, false);
+            repeat(10, 400, (tick, progression) =>
+            {
+                this.sounds.ambient.setVolume(0.2 - progression / 10);
+                this.black.setAlpha(progression);
+                this.player.walk(400, true);
             })
                 .then(() =>
                 {

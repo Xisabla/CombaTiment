@@ -48,7 +48,7 @@ export default class WashMachine extends Enemy
     animAttack ()
     {
         this.anims.play(this.name + 'Attack', true);
-        this.hitboxes.active = 'attack';
+        this.hitboxes.active = 'still';
 
         let frame = this.anims.currentFrame.index;
 
