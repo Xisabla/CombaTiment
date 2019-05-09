@@ -114,7 +114,6 @@ export default class extends Phaser.Scene
         this.player = new Player(this, 40, 525, this.ground);
 
         // this.player.setGodmode(true);
-        this.player.setHp(1);
         this.hpbar = new HPBar(this.player);
 
         if (this.data.id === 0) this.iceTuto = new TutorialIceCube(this, 6500, 690);
@@ -339,7 +338,6 @@ export default class extends Phaser.Scene
         }
         else
         {
-            console.log('Time:', this.time);
             this.paused = true;
             this.player.idle();
             this.enemies.idle();
@@ -396,10 +394,16 @@ export default class extends Phaser.Scene
             repeat(10, 200, (tick, progression) =>
             {
                 console.log(progression);
+
+                this.sounds.ambient.setVolume(0.2 - progression / 5);
                 this.black.setAlpha(progression * 1.1);
                 this.player.walk(400, false);
             })
-                .then(() => this.scene.start('EndLevel', data));
+                .then(() =>
+                {
+                    this.sounds.ambient.stop();
+                    this.scene.start('EndLevel', data);
+                });
         }
 
         if (this.game.config.physics.arcade.debug) this.debug();

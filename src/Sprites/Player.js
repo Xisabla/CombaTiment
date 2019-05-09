@@ -175,7 +175,7 @@ export default class Player extends Character
         if (frame >= this.hitboxes.punch[1].start && frame <= this.hitboxes.punch[1].end && !this.punchDone)
         {
             this.punchDone = true;
-            let damage = 20;
+            let damage = this.godmode ? 1e6 : 20;
 
             if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
             if (boss && isOver(this.hitboxes.punch[1], boss.hitboxes[boss.hitboxes.active][0])) boss.looseHp(damage);
