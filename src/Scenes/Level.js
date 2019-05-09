@@ -7,7 +7,7 @@ import HPBar from '../UI/HPBar';
 import EnemyCollection from '../Sprites/EnemyCollection';
 import EventInput from '../Input/EventInput';
 import { Menu, MenuOption, MenuSeparator } from '../UI/Menu';
-import { enemiesObjects } from '../utils';
+import { enemiesObjects, repeat } from '../utils';
 import TutorialIceCube from '../Sprites/Projectiles/TutorialIceCube';
 
 export default class extends Phaser.Scene
@@ -85,7 +85,12 @@ export default class extends Phaser.Scene
         this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
         this.pauseMenu();
 
+        this.time = 0;
         this.paused = false;
+        this.timer = setInterval(() =>
+        {
+            this.time++;
+        }, 1000);
 
         this.screenOffset = 750;
         this.enemies = new EnemyCollection();
@@ -96,6 +101,7 @@ export default class extends Phaser.Scene
         this.screenStarted = false;
         this.finishingWave = false;
         this.done = false;
+        this.transitionStarted = false;
 
         this.ground = this.physics.add.staticGroup();
         for (let i = 0; i < this.data.screens.length + 2; i++)
@@ -108,6 +114,7 @@ export default class extends Phaser.Scene
         this.player = new Player(this, 40, 525, this.ground);
 
         // this.player.setGodmode(true);
+        this.player.setHp(1);
         this.hpbar = new HPBar(this.player);
 
         if (this.data.id === 0) this.iceTuto = new TutorialIceCube(this, 6500, 690);
@@ -325,9 +332,14 @@ export default class extends Phaser.Scene
             this.sounds.ambient.resume();
             this.pmenu.hide();
             this.pframe.visible = false;
+            this.timer = setInterval(() =>
+            {
+                this.time++;
+            }, 1000);
         }
         else
         {
+            console.log('Time:', this.time);
             this.paused = true;
             this.player.idle();
             this.enemies.idle();
@@ -335,6 +347,7 @@ export default class extends Phaser.Scene
             this.pmenu.show();
             this.pframe.visible = true;
             this.pframe.x = 800 + this.cameras.main.scrollX;
+            clearInterval(this.timer);
         }
     }
 
@@ -366,9 +379,27 @@ export default class extends Phaser.Scene
         this.hpbar.x = this.cameras.main.scrollX + 10;
         this.handleScreen();
 
-        if (this.boss && this.bossArrived && !this.boss.alive)
+        if (this.boss && this.bossArrived && !this.boss.alive && !this.transitionStarted)
         {
-            console.log('TODO: Finish Level');
+            this.transitionStarted = true;
+            this.player.setGodmode(true);
+            this.black = this.add.image(800 + this.cameras.main.scrollX, 359.5, 'misc/blackend').setAlpha(0).setDepth(1e6 + 5);
+            clearInterval(this.timer);
+
+            let data = {
+                level: this.data.id,
+                power: this.data.power,
+                time: this.time,
+                maxCombo: 0 // TODO: Combo
+            };
+
+            repeat(10, 200, (tick, progression) =>
+            {
+                console.log(progression);
+                this.black.setAlpha(progression * 1.1);
+                this.player.walk(400, false);
+            })
+                .then(() => this.scene.start('EndLevel', data));
         }
 
         if (this.game.config.physics.arcade.debug) this.debug();
