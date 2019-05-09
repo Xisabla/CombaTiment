@@ -372,7 +372,7 @@ export default class extends Phaser.Scene
             this.paused = true;
             this.player.idle();
             this.enemies.idle();
-            this.boss.idle();
+            if (this.boss && this.boss.alive) this.boss.idle();
             this.sounds.ambient.pause();
             this.pmenu.show();
             this.pframe.visible = true;
