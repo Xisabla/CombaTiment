@@ -43,7 +43,9 @@ export default class BossFridge extends Boss
                 pattern: scene.cache.json.get('enemies/bossFridge/pattern'),
                 spawnX: 80,
                 spawnY: 235,
-                hpmax: 1000
+                hpmax: 1500,
+                cooldown: 4000,
+                offset: -100
             }
         );
 

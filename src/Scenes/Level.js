@@ -88,6 +88,7 @@ export default class extends Phaser.Scene
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.energyball = this.sound.add('music/energyball', { volume: 0.2 });
         this.sounds.iceCube = this.sound.add('music/punch', { volume: 0.5 });
+        this.sounds.explosion = this.sound.add('music/explosion', { volume: 0.1 });
         this.pauseMenu();
 
         this.initCombo();
@@ -306,7 +307,7 @@ export default class extends Phaser.Scene
             this.sounds.ambient.setSeek(this.data.bossAmbientSeek || 0);
             this.boss = new enemiesObjects[this.data.boss](this, this.physics.world.bounds.right + 50, 240, this.ground);
         }
-        if (this.boss.x + this.boss.displayWidth >= this.physics.world.bounds.right)
+        if (this.boss.x + this.boss.displayWidth + this.boss.offset >= this.physics.world.bounds.right)
         {
             this.boss.body.setVelocityX(-100);
             this.boss.anims.play(this.boss.name + 'Idle', true);

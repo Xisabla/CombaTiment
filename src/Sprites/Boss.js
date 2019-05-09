@@ -2,6 +2,7 @@
 import Character from './Character';
 import IceCube from './Projectiles/IceCube';
 import { isOver } from '../Engine/Hitbox';
+import { repeat } from '../utils';
 
 export default class Boss extends Character
 {
@@ -21,6 +22,8 @@ export default class Boss extends Character
         this.name = name;
         this.setScale(scale);
 
+        this.cooldown = settings['cooldown'] || 3000;
+        this.offset = settings['offset'] || 0;
         this.spawnX = settings['spawnX'];
         this.spawnY = settings['spawnY'];
 
@@ -260,12 +263,25 @@ export default class Boss extends Character
         return isOver(this.hitboxes.attack[1], character.hitboxes[character.hitboxes.active][0]);
     }
 
+    looseHp (amount)
+    {
+        repeat(10, 2, () =>
+        {
+            this.setVisible(!this.visible);
+        });
+        super.looseHp(amount);
+    }
+
     die ()
     {
         if (this.dying) return;
         this.dying = true;
 
-        if (this.scene.sounds && this.scene.sounds.ambient) this.scene.sounds.ambient.stop();
+        if (this.scene.sounds && this.scene.sounds.ambient)
+        {
+            this.scene.sounds.ambient.stop();
+            this.scene.sounds.explosion.play();
+        }
 
         if (this.anims.animationManager.anims.entries[this.name + 'Death'])
         {
@@ -285,7 +301,11 @@ export default class Boss extends Character
                 }
             }, 10);
 
-            setTimeout(() => super.die(), 1000);
+            setTimeout(() =>
+            {
+                this.sounds.explosion.stop();
+                super.die();
+            }, 1000);
         }
     }
 
@@ -313,14 +333,14 @@ export default class Boss extends Character
                 {
                     this.finishAirStrike();
                     this.continueAttack = true;
-                }, 4500);
+                }, this.cooldown);
             }
             else
             {
                 this.nextAttackTimeout = setTimeout(() =>
                 {
                     this.continueAttack = true;
-                }, 4500);
+                }, this.cooldown);
             }
 
             this.attackId++;
