@@ -126,15 +126,11 @@ export default class extends Phaser.Scene
 
         // ---------- Enemies
 
-        // BossFridge
-        this.load.spritesheet('enemies/bossFridge', 'assets/enemies/bossFridge.png', { frameWidth: 320, frameHeight: 320 });
-        this.load.json('enemies/bossFridge/hitbox', 'assets/enemies/hitbox-bossFridge.json');
-        this.load.json('enemies/bossFridge/pattern', 'assets/enemies/pattern-bossFridge.json');
+        // Asbestos
+        this.load.spritesheet('enemies/asbestos', 'assets/enemies/asbestos.png', { frameWidth: 320, frameHeight: 320 });
 
-        // Fridge
-        this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
-        this.load.json('enemies/fridge/hitbox', 'assets/enemies/hitbox-fridge.json');
-        this.load.spritesheet('projectiles/icecube', 'assets/projectiles/icecube.png', { frameWidth: 13, frameHeight: 11 });
+        // Barrel
+        this.load.spritesheet('enemies/barrel', 'assets/enemies/barrel.png', { frameWidth: 320, frameHeight: 320 });
 
         // Bulb
         this.load.spritesheet('enemies/bulb/walking', 'assets/enemies/bulb-walking.png', { frameWidth: 320, frameHeight: 320 });
@@ -142,18 +138,43 @@ export default class extends Phaser.Scene
         this.load.spritesheet('enemies/bulb/death', 'assets/enemies/bulb-death.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/bulb/hitbox', 'assets/enemies/hitbox-bulb.json');
 
+        // BossFridge
+        this.load.spritesheet('enemies/bossFridge', 'assets/enemies/bossFridge.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/bossFridge/hitbox', 'assets/enemies/hitbox-bossFridge.json');
+        this.load.json('enemies/bossFridge/pattern', 'assets/enemies/pattern-bossFridge.json');
+
+        // Camera
+        this.load.spritesheet('enemies/camera', 'assets/enemies/camera.png', { frameWidth: 320, frameHeight: 320 });
+
+        // Clickbait
+        this.load.spritesheet('enemies/clickbait', 'assets/enemies/clickbait.png', { frameWidth: 320, frameHeight: 320 });
+
+        // Concrete Mixer
+        this.load.spritesheet('enemies/concretemixer', 'assets/enemies/concretemixer.png', { frameWidth: 320, frameHeight: 320 });
+
+        // Fridge
+        this.load.spritesheet('enemies/fridge', 'assets/enemies/fridge.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/fridge/hitbox', 'assets/enemies/hitbox-fridge.json');
+        this.load.spritesheet('projectiles/icecube', 'assets/projectiles/icecube.png', { frameWidth: 13, frameHeight: 11 });
+
         // Radioator
         this.load.spritesheet('enemies/radiator', 'assets/enemies/radiator.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/radiator/hitbox', 'assets/enemies/hitbox-radiator.json');
+
+        // Trojan
+        this.load.spritesheet('enemies/trojan', 'assets/enemies/trojan.png', { frameWidth: 320, frameHeight: 320 });
+
+        // Uranium
+        this.load.spritesheet('enemies/uranium', 'assets/enemies/uranium.png', { frameWidth: 320, frameHeight: 320 });
+
+        // Virus
+        this.load.spritesheet('enemies/virus', 'assets/enemies/virus.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/virus/hitbox', 'assets/enemies/hitbox-virus.json');
 
         // WashMachine
         this.load.spritesheet('enemies/washmachine', 'assets/enemies/washmachine.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/washmachine/hitbox', 'assets/enemies/hitbox-washmachine.json');
         this.load.spritesheet('projectiles/water', 'assets/projectiles/water.png', { frameWidth: 17, frameHeight: 16 });
-
-        // Virus
-        this.load.spritesheet('enemies/virus', 'assets/enemies/virus.png', { frameWidth: 320, frameHeight: 320 });
-        this.load.json('enemies/virus/hitbox', 'assets/enemies/hitbox-virus.json');
 
         WebFont.load({
             custom: {
@@ -169,6 +190,6 @@ export default class extends Phaser.Scene
 
     update ()
     {
-        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('LevelSelect');
+        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('SplashScene');
     }
 }

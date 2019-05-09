@@ -7,9 +7,16 @@ import WashMachine from './Sprites/Enemies/WashMachine';
 // Enemies ------------
 
 export const enemiesText = {
+    'asbestos': 'Amiante',
+    'barrel': 'Barril de\npetrole',
     'bossFridge': 'Frigo\n mal concu',
     'bulb': 'Ampoule\ngourmande',
+    'camera': 'Camera',
+    'clickbait': 'Clickbait',
+    'concretemixer': 'Betonneuse',
     'radiator': 'Radiateur\ndisfonctionnel',
+    'trojan': 'Cheval de\nTroie',
+    'uranium': 'Barre\nd\'uranium',
     'washmachine': 'Machine\na laver',
     'virus': 'Virus'
 };
@@ -23,9 +30,16 @@ export const enemiesObjects = {
 };
 
 export const enemiesAssets = {
+    'asbestos': 'enemies/asbestos',
+    'barrel': 'enemies/barrel',
     'bossFridge': 'enemies/bossFridge',
     'bulb': 'enemies/bulb/walking',
+    'camera': 'enemies/camera',
+    'clickbait': 'enemies/clickbait',
+    'concretemixer': 'enemies/concretemixer',
     'radiator': 'enemies/radiator',
+    'trojan': 'enemies/trojan',
+    'uranium': 'enemies/uranium',
     'washmachine': 'enemies/washmachine',
     'virus': 'enemies/virus'
 };

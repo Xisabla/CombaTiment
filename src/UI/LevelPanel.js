@@ -48,13 +48,13 @@ export default class LevelPanel extends Phaser.GameObjects.Container
 
     showPower ()
     {
-        this.add(new Phaser.GameObjects.Text(this.scene, 20, 120, 'Power: ', {
+        this.add(new Phaser.GameObjects.Text(this.scene, 20, 120, 'Pouvoir: ', {
             fontFamily: 'Pixel',
             fontSize: 24 }));
 
         this.add(new Phaser.GameObjects.Graphics(this.scene)
             .fillStyle(0xffffff)
-            .fillRect(20, 150, 75, 3));
+            .fillRect(20, 150, 100, 3));
 
         this.add(new Phaser.GameObjects.Sprite(this.scene, 20, 170, this.power)
             .setDisplaySize(50, 50)
@@ -63,7 +63,7 @@ export default class LevelPanel extends Phaser.GameObjects.Container
 
     showEnemies ()
     {
-        this.add(new Phaser.GameObjects.Text(this.scene, 20, 230, 'Enemies: ', {
+        this.add(new Phaser.GameObjects.Text(this.scene, 20, 230, 'Ennemis: ', {
             fontFamily: 'Pixel',
             fontSize: 24 }));
 
