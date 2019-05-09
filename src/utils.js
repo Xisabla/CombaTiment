@@ -4,6 +4,8 @@ import Radiator from './Sprites/Enemies/Radioator';
 import Virus from './Sprites/Enemies/Virus';
 import WashMachine from './Sprites/Enemies/WashMachine';
 
+// Enemies ------------
+
 export const enemiesText = {
     'bossFridge': 'Frigo\n mal concu',
     'bulb': 'Ampoule\ngourmande',
@@ -56,4 +58,57 @@ export function ennemiesToAssets (enemies)
 export function levelEnemiesAssets (levelJson)
 {
     return ennemiesToAssets(enemiesOfLevel(levelJson));
+}
+
+// Score ------------
+
+export function scoreTime (time)
+{
+    let score = Math.floor((-41 - 2 / 3) * time + 15000);
+
+    return (score < 0) ? 0 : score;
+}
+
+export function scoreCombo (maxCombo)
+{
+    return 500 * maxCombo;
+}
+
+export function totalScore (time, maxCombo)
+{
+    return scoreTime(time) + scoreCombo(maxCombo);
+}
+
+// Promises ------------
+
+export function wait (time = 1000)
+{
+    return new Promise((resolve, reject) =>
+    {
+        setTimeout(() =>
+        {
+            resolve();
+        }, time);
+    });
+}
+
+export function repeat (tickTime, nbTicks, cb)
+{
+    return new Promise((resolve, reject) =>
+    {
+        let ticks = 0;
+
+        let timer = setInterval(() =>
+        {
+            // Callback(currentTick, progression)
+            cb(ticks, ticks / nbTicks);
+
+            ticks++;
+            if (ticks >= nbTicks)
+            {
+                clearInterval(timer);
+                return resolve();
+            }
+        }, tickTime);
+    });
 }
