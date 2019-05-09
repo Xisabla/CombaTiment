@@ -28,7 +28,7 @@ export default class Player extends Character
     {
         this.createAnim('idle', this.scene.anims.generateFrameNumbers('player/walk', { start: 0, end: 1 }), 10);
         this.createAnim('walk', this.scene.anims.generateFrameNumbers('player/walk', { start: 0, end: 5 }), 10);
-        this.createAnim('punch', this.scene.anims.generateFrameNumbers('player/punch', { start: 0, end: 4 }), 12);
+        this.createAnim('punch', this.scene.anims.generateFrameNumbers('player/punch', { start: 0, end: 2 }), 12);
         // TODO: Change with real throw animation
         this.createAnim('throw', this.scene.anims.generateFrameNumbers('player/throw', { start: 0, end: 6 }), 8);
         // TODO: Change with real dash animation
@@ -257,7 +257,7 @@ export default class Player extends Character
             this.scene.scene.start('DeathScene');
             this.scene.sounds.ambient.stop();
             this.destroy();
-        }, 1200);
+        }, 1600);
 
         // Tell everyone that he's dead
         this.alive = false;
