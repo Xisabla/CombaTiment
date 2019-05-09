@@ -12,6 +12,23 @@ export default class EnemyCollection extends Array
         this.spawnFinish = null;
     }
 
+    getProjectiles ()
+    {
+        let res = [];
+
+        this.forEach(enemy =>
+        {
+            if (enemy.projectiles)
+            {
+                enemy.projectiles.forEach(projectile =>
+                {
+                    res.push(projectile);
+                });
+            }
+        });
+        return res;
+    }
+
     spawn (Enemy, scene, x, y, ground)
     {
         this.push(new Enemy(scene, x, y, ground));

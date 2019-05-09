@@ -33,7 +33,7 @@ export default class extends Phaser.Scene
 
         let nbChars = text.length;
 
-        return repeat(time, nbChars, function (tick)
+        return repeat(time, nbChars, (tick) =>
         {
             stext.setText(stext.text + text.charAt(tick));
         });
@@ -45,6 +45,9 @@ export default class extends Phaser.Scene
 
         // TODO: Add sounds (button, score)
         this.sounds = {};
+        this.sounds.click1 = this.sound.add('music/click1', { volume: 0.5 });
+        this.sounds.click2 = this.sound.add('music/click2', { loop: true, volume: 0.5 });
+        this.sounds.click2.play();
 
         this.ground = this.physics.add.staticGroup();
         this.ground.create(800, 810, 'levels/ground');
@@ -63,10 +66,22 @@ export default class extends Phaser.Scene
             .then(() => this.slowWrite(650, 350, this.data.maxCombo.toString(), 50, { origin: 0, align: 'left', fontFamily: 'Pixel', fontSize: 30 }))
             .then(() => this.slowWrite(400, 400, 'Score Combo: ', 50, { origin: 0, align: 'left', fontFamily: 'Pixel', fontSize: 30 }))
             .then(() => this.slowWrite(650, 400, scoreCombo(this.data.maxCombo).toString(), 50, { origin: 0, align: 'left', fontFamily: 'Pixel', fontSize: 30 }))
-            .then(() => wait(300))
-            .then(() => this.add.text(400, 500, 'Total').setOrigin(0).setAlign('left').setFontFamily('BT1982').setFontSize(35))
+            .then(() =>
+            {
+                this.sounds.click2.stop();
+                return wait(500);
+            })
+            .then(() =>
+            {
+                this.add.text(400, 500, 'Total').setOrigin(0).setAlign('left').setFontFamily('BT1982').setFontSize(35);
+                this.sounds.click1.play();
+            })
             .then(() => wait(600))
-            .then(() => this.add.text(650, 500, totalScore(this.data.time, this.data.maxCombo).toString()).setOrigin(0).setAlign('left').setFontFamily('BT1982').setFontSize(35))
+            .then(() =>
+            {
+                this.add.text(650, 500, totalScore(this.data.time, this.data.maxCombo).toString()).setOrigin(0).setAlign('left').setFontFamily('BT1982').setFontSize(35);
+                this.sounds.click1.play();
+            })
             .then(() => wait(1000))
             .then(() => this.player.walk(400, true));
     }

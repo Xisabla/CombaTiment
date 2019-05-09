@@ -336,6 +336,20 @@ export default class extends Phaser.Scene
                 this.time++;
             }, 1000);
 
+            this.enemies.getProjectiles().forEach(projectile =>
+            {
+                if (projectile.body)
+                {
+                    projectile.timer = setInterval(() =>
+                    {
+                        projectile.update(projectile.scene.player, projectile.scene.enemies);
+                    }, 10);
+                    projectile.body.setVelocityX(projectile.baseVelocityX);
+                    projectile.body.setVelocityY(projectile.baseVelocityY);
+                    projectile.body.allowGravity = projectile.gravity;
+                }
+            });
+
             this.player.energyBalls.forEach(energyBall =>
             {
                 if (energyBall.body)
@@ -380,6 +394,17 @@ export default class extends Phaser.Scene
 
             clearInterval(this.timer);
 
+            this.enemies.getProjectiles().forEach(projectile =>
+            {
+                if (projectile.body)
+                {
+                    clearInterval(projectile.timer);
+                    projectile.body.setVelocityX(0);
+                    projectile.body.setVelocityY(0);
+                    projectile.body.allowGravity = false;
+                }
+            });
+
             this.player.energyBalls.forEach(energyBall =>
             {
                 if (energyBall.body)
@@ -390,6 +415,7 @@ export default class extends Phaser.Scene
                     energyBall.body.allowGravity = false;
                 }
             });
+
             if (this.boss && this.boss.alive)
             {
                 this.boss.projectiles.forEach(projectile =>
