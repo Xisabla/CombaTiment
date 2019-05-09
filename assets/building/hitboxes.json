@@ -11,7 +11,7 @@
 					"height" : 160,
 					"type" : "hitbox",
 					"start" : 0,
-					"end" : 10
+					"end" : 2
 				} ,
 				{
 					"label" : "punch",
@@ -20,8 +20,8 @@
 					"width" : 35,
 					"height" : 38,
 					"type" : "hurtbox",
-					"start" : 3,
-					"end" : 4
+					"start" : 1,
+					"end" : 2
 				}
 			],
 			"still" : [
@@ -33,7 +33,7 @@
 					"height" : 160,
 					"type" : "hitbox",
 					"start" : 0,
-					"end" : 10
+					"end" : 2
 				} 
 			]
 	} 
