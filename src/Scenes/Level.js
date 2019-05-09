@@ -77,12 +77,17 @@ export default class extends Phaser.Scene
     {
         this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
         this.sounds = {};
-        this.sounds.ambient = this.sound.add('music/' + this.data.ambient, { loop: true, volume: 0.2 });
+
+        if (this.data.ambient)
+        {
+            this.sounds.ambient = this.sound.add('music/' + this.data.ambient, { loop: true, volume: 0.2 });
+            this.sounds.ambient.play();
+            if (this.data.ambientSeek) this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
+        }
+
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.energyball = this.sound.add('music/energyball', { volume: 0.2 });
         this.sounds.iceCube = this.sound.add('music/punch', { volume: 0.5 });
-        this.sounds.ambient.play();
-        this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
         this.pauseMenu();
 
         this.initCombo();
@@ -386,7 +391,7 @@ export default class extends Phaser.Scene
         if (this.paused)
         {
             this.paused = false;
-            this.sounds.ambient.resume();
+            if (this.sounds.ambient) this.sounds.ambient.resume();
             this.pmenu.hide();
             this.pframe.visible = false;
             this.timer = setInterval(() =>
@@ -445,7 +450,7 @@ export default class extends Phaser.Scene
             this.player.idle();
             this.enemies.idle();
             if (this.boss && this.boss.alive) this.boss.idle();
-            this.sounds.ambient.pause();
+            if (this.sounds.ambient) this.sounds.ambient.pause();
             this.pmenu.show();
             this.pframe.visible = true;
             this.pframe.x = 800 + this.cameras.main.scrollX;

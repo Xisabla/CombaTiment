@@ -35,7 +35,8 @@ export default class BossFridge extends Boss
                     { key: 'enemies/bossFridge', frame: 22 }
                 ],
                 'framerate': 7
-                }
+                },
+                'death': { 'anim': scene.anims.generateFrameNumbers('enemies/bossFridge', { start: 23, end: 36 }), 'framerate': 3 }
             },
             {
                 scale: 1.5,

@@ -50,6 +50,7 @@ export default class Boss extends Character
             if (anims['spawn']) this.createAnim(this.name + 'Spawn', anims['spawn']['anim'], anims['spawn']['framerate']);
             if (anims['throw']) this.createAnim(this.name + 'Throw', anims['throw']['anim'], anims['throw']['framerate']);
             if (anims['airStrike']) this.createAnim(this.name + 'AirStrike', anims['airStrike']['anim'], anims['airStrike']['framerate']);
+            if (anims['death']) this.createAnim(this.name + 'Death', anims['death']['anim'], anims['death']['framerate']);
         }
     }
 
@@ -199,6 +200,20 @@ export default class Boss extends Character
         this.body.setVelocityX(0);
     }
 
+    animDie ()
+    {
+        this.anims.play(this.name + 'Death', true);
+
+        let frame = this.anims.currentFrame.index;
+
+        if (frame === this.anims.currentAnim.frames.length)
+        {
+            super.die();
+        }
+
+        if (this.active) this.body.setVelocityX(0);
+    }
+
     finishAirStrike ()
     {
         let xMid = Math.random() * (this.scene.physics.world.bounds.width - 800) + this.scene.physics.world.bounds.left + 200;
@@ -233,6 +248,13 @@ export default class Boss extends Character
         return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Attack';
     }
 
+    isDying ()
+    {
+        if (!this.anims) return false;
+
+        return this.anims.currentAnim !== null && this.anims.currentAnim.key === this.name + 'Death';
+    }
+
     canAttack (character)
     {
         return isOver(this.hitboxes.attack[1], character.hitboxes[character.hitboxes.active][0]);
@@ -243,19 +265,28 @@ export default class Boss extends Character
         if (this.dying) return;
         this.dying = true;
 
-        let tick = 0;
-        let timer = setInterval(() =>
+        if (this.scene.sounds && this.scene.sounds.ambient) this.scene.sounds.ambient.stop();
+
+        if (this.anims.animationManager.anims.entries[this.name + 'Death'])
         {
-            tick++;
-
-            if (!this.alive) clearInterval(timer);
-            else
+            this.anims.play(this.name + 'Death', true);
+        }
+        else
+        {
+            let tick = 0;
+            let timer = setInterval(() =>
             {
-                this.setAlpha(1 - 0.01 * tick);
-            }
-        }, 10);
+                tick++;
 
-        setTimeout(() => super.die(), 1000);
+                if (!this.alive) clearInterval(timer);
+                else
+                {
+                    this.setAlpha(1 - 0.01 * tick);
+                }
+            }, 10);
+
+            setTimeout(() => super.die(), 1000);
+        }
     }
 
     followPattern (player)
@@ -302,7 +333,8 @@ export default class Boss extends Character
         if (this.scene && this.scene.paused) this.idle();
         else
         {
-            if (this.dying) this.idle();
+            if (this.isDying()) this.animDie();
+            else if (this.dying) this.idle();
             else if (this.isAttacking()) this.animAttack(player);
             else if (this.isSpawning()) this.animSpawn(player);
             else if (this.isThrowing()) this.animThrow();
