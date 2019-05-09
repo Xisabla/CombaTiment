@@ -38,7 +38,7 @@ export const enemiesAssets = {
     'clickbait': 'enemies/clickbait',
     'concretemixer': 'enemies/concretemixer',
     'radiator': 'enemies/radiator',
-    'trojan': 'enemies/trojan',
+    'bossTrojan': 'enemies/bossTrojan',
     'uranium': 'enemies/uranium',
     'washmachine': 'enemies/washmachine',
     'virus': 'enemies/virus'

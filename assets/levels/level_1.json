@@ -2,8 +2,8 @@
     "name": "Securite",
     "color": "0x808080",
     "power": "none",
-    "boss": "trojan",
-    "done": false,
+    "boss": "bossTrojan",
+    "done": true,
     "waves": [
         {
             "enemies": [ "clickbait", "camera", "virus" ],

@@ -79,7 +79,6 @@ export default class extends Phaser.Scene
             data.id = this.panels.selected;
 
             if (data.done === false) return this.panels.panels[this.panels.selected].bounce(5, 50, 10);
-
             if (this.panels.selected === 1) return this.scene.start('Test');
             else this.scene.start('Level', data);
         }

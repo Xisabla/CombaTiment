@@ -144,6 +144,11 @@ export default class extends Phaser.Scene
         this.load.json('enemies/bossFridge/hitbox', 'assets/enemies/hitbox-bossFridge.json');
         this.load.json('enemies/bossFridge/pattern', 'assets/enemies/pattern-bossFridge.json');
 
+        // BossTrojan
+        this.load.spritesheet('enemies/bossTrojan', 'assets/enemies/bossTrojan.png', { frameWidth: 320, frameHeight: 320 });
+        this.load.json('enemies/bossTrojan/hitbox', 'assets/enemies/hitbox-bossTrojan.json');
+        this.load.json('enemies/bossTrojan/pattern', 'assets/enemies/pattern-bossTrojan.json');
+
         // Camera
         this.load.spritesheet('enemies/camera', 'assets/enemies/camera.png', { frameWidth: 320, frameHeight: 320 });
 
@@ -161,9 +166,6 @@ export default class extends Phaser.Scene
         // Radioator
         this.load.spritesheet('enemies/radiator', 'assets/enemies/radiator.png', { frameWidth: 320, frameHeight: 320 });
         this.load.json('enemies/radiator/hitbox', 'assets/enemies/hitbox-radiator.json');
-
-        // Trojan
-        this.load.spritesheet('enemies/trojan', 'assets/enemies/trojan.png', { frameWidth: 320, frameHeight: 320 });
 
         // Uranium
         this.load.spritesheet('enemies/uranium', 'assets/enemies/uranium.png', { frameWidth: 320, frameHeight: 320 });

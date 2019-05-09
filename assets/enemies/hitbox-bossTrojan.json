@@ -1,0 +1,40 @@
+{
+	"bossTrojan" :
+		{
+			"active" :"still",
+			"attack" : [
+				{
+					"label" : "body",
+					"x" : 100,
+					"y" : 80,
+					"width" : 380,
+					"height" : 400,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 8
+				},
+				{
+					"label" : "punch",
+					"x" : 20,
+					"y" : 250,
+					"width" : 100,
+					"height" : 160,
+					"type" : "hurtbox",
+					"start" : 3,
+					"end" : 3
+				} 
+			],
+			"still" : [
+				{
+					"label" : "body",
+					"x" : 100,
+					"y" : 80,
+					"width" : 380,
+					"height" : 400,
+					"type" : "hitbox",
+					"start" : 0,
+					"end" : 8
+				} 
+			]
+	} 
+}
