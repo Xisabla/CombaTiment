@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import EventInput from '../Input/EventInput';
+import { wait, repeat } from '../utils';
 
 export default class extends Phaser.Scene
 {
@@ -8,32 +9,12 @@ export default class extends Phaser.Scene
         super({ key: 'DeathScene' });
     }
 
-    fadeInTitle ()
-    {
-        return new Promise((resolve, reject) =>
-        {
-            let ticks = 0;
-            let timer = setInterval(() =>
-            {
-                this.title.setAlpha(0.02 * ticks);
-                this.title.setFontSize(10 + ticks);
-
-                ticks++;
-                if (ticks >= 100)
-                {
-                    clearInterval(timer);
-                    return resolve();
-                }
-            }, 10);
-        });
-    }
-
     create ()
     {
         this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
         this.background = this.add.image(800, 450, 'menu/background').setAlpha(0);
-        this.title = this.add.text(800, 400, 'Vous etes mort')
+        this.title = this.add.text(800, 400, 'Game Over')
             .setOrigin(0.5)
             .setAlpha(0)
             .setAlign('center')
@@ -41,19 +22,16 @@ export default class extends Phaser.Scene
             .setFontFamily('BT1982')
             .setColor('#ffffff');
 
-        setTimeout(() =>
-        {
-            this.sound.add('music/fail', { volume: 0.8 }).play();
-        }, 250);
+        wait(250)
+            .then(() => this.sound.add('music/fail', { volume: 0.8 }).play());
 
-        this.fadeInTitle()
-            .then(() =>
-            {
-                setTimeout(() =>
-                {
-                    this.scene.start('LevelSelect');
-                }, 1000);
-            });
+        repeat(10, 100, (ticks) =>
+        {
+            this.title.setAlpha(0.02 * ticks);
+            this.title.setFontSize(10 + ticks);
+        })
+            .then(() => wait(1000))
+            .then(() => this.scene.start('LevelSelect'));
     }
 
     update ()
