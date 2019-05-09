@@ -56,6 +56,8 @@ export default class extends Phaser.Scene
         this.load.audio('music/nightoffire', ['assets/music/mus_nightoffire.ogg']);
         this.load.audio('music/fail', ['assets/music/fail.wav']);
         this.load.audio('music/gasgasgas', ['assets/music/mus_gasgasgas.ogg']);
+        this.load.audio('music/click1', ['assets/music/click1.wav']);
+        this.load.audio('music/click2', ['assets/music/click2.ogg']);
 
         // ---------- Interface
 
@@ -167,6 +169,14 @@ export default class extends Phaser.Scene
 
     update ()
     {
-        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('SplashScene');
+        if (this.assetsLoaded && this.fontsLoaded)
+        {
+            this.scene.start('EndLevel', {
+                level: 0,
+                time: 100,
+                maxCombo: 10,
+                power: 'thunder'
+            });
+        }
     }
 }
