@@ -12,39 +12,42 @@
             "enemies": [ "bulb" ],
             "timeout": 500
         },
-        
         {
             "enemies": [ "radiator" ],
             "timeout": 500
         },
         {
-            "enemies": [ "radiator", "bulb" ],
+            "enemies": [ "washmachine" ],
+            "timeout": 500
+        },
+        {
+            "enemies": [ "radiator", "bulb", "washmachine" ],
             "timeout": 200
         },
         {
-            "enemies": [ "bulb", "radiator", "radiator", "bulb", "bulb", "bulb" ],
+            "enemies": [ "bulb", "radiator", "radiator", "washmachine", "bulb", "bulb" ],
             "timeout": 100
         },
         {
-            "enemies": [ "bulb" , "bulb", "radiator", "radiator", "bulb", "radiator", "radiator", "radiator", "bulb", "bulb" ],
+            "enemies": [ "bulb" , "radiator", "washmachine", "radiator", "bulb", "radiator", "washmachine", "bulb" ],
             "timeout": 100
         },
         {
-            "enemies": [ "bulb", "radiator", "bulb"] ,
+            "enemies": [ "bulb", "radiator", "bulb", "washmachine" ] ,
             "timeout": 300
         }
     ],
 
     "screens": [
         {
-            "waves": [0, 1, 2, 2]
+            "waves": [0, 1, 2, 3]
         },
         {
-            "waves": [1, 2, 1, 2],
+            "waves": [1, 3, 2, 2, 3],
             "nextWave": {"enemiesNumber": 2}
         },
         {
-            "waves": [2, 2, 3, 3],
+            "waves": [3, 3, 4, 2, 3],
             "nextWave": {"enemiesNumber": 1}
         }
     ]
