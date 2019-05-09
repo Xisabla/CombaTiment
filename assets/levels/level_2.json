@@ -1,8 +1,13 @@
 {
-    "name": "A venir",
-    "color": "0c808080",
+    "name": "Gestion des\nenergies",
+    "color": "0x3498db",
     "power": "none",
+    "done": false,
     "waves": [
+        {
+            "enemies": [ "barrel", "uranium" ],
+            "timeout": 500
+        }
     ],
 
     "screens": [

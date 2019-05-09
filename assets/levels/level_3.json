@@ -1,8 +1,13 @@
 {
-    "name": "A venir",
-    "color": "0c808080",
+    "name": "Isolation et\necologie",
+    "color": "0x2ecc71",
     "power": "none",
+    "done": false,
     "waves": [
+        {
+            "enemies": [ "concretemixer", "asbestos" ],
+            "timeout": 500
+        }
     ],
 
     "screens": [

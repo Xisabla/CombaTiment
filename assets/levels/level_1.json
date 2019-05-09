@@ -1,10 +1,12 @@
 {
-    "name": "Niveau Test",
+    "name": "Securite",
     "color": "0x808080",
     "power": "none",
+    "boss": "trojan",
+    "done": false,
     "waves": [
         {
-            "enemies": [ "washmachine" ],
+            "enemies": [ "clickbait", "camera", "virus" ],
             "timeout": 500
         }
     ],
