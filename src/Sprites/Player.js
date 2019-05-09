@@ -176,9 +176,23 @@ export default class Player extends Character
         {
             this.punchDone = true;
             let damage = this.godmode ? 1e6 : 20;
+            let comboIncrease = false;
 
-            if (enemies) enemies.getOver(this.hitboxes.punch[1]).looseHp(damage);
-            if (boss && isOver(this.hitboxes.punch[1], boss.hitboxes[boss.hitboxes.active][0])) boss.looseHp(damage);
+            if (enemies)
+            {
+                let targets = enemies.getOver(this.hitboxes.punch[1]);
+                targets.looseHp(damage);
+
+                if (targets.length > 0) comboIncrease = true;
+            }
+
+            if (boss && isOver(this.hitboxes.punch[1], boss.hitboxes[boss.hitboxes.active][0]))
+            {
+                boss.looseHp(damage);
+                comboIncrease = true;
+            }
+
+            if (this.scene.combo && this.scene.increaseCombo && comboIncrease) this.scene.increaseCombo();
 
             if (this.scene.sounds)
             {

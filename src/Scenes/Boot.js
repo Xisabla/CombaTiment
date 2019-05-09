@@ -169,14 +169,6 @@ export default class extends Phaser.Scene
 
     update ()
     {
-        if (this.assetsLoaded && this.fontsLoaded)
-        {
-            this.scene.start('EndLevel', {
-                level: 0,
-                time: 100,
-                maxCombo: 10,
-                power: 'thunder'
-            });
-        }
+        if (this.assetsLoaded && this.fontsLoaded) this.scene.start('LevelSelect');
     }
 }

@@ -85,6 +85,7 @@ export default class extends Phaser.Scene
         this.sounds.ambient.setSeek(this.data.ambientSeek || 0);
         this.pauseMenu();
 
+        this.initCombo();
         this.time = 0;
         this.paused = false;
         this.timer = setInterval(() =>
@@ -113,7 +114,7 @@ export default class extends Phaser.Scene
 
         this.player = new Player(this, 40, 525, this.ground);
 
-        this.player.setGodmode(true);
+        // this.player.setGodmode(true);
         this.hpbar = new HPBar(this.player);
 
         if (this.data.id === 0) this.iceTuto = new TutorialIceCube(this, 6500, 690);
@@ -133,6 +134,63 @@ export default class extends Phaser.Scene
         });
 
         updateHitboxes(this.player);
+    }
+
+    initCombo ()
+    {
+        this.combo = {
+            value: 0,
+            lastCombot: 0,
+            lastReset: 0,
+            best: 0
+        };
+
+        this.comboTextx = this.add.text(1310, 80, 'x')
+            .setOrigin(1, 0.5)
+            .setAlign('center')
+            .setFontSize(40)
+            .setFontFamily('BT1982')
+            .setDepth(1e6 + 4);
+
+        this.comboText = this.add.text(1400, 80, '0')
+            .setOrigin(1, 0.5)
+            .setAlign('center')
+            .setFontSize(80)
+            .setFontFamily('BT1982')
+            .setDepth(1e6 + 4);
+    }
+
+    increaseCombo (value = 1)
+    {
+        this.combo.value++;
+        this.combo.lastCombot = this.time;
+        this.combo.lastReset = this.time;
+
+        if ([10, 20, 30, 40, 50, 55, 60].includes(this.combo.value) || this.combo.value > 60) this.cameras.main.shake(this.combo.value * 5, this.combo.value * 20e-5);
+
+        this.updateCombo();
+    }
+
+    resetCombo ()
+    {
+        this.combo.value = 0;
+        this.combo.lastReset = this.time;
+
+        this.updateCombo();
+    }
+
+    updateCombo ()
+    {
+        if (this.combo.value > this.combo.best) this.combo.best = this.combo.value;
+        if (this.time >= this.combo.lastReset + 5) this.resetCombo();
+
+        this.comboText.setText(this.combo.value.toString());
+
+        if (this.combo.value < 20) this.comboText.setColor('#FFFFFF');
+        if (this.combo.value >= 20 && this.combo.value < 40) this.comboText.setColor('#FFD700');
+        if (this.combo.value >= 40) this.comboText.setColor('#00FFFF');
+
+        // if (this.combo.value === 0) this.comboText.visible = false;
     }
 
     spawnWave (id)
@@ -459,6 +517,9 @@ export default class extends Phaser.Scene
         if (this.boss.alive && this.bossArrived) this.boss.update(time, this.player);
 
         this.hpbar.x = this.cameras.main.scrollX + 10;
+        this.comboText.x = this.cameras.main.scrollX + 1400;
+        this.comboTextx.x = this.cameras.main.scrollX + ((this.combo.value >= 10) ? 1250 : 1310);
+        this.comboTextx.setColor(this.comboText.style.color);
 
         if (this.boss && this.bossArrived && !this.boss.alive && !this.transitionStarted)
         {
@@ -471,7 +532,7 @@ export default class extends Phaser.Scene
                 level: this.data.id,
                 power: this.data.power,
                 time: this.time,
-                maxCombo: 0 // TODO: Combo
+                maxCombo: this.combo.best
             };
 
             this.player.body.setCollideWorldBounds(false);
@@ -488,6 +549,8 @@ export default class extends Phaser.Scene
                     this.scene.start('EndLevel', data);
                 });
         }
+
+        this.updateCombo();
 
         if (this.game.config.physics.arcade.debug) this.debug();
     }
