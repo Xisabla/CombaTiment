@@ -71,6 +71,9 @@ export default class WashMachine extends Enemy
 
     distance (target)
     {
+        if (!target) return 1e6;
+        if (!target.x) return 1e6;
+
         return Math.abs(this.x - target.x);
     }
 
@@ -96,7 +99,7 @@ export default class WashMachine extends Enemy
         else if (this.isAttacking()) this.animAttack();
         else if (Math.random() >= 0.1) this.supdate();
         else if (this.distance(player) < 300 && !this.body.touching.left && !this.body.touching.right) this.escape(player);
-        else if (time > this.lastAttack + 1500) this.attack(time, player);
+        else if (time > this.lastAttack + 3000) this.attack(time, player);
         else this.idle();
 
         this.supdate();

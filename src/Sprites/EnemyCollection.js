@@ -60,7 +60,7 @@ export default class EnemyCollection extends Array
 
         this.forEach(enemy =>
         {
-            if (isOver(hitbox, enemy.hitboxes[enemy.hitboxes.active][0])) enemies.push(enemy);
+            if (enemy.alive && isOver(hitbox, enemy.hitboxes[enemy.hitboxes.active][0])) enemies.push(enemy);
         });
 
         return enemies;

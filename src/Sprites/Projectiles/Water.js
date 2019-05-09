@@ -25,7 +25,7 @@ export default class Water extends Projectile
 
         if (isOver(this.hitbox, player.hitboxes[player.hitboxes.active][0]))
         {
-            if (this.time - this.lastHit > 500 || this.lastHit === -1)
+            if (this.time - this.lastHit > 1000 || this.lastHit === -1)
             {
                 player.looseHp(20);
                 this.lastHit = this.time;
