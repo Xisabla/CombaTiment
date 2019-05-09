@@ -84,7 +84,10 @@ export default class EnemyCollection extends Array
 
     idle ()
     {
-        this.forEach(enemy => enemy.idle());
+        this.forEach(enemy =>
+        {
+            if (!enemy.isDying() && !enemy.dying) enemy.idle();
+        });
     }
 
     update (time, player)

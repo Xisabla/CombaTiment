@@ -325,16 +325,72 @@ export default class extends Phaser.Scene
             this.sounds.ambient.resume();
             this.pmenu.hide();
             this.pframe.visible = false;
+
+            this.player.energyBalls.forEach(energyBall =>
+            {
+                if (energyBall.body)
+                {
+                    energyBall.timer = setInterval(() =>
+                    {
+                        energyBall.update(energyBall.scene.player, energyBall.scene.enemies);
+                    }, 10);
+                    energyBall.body.setVelocityX(energyBall.baseVelocityX);
+                    energyBall.body.setVelocityY(energyBall.baseVelocityY);
+                    energyBall.body.allowGravity = energyBall.gravity;
+                }
+            });
+
+            if (this.boss && this.boss.alive)
+            {
+                this.boss.projectiles.forEach(projectile =>
+                {
+                    if (projectile.body)
+                    {
+                        projectile.timer = setInterval(() =>
+                        {
+                            projectile.update(projectile.scene.player, projectile.scene.enemies);
+                        }, 10);
+                        projectile.body.setVelocityX(projectile.baseVelocityX);
+                        projectile.body.setVelocityY(projectile.baseVelocityY);
+                        projectile.body.allowGravity = projectile.gravity;
+                    }
+                });
+            }
         }
         else
         {
             this.paused = true;
             this.player.idle();
             this.enemies.idle();
+            this.boss.idle();
             this.sounds.ambient.pause();
             this.pmenu.show();
             this.pframe.visible = true;
             this.pframe.x = 800 + this.cameras.main.scrollX;
+
+            this.player.energyBalls.forEach(energyBall =>
+            {
+                if (energyBall.body)
+                {
+                    clearInterval(energyBall.timer);
+                    energyBall.body.setVelocityX(0);
+                    energyBall.body.setVelocityY(0);
+                    energyBall.body.allowGravity = false;
+                }
+            });
+            if (this.boss && this.boss.alive)
+            {
+                this.boss.projectiles.forEach(projectile =>
+                {
+                    if (projectile.body)
+                    {
+                        clearInterval(projectile.timer);
+                        projectile.body.setVelocityX(0);
+                        projectile.body.setVelocityY(0);
+                        projectile.body.allowGravity = false;
+                    }
+                });
+            }
         }
     }
 
@@ -355,6 +411,7 @@ export default class extends Phaser.Scene
     {
         let input = new Input({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
 
+        this.handleScreen();
         if (this.paused) return false;
 
         if (input.sudo) this.game.config.physics.arcade.debug = true;
@@ -364,7 +421,6 @@ export default class extends Phaser.Scene
         if (this.boss.alive && this.bossArrived) this.boss.update(time, this.player);
 
         this.hpbar.x = this.cameras.main.scrollX + 10;
-        this.handleScreen();
 
         if (this.boss && this.bossArrived && !this.boss.alive)
         {
