@@ -1,7 +1,7 @@
 {
     "name": "Securite",
     "color": "0x808080",
-    "power": "none",
+    "power": "hack",
     "boss": "trojan",
     "done": false,
     "waves": [

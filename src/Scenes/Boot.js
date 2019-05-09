@@ -64,6 +64,9 @@ export default class extends Phaser.Scene
         // Powers
         this.load.image('power/none', 'assets/power/none.png');
         this.load.image('power/thunder', 'assets/power/thunder.png');
+        this.load.image('power/hack', 'assets/power/hack.png');
+        this.load.image('power/energy', 'assets/power/energy.png');
+        this.load.image('power/leaf', 'assets/power/leaf.png');
 
         // GUI
         this.load.image('title', 'assets/misc/title.png');

@@ -1,7 +1,7 @@
 {
     "name": "Isolation et\necologie",
     "color": "0x2ecc71",
-    "power": "none",
+    "power": "leaf",
     "done": false,
     "waves": [
         {
