@@ -31,6 +31,8 @@ export default class Boss extends Character
         this.continueAttack = true;
         this.airStrikePending = false;
         this.lastFrame = -1;
+        this.nextAttackTimeout = 0;
+        this.timeLeft = 0;
 
         this.attackDamage = settings.attackDamage || 10;
         this.attackDone = false;
@@ -276,7 +278,7 @@ export default class Boss extends Character
             this.continueAttack = false;
             if (attack === 'airStrike')
             {
-                setTimeout(() =>
+                this.nextAttackTimeout = setTimeout(() =>
                 {
                     this.finishAirStrike();
                     this.continueAttack = true;
@@ -284,7 +286,7 @@ export default class Boss extends Character
             }
             else
             {
-                setTimeout(() =>
+                this.nextAttackTimeout = setTimeout(() =>
                 {
                     this.continueAttack = true;
                 }, 4500);
@@ -298,16 +300,17 @@ export default class Boss extends Character
     update (time, player)
     {
         if (this.scene && this.scene.paused) this.idle();
-
-        if (this.dying) this.idle();
-        else if (this.isAttacking()) this.animAttack(player);
-        else if (this.isSpawning()) this.animSpawn(player);
-        else if (this.isThrowing()) this.animThrow();
-        else if (this.isAirStriking()) this.animAirStrike();
-        else if (player && player.alive && !this.airStrikePending && this.canAttack(player)) this.attack(player);
-        else if (!this.airStrikePending) this.followPattern(player);
-
-        console.log(this.hp);
-        super.update();
+        else
+        {
+            if (this.dying) this.idle();
+            else if (this.isAttacking()) this.animAttack(player);
+            else if (this.isSpawning()) this.animSpawn(player);
+            else if (this.isThrowing()) this.animThrow();
+            else if (this.isAirStriking()) this.animAirStrike();
+            else if (player && player.alive && !this.airStrikePending && this.canAttack(player)) this.attack(player);
+            else if (!this.airStrikePending) this.followPattern(player);
+            console.log(this.hp);
+            super.update();
+        }
     }
 }
