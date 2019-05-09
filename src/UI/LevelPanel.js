@@ -138,20 +138,26 @@ export default class LevelPanel extends Phaser.GameObjects.Container
 
     select ()
     {
-        this.list[0].clear()
-            .lineStyle(5, 0xffffff, 0.7)
-            .fillStyle(this.color, 0.7)
-            .fillRoundedRect(0, 0, this.width, this.height)
-            .strokeRoundedRect(-2.5, -2.5, this.width + 5, this.height + 5, 32);
+        if (this.list[0])
+        {
+            this.list[0].clear()
+                .lineStyle(5, 0xffffff, 0.7)
+                .fillStyle(this.color, 0.7)
+                .fillRoundedRect(0, 0, this.width, this.height)
+                .strokeRoundedRect(-2.5, -2.5, this.width + 5, this.height + 5, 32);
+        }
 
         this.selected = true;
     }
 
     unselect ()
     {
-        this.list[0].clear()
-            .fillStyle(this.color, 0.8)
-            .fillRoundedRect(0, 0, this.width, this.height);
+        if (this.list[0])
+        {
+            this.list[0].clear()
+                .fillStyle(this.color, 0.8)
+                .fillRoundedRect(0, 0, this.width, this.height);
+        }
 
         this.selected = false;
     }
