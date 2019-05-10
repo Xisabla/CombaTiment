@@ -79,6 +79,7 @@ export default class extends Phaser.Scene
         this.load.image('hud/pauseframe', 'assets/misc/pauseframe.png');
         this.load.image('misc/blackend', 'assets/misc/blackend.png');
         this.load.spritesheet('misc/dash', 'assets/misc/dash.png', { frameWidth: 550, frameHeight: 320 });
+        this.load.spritesheet('misc/fence', 'assets/misc/fence.png', { frameWidth: 140, frameHeight: 250 });
 
         // ---------- Levels
 

@@ -5,6 +5,7 @@ import LevelPanelCollection from '../UI/LevelPanelCollection';
 import Input from '../Input/Input';
 import { updateHitboxes, renderHitboxes } from '../Engine/Hitbox';
 import { levelEnemiesAssets } from '../utils';
+import Fence from '../Sprites/Fence';
 
 export default class extends Phaser.Scene
 {
@@ -33,6 +34,7 @@ export default class extends Phaser.Scene
         this.ground = this.physics.add.staticGroup();
         this.ground.create(800, 810, 'levels/ground');
         this.panels = new LevelPanelCollection(this, { height: 550, y: 50, offset: 50 });
+        this.fence = new Fence(this, 450, 750);
 
         this.levels = [
             this.cache.json.get('levels/0'),
@@ -54,6 +56,13 @@ export default class extends Phaser.Scene
 
         this.player = new Player(this, 40, 525, this.ground);
         this.player.setGodmode(true);
+        // this.physics.enable(this.fence);
+        // this.physics.add.collider(this.player, this.fence);
+        this.physics.add.collider(this.fence, this.player, () =>
+        {
+            this.fence.body.setVelocityX(0);
+            this.player.body.setVelocityX(0);
+        }, null, this);
 
         this.hitboxGraphics = this.add.graphics();
     }
@@ -84,6 +93,7 @@ export default class extends Phaser.Scene
         }
 
         this.player.update(time, input);
+        this.fence.update();
 
         updateHitboxes(this.player);
 
