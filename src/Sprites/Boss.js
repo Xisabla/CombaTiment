@@ -206,6 +206,7 @@ export default class Boss extends Character
     animDie ()
     {
         this.anims.play(this.name + 'Death', true);
+        if (this.scene.player) this.scene.player.setGodmode(true);
 
         let frame = this.anims.currentFrame.index;
 
