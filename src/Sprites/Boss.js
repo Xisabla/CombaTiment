@@ -23,6 +23,17 @@ export default class Boss extends Character
         this.setScale(scale);
 
         this.cooldown = settings['cooldown'] || 3000;
+        this.xProjectile = settings['xProjectile'] || 0;
+        this.yProjectile = settings['yProjectile'] || 0;
+        this.vxProjectile = settings['vxProjectile'] || -300;
+        this.vyProjectile = settings['vyProjectile'] || 0;
+        this.xAirStrike = settings['xAirStrike'] || 0;
+        this.yAirStrike = settings['yAirStrike'] || 0;
+        this.vxAirStrike = settings['vxAirStrike'] || -300;
+        this.vyAirStrike = settings['vyAirStrike'] || 0;
+        this.projectileBounce = settings['projectileBounce'] || 0;
+        this.airStrikeBounce = settings['airStrikeBounce'] || 0;
+
         this.offset = settings['offset'] || 0;
         this.spawnX = settings['spawnX'];
         this.spawnY = settings['spawnY'];
@@ -67,7 +78,6 @@ export default class Boss extends Character
     attack (target)
     {
         this.anims.play(this.name + 'Attack', true);
-        this.body.setVelocityX(0);
     }
 
     damage (target, damage)
@@ -105,8 +115,6 @@ export default class Boss extends Character
             this.hitboxes.active = 'still';
             this.attackDone = false;
         }
-
-        this.body.setVelocityX(0);
     }
 
     spawn ()
@@ -151,7 +159,7 @@ export default class Boss extends Character
 
         if (Math.floor(this.anims.currentAnim.frames.length / 2) + 1 === this.anims.currentFrame.index && !this.projectileCreated)
         {
-            if (this.projectileName === 'IceCube') this.projectiles.push(new IceCube(this.scene, this.x + 180, this.y + 200, -300, -500));
+            if (this.projectileName === 'IceCube') this.projectiles.push(new IceCube(this.scene, this.x + this.xProjectile, this.y + this.yProjectile, this.vxProjectile, this.vyProjectile, this.projectileBounce));
             this.projectileCreated = true;
             if (this.scene.sounds)
             {
@@ -184,7 +192,7 @@ export default class Boss extends Character
         {
             if (this.anims.currentFrame.index !== this.lastFrame)
             {
-                if (this.projectileName === 'IceCube') this.projectiles.push(new IceCube(this.scene, this.x + 180, this.y + 200, -100, -1500));
+                if (this.projectileName === 'IceCube') this.projectiles.push(new IceCube(this.scene, this.x + this.xAirStrike, this.y + this.yAirStrike, this.vxAirStrike, this.vyAirStrike, this.airStrikeBounce));
                 if (this.scene.sounds)
                 {
                     if (this.projectileName === 'IceCube' && this.scene.sounds.iceCube) this.scene.sounds.iceCube.play();

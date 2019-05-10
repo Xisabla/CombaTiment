@@ -45,7 +45,15 @@ export default class BossFridge extends Boss
                 spawnY: 235,
                 hpmax: 1500,
                 cooldown: 4000,
-                offset: -100
+                offset: -100,
+                xProjectile: 180,
+                yProjectile: 200,
+                vxProjectile: -300,
+                vyProjectile: -500,
+                xAirStrike: 180,
+                yAirStrike: 200,
+                vxAirStrike: -100,
+                vyAirStrike: -1500
             }
         );
 

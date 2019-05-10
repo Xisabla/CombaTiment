@@ -3,7 +3,7 @@ import { isOver } from '../../Engine/Hitbox';
 
 export default class IceCube extends Projectile
 {
-    constructor (scene, x, y, vx, vy)
+    constructor (scene, x, y, vx, vy, bounce = 0)
     {
         super(scene, x, y, 'projectiles/icecube', {
             baseVelocityX: (vx !== undefined) ? vx : -300,
@@ -13,7 +13,7 @@ export default class IceCube extends Projectile
 
         this.setScale(4);
         this.lastHit = -1;
-
+        this.body.setBounce(bounce, bounce);
         this.createAnim('iceCube', scene.anims.generateFrameNumbers('projectiles/icecube', { start: 0, end: 11 }), 10);
         this.anims.play('iceCube');
     }
