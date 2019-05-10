@@ -53,6 +53,8 @@ export default class Boss extends Character
         this.projectiles = [];
 
         if (anims) this.createAnims(anims);
+
+        this.createHpbar();
     }
 
     createAnims (anims)
@@ -66,6 +68,36 @@ export default class Boss extends Character
             if (anims['airStrike']) this.createAnim(this.name + 'AirStrike', anims['airStrike']['anim'], anims['airStrike']['framerate']);
             if (anims['death']) this.createAnim(this.name + 'Death', anims['death']['anim'], anims['death']['framerate']);
         }
+    }
+
+    createHpbar ()
+    {
+        this.hpbarback = this.scene.add.graphics().setDepth(1e6 + 4);
+        this.hpbar = this.scene.add.graphics().setDepth(1e6 + 4);
+
+        this.hpbarback.fillStyle(0x000000, 0.4);
+        this.hpbar.fillStyle(0xe60000, 0.9);
+
+        this.hpbarback.fillRect(this.scene.cameras.main.scrollX + 400, 780, 800, 50);
+
+        repeat(10, 200, (tick, progression) =>
+        {
+            this.hpbar.fillRect(this.scene.cameras.main.scrollX + 400, 780, 800 * progression, 50);
+        })
+            .then(() => this.hpbar.fillRect(this.scene.cameras.main.scrollX + 400, 780, 800, 50));
+    }
+
+    destroyHpbar ()
+    {
+        this.hpbarback.destroy();
+        this.hpbar.destroy();
+    }
+
+    updateHpbar ()
+    {
+        this.hpbar.clear();
+        this.hpbar.fillStyle(0xe60000, 0.9);
+        this.hpbar.fillRect(this.scene.cameras.main.scrollX + 400, 780, 800 * (this.hp / this.hpmax), 50);
     }
 
     idle ()
@@ -278,6 +310,8 @@ export default class Boss extends Character
         {
             this.setVisible(!this.visible);
         });
+
+        this.updateHpbar();
         super.looseHp(amount);
     }
 
@@ -285,6 +319,8 @@ export default class Boss extends Character
     {
         if (this.dying) return;
         this.dying = true;
+
+        this.destroyHpbar();
 
         if (this.scene.sounds && this.scene.sounds.ambient)
         {
@@ -370,7 +406,6 @@ export default class Boss extends Character
             else if (this.isAirStriking()) this.animAirStrike();
             else if (player && player.alive && !this.airStrikePending && this.canAttack(player)) this.attack(player);
             else if (!this.airStrikePending) this.followPattern(player);
-            console.log(this.hp);
             super.update();
         }
     }
