@@ -383,6 +383,7 @@ export default class extends Phaser.Scene
         {
             if ((this.player.x >= this.physics.world.bounds.right - 700 || this.boss.alive) && !this.boss.arrived)
             {
+                if (this.timer) clearInterval(this.timer);
                 this.cameras.main.stopFollow(this.player);
                 this.physics.world.bounds.left = 1600 * (this.data.screens.length + 1);
                 this.physics.world.bounds.right = 1600 * (this.data.screens.length + 2);
@@ -506,11 +507,17 @@ export default class extends Phaser.Scene
         this.enemiesText.x = this.cameras.main.scrollX + 1500;
         this.enemiesText.setText(`Enemies: ${this.enemies.length}`);
 
-        if (!this.waveText) this.waveText = this.add.text(1500, 775, 'Wave: -').setOrigin(1).setFontSize(20);
+        if (!this.waveText) this.waveText = this.add.text(1500, 775, 'Screen: -').setOrigin(1).setFontSize(20);
         this.waveText.x = this.cameras.main.scrollX + 1500;
-        this.waveText.setText(`Wave: ${this.waveNb}`);
+        this.waveText.setText(`Screen: ${this.screen}`);
 
-        if (this.player.alive) renderHitboxes(this.hitboxGraphics, [this.player]);
+        let toRender = [];
+        this.enemies.forEach(enemy => toRender.push(enemy));
+
+        if (this.player.alive) toRender.push(this.player);
+        if (this.boss && this.boss.alive) toRender.push(this.boss);
+
+        renderHitboxes(this.hitboxGraphics, toRender);
     }
 
     update (time)

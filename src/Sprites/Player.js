@@ -206,7 +206,7 @@ export default class Player extends Character
             this.scene.cameras.main.shake(100, 0.025);
             this.scene.cameras.main.flash(100);
             if (this.scene.enemies && this.scene.enemies.length && this.scene.combo && this.scene.increaseCombo) this.scene.increaseCombo(this.scene.enemies.length);
-            if (this.scene.enemies && this.scene.enemies.length) this.scene.enemies.looseHp(50);
+            if (this.scene.enemies && this.scene.enemies.length) this.scene.enemies.looseHp(50, true);
 
             if (boss) boss.looseHp(100);
         }
@@ -252,6 +252,8 @@ export default class Player extends Character
     die ()
     {
         if (this.godmode) return;
+
+        if (this.scene.timer) clearInterval(this.scene.timer);
 
         // Fade sound
         if (this.scene.sounds.ambient)

@@ -57,7 +57,7 @@ export default class extends Phaser.Scene
 
         this.player = new Player(this, 40, 525, this.ground);
         this.player.setGodmode(true);
-        this.fence = new Fence(this, 450, 750, this.player);
+        if (!this.game.config.physics.arcade.debug) this.fence = new Fence(this, 500, 750, this.player);
 
         this.hitboxGraphics = this.add.graphics();
     }
@@ -86,9 +86,12 @@ export default class extends Phaser.Scene
             if (this.panels.selected === 1) return this.scene.start('Test');
             else this.scene.start('Level', data);
         }
+        else
+        {
+            this.player.update(time, input);
+        }
 
-        this.player.update(time, input);
-        this.fence.update();
+        if (this.fence && !this.game.config.physics.arcade.debug) this.fence.update();
 
         updateHitboxes(this.player);
 

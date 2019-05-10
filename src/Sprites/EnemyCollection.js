@@ -87,13 +87,13 @@ export default class EnemyCollection extends Array
         return enemies;
     }
 
-    looseHp (damage, kvx, kvy)
+    looseHp (damage, all = false, kvx = null, kvy = null)
     {
         let done = 0;
 
         this.forEach(enemy =>
         {
-            if (done < 2)
+            if (all || done < 2)
             {
                 enemy.looseHp(damage, kvx, kvy);
                 enemy.update();
