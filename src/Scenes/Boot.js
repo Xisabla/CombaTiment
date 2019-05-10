@@ -119,6 +119,7 @@ export default class extends Phaser.Scene
         this.load.spritesheet('player/punch', 'assets/building/punch.png', { frameWidth: 192, frameHeight: 195 });
         this.load.spritesheet('player/throw', 'assets/building/throw.png', { frameWidth: 192, frameHeight: 195 });
         this.load.spritesheet('player/dash', 'assets/building/dash.png', { frameWidth: 192, frameHeight: 195 });
+        this.load.spritesheet('player/thunder', 'assets/building/thunder.png', { frameWidth: 192, frameHeight: 216 });
 
         // Feilong
         this.load.spritesheet('feilong/idle', 'assets/feilong/idle.png', { frameWidth: 111.17, frameHeight: 171 });

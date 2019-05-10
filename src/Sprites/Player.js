@@ -22,6 +22,7 @@ export default class Player extends Character
         this.lastDash = -1;
         this.setDepth(1e6);
         this.punchDone = false;
+        this.powerDone = false;
     }
 
     createAnims ()
@@ -33,6 +34,7 @@ export default class Player extends Character
         this.createAnim('throw', this.scene.anims.generateFrameNumbers('player/throw', { start: 0, end: 6 }), 8);
         // TODO: Change with real dash animation
         this.createAnim('dash', this.scene.anims.generateFrameNumbers('player/dash', { start: 0, end: 3 }), 10);
+        this.createAnim('power/thunder', this.scene.anims.generateFrameNumbers('player/thunder', { start: 0, end: 9 }), 7);
     }
 
     setGodmode (value)
@@ -94,6 +96,17 @@ export default class Player extends Character
         this.anims.play('punch', true);
     }
 
+    power (name)
+    {
+        if (this.useEnergy(80))
+        {
+            this.powerDone = false;
+            this.body.setVelocityY(-500);
+            this.body.setVelocityX(0);
+            this.anims.play('power/' + name, true);
+        }
+    }
+
     throw ()
     {
         if (this.useEnergy(30))
@@ -107,7 +120,7 @@ export default class Player extends Character
     {
         if (time < this.lastDash + 300) return this.idle();
 
-        if (this.useEnergy(20))
+        if (this.useEnergy(10))
         {
             let velocity = 1000;
 
@@ -126,43 +139,6 @@ export default class Player extends Character
             }, 200);
         }
     }
-
-    /**
-    jump (input)
-    {
-        if (input.direction.right)
-        {
-            this.body.setVelocityX(input.getVelocity(this.baseVelocity));
-            this.setFlipX(false);
-        }
-        else if (input.direction.left)
-        {
-            this.body.setVelocityX(-input.getVelocity(this.baseVelocity));
-            this.setFlipX(true);
-        }
-        else
-        {
-            this.body.setVelocityX(0);
-        }
-
-        this.body.setVelocityY(-600);
-    }
-     */
-
-    /**
-    animJump ()
-    {
-        this.body.setVelocityX(0);
-        this.anims.play('jump', true);
-    }
-     */
-
-    /**
-    animForwardJump ()
-    {
-        this.anims.play('forwardjump', true);
-    }
-     */
 
     animPunch (enemies, boss)
     {
@@ -207,6 +183,35 @@ export default class Player extends Character
             this.hitboxes.active = 'still';
 
             this.punchDone = false;
+        }
+
+        this.body.setVelocityX(0);
+    }
+
+    animPower (power, enemies, boss)
+    {
+        this.anims.play('power/' + power, true);
+        this.hitboxes.active = 'still';
+        this.invulnerable = true;
+        enemies.idle();
+
+        if (this.anims.currentFrame.index === 6 && power === 'thunder') this.body.setVelocityY(1500);
+        if (this.anims.currentFrame.index === 7 && power === 'thunder' && !this.powerDone)
+        {
+            this.powerDone = true;
+            this.scene.cameras.main.shake(100, 0.025);
+            this.scene.cameras.main.flash(100);
+            if (this.scene.combo && this.scene.increaseCombo) this.scene.increaseCombo(this.scene.enemies.length);
+            this.scene.enemies.looseHp(50);
+
+            if (boss) boss.looseHp(100);
+        }
+
+        if (this.anims.currentAnim.frames.length === this.anims.currentFrame.index)
+        {
+            this.anims.play('idle', true);
+            this.hitboxes.active = 'still';
+            this.invulnerable = false;
         }
 
         this.body.setVelocityX(0);
@@ -296,7 +301,9 @@ export default class Player extends Character
 
         if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'punch') this.animPunch(enemies, boss);
         else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'throw') this.animThrow();
+        else if (this.anims.currentAnim !== null && this.anims.currentAnim.key === 'power/thunder') this.animPower('thunder', enemies, boss);
         else if (input.attack1 && this.body.touching.down) this.punch();
+        else if (input.attack2 && this.body.touching.down) this.power('thunder');
         else if (input.attack3 && this.body.touching.down && this.energy > 30) this.throw();
         else if (input.dashLeft && this.body.touching.down) this.dash(time, false);
         else if (input.dashRight && this.body.touching.down) this.dash(time, true);

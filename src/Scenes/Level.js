@@ -168,7 +168,7 @@ export default class extends Phaser.Scene
 
     increaseCombo (value = 1)
     {
-        this.combo.value++;
+        this.combo.value += value;
         this.combo.lastCombot = this.time;
         this.combo.lastReset = this.time;
 

@@ -65,6 +65,10 @@ export default class EnemyCollection extends Array
 
         enemies.forEach(enemy =>
         {
+            let offset = Math.random() * 1600;
+
+            x -= offset;
+
             enemiesList.push({ type: enemiesObjects[enemy], scene, x, y });
         });
 
