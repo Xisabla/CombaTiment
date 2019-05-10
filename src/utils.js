@@ -15,7 +15,7 @@ export const enemiesText = {
     'clickbait': 'Clickbait',
     'concretemixer': 'Betonneuse',
     'radiator': 'Radiateur\ndisfonctionnel',
-    'trojan': 'Cheval de\nTroie',
+    'bossTrojan': 'Cheval de\nTroie',
     'uranium': 'Barre\nd\'uranium',
     'washmachine': 'Machine\na laver',
     'virus': 'Virus'
