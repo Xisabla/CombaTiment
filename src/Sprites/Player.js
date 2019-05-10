@@ -100,6 +100,8 @@ export default class Player extends Character
     {
         if (this.useEnergy(80))
         {
+            if (this.scene.sounds && this.scene.sounds.ambient) this.scene.sounds.ambient.pause();
+            if (this.scene.sounds && this.scene.sounds.sparks) this.scene.sounds.sparks.play();
             this.powerDone = false;
             this.body.setVelocityY(-500);
             this.body.setVelocityX(0);
@@ -193,16 +195,18 @@ export default class Player extends Character
         this.anims.play('power/' + power, true);
         this.hitboxes.active = 'still';
         this.invulnerable = true;
-        enemies.idle();
+        if (enemies && enemies.idle) enemies.idle();
 
         if (this.anims.currentFrame.index === 6 && power === 'thunder') this.body.setVelocityY(1500);
         if (this.anims.currentFrame.index === 7 && power === 'thunder' && !this.powerDone)
         {
             this.powerDone = true;
+            if (this.scene.sounds && this.scene.sounds.sparks) this.scene.sounds.sparks.stop();
+            if (this.scene.sounds && this.scene.sounds.thunder) this.scene.sounds.thunder.play();
             this.scene.cameras.main.shake(100, 0.025);
             this.scene.cameras.main.flash(100);
-            if (this.scene.combo && this.scene.increaseCombo) this.scene.increaseCombo(this.scene.enemies.length);
-            this.scene.enemies.looseHp(50);
+            if (this.scene.enemies && this.scene.enemies.length && this.scene.combo && this.scene.increaseCombo) this.scene.increaseCombo(this.scene.enemies.length);
+            if (this.scene.enemies && this.scene.enemies.length) this.scene.enemies.looseHp(50);
 
             if (boss) boss.looseHp(100);
         }
@@ -212,6 +216,7 @@ export default class Player extends Character
             this.anims.play('idle', true);
             this.hitboxes.active = 'still';
             this.invulnerable = false;
+            if (this.scene.sounds && this.scene.sounds.ambient) this.scene.sounds.ambient.resume();
         }
 
         this.body.setVelocityX(0);

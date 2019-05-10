@@ -24,6 +24,8 @@ export default class extends Phaser.Scene
         this.add.image(800, 450, 'levelselect/background');
 
         this.sounds = {};
+        this.sounds.sparks = this.sound.add('music/sparks', { volume: 1 });
+        this.sounds.thunder = this.sound.add('music/thunder', { volume: 2 });
         this.sounds.ambient = this.sound.add('music/mettaton', { loop: true, volume: 0.8 });
         this.sounds.punch = this.sound.add('music/punch', { volume: 0.5 });
         this.sounds.energyball = this.sound.add('music/energyball', { volume: 0.2 });

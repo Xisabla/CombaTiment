@@ -77,6 +77,10 @@ export default class extends Phaser.Scene
     {
         this.inputs = new EventInput({ keyboard: this.input.keyboard, gamepad: this.input.gamepad });
         this.sounds = {};
+        this.sounds.sparks = this.sound.add('music/sparks', { volume: 1 });
+        this.sounds.thunder = this.sound.add('music/thunder', { volume: 2 });
+
+        console.log(this.sounds);
 
         if (this.data.ambient)
         {
